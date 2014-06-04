@@ -1,0 +1,1555 @@
+ <script type="text/javascript">
+function change_rest_type(id){
+
+var children_ids = [];
+
+$("div.top").contents().filter(
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+
+
+function change_rest_type1(id){
+var children_ids = [];
+
+$("div.top1").contents().filter(
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+
+
+</script>
+<script>
+$(document).ready(function() {
+
+    //it is using for showing popup
+    $("a.get_popup").fancybox({
+        'width'             : '50%',
+        'height'            : '50%',
+        'autoScale'         : true,
+        'transitionIn'      : 'none',
+        'transitionOut'     : 'none',
+        'type'              : 'iframe'
+    });
+
+});
+
+</script>
+<script>
+
+var EventDates = [<%= @calanderValidate%> ];
+
+function eventDays(date) {
+    var length = EventDates.length, i = 0;
+    var event = null, eventDate = false;
+
+    while (i < length && !eventDate) {
+        event = EventDates[i];
+        eventDate = new Date(event.DateValue).valueOf() === date.valueOf();
+        i++;
+    }
+
+    return [!eventDate, ''];
+}
+
+//var dates = [new Date("02/13/2011"), new Date("02/25/2011"), new Date("03/01/2011")];
+
+
+
+    $(function() {
+        $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd',
+         beforeShowDay: eventDays
+        });
+
+
+});
+
+function showcalender(){
+
+    $("#datepicker").show();
+}
+
+
+$(document).ready(function() {
+   //calendar code
+
+        var date = new Date();
+
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            selectable: true,
+            selectHelper: true,
+
+            events: [
+                <%= @BookedSchdule.chop unless @BookedSchdule.nil?   %>
+            ]
+
+                 //editable: true,
+
+        });
+
+
+
+
+
+
+
+
+});
+
+
+ </script>
+
+
+
+
+<div class="add-deal group">
+        <div class="loc">
+            <h4>My locations</h4>
+            <ul>
+                <li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Loocation</a>
+        </div><!-- add location ends-->
+        <div class="add-deal-form">
+			<ul class="tabs group">
+            	<li class="activetab"><%= link_to 'Scheduler', :controller => 'manager', :action => 'scheduler'%></li>
+                <li> <%= link_to 'Approval', :controller => 'manager', :action => 'approval'%></li>
+                <li> <%= link_to 'Feedback', :controller => 'manager', :action => 'feedback'%></li>
+                <li> <%= link_to 'Pipeline', :controller => 'manager', :action => 'pipeline'%></li>
+                <li> <%= link_to 'Portfolio', :controller => 'manager', :action => 'portfolio' %></li>
+            </ul>
+
+
+        <ul class="tab-content">
+                <li class="visible">
+                    <div id="messages">
+      <span style="color:red"><%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>  </span>
+    </div>
+                    <!--<div class="approved">
+                        <div class="call group"><h4>Approved</h4><a href="#" id="addnewdeal">Add New Deal</a></div>
+
+                        <div class="approveditems  group">
+                            <div class="block">
+                                <p>American Cheddah Cheese burger</p>
+                                <img src="images/block.jpg" />
+                                <b>Approved</b><span><a href"#" class="previewitem">preview</a></span><span><a href"#" class="schedule">schedule</a></span><span class="del_item">delete</span>
+
+                            </div>
+
+
+                            <div class="block">
+                                <p>American Cheddah Cheese burger</p>
+                                <img src="images/block.jpg" />
+                                <b>Approved</b><span><a href"#" class="previewitem">preview</a></span><span><a href"#" class="schedule">schedule</a></span><span class="del_item">delete</span>
+
+                            </div>
+
+
+                            <div class="block">
+                                <p>American Cheddah Cheese burger</p>
+                                <img src="images/block.jpg" />
+                                <b>Approved</b><span><a href"#" class="previewitem">preview</a></span><span><a href"#" class="schedule">schedule</a></span><span class="del_item">delete</span>
+
+                            </div>
+
+
+                            <div class="block">
+                                <p>American Cheddah Cheese burger</p>
+                                <img src="images/block.jpg" />
+                                <b>Approved</b><span><a href"#" class="previewitem">preview</a></span><span><a href"#" class="schedule">schedule</a></span><span class="del_item">delete</span>
+
+                            </div>
+
+                            <div class="block">
+                                <p>American Cheddah Cheese burger</p>
+                                <img src="images/block.jpg" />
+                                <b>Approved</b><span><a href"#" class="previewitem">preview</a></span><span><a href"#" class="schedule">schedule</a></span><span class="del_item">delete</span>
+
+                            </div>
+
+                            <div class="block">
+                                <p>American Cheddah Cheese burger</p>
+                                <img src="images/block.jpg" />
+                                <b>Approved</b><span><a href"#" class="previewitem">preview</a></span><span><a href"#" class="schedule">schedule</a></span><span class="del_item">delete</span>
+
+                            </div>
+                        </div>--><!-- approved items ends-->
+
+                      <!--  <div class="call group ext"><h4>Pending</h4><select><option>view by</option></select></div>
+                        <div class="pending group">
+                            <div class="clear">
+                                <div class="itemname">American Cheddah Cheese burger</div>
+                                <div class="status"><a href="#">Delete</a></div>
+                                <div class="action"><a href="#">Review & Publish</a></div>
+                            </div>
+
+                            <div class="clear">dele
+                                <div class="itemname">American Cheddah Cheese burger</div>
+                                <div class="status"><a href="#">Delete</a></div>
+                                <div class="action"><b>Rejected(</b><a href="#">Fix this deal</a><b> )</b></div>
+                            </div>
+
+                            <div class="clear">
+                                <div class="itemname">American Cheddah Cheese burger</div>
+                                <div class="status"><a href="#">Delete</a></div>
+                                <div class="action"><a href="#">Review & Publish</a></div>
+                            </div>
+
+                        </div>
+                    </div>-->
+
+                    <div id="add-deal-location">
+             <%= form_for(@meal_details,:as =>:addMeals,:url =>"addDeals",:method => "post" ) do |m| %>
+                        <h4>Add Deal for Moti Mahal - Jumerah <span class="bus_back"><a href="#">back</a></span></h4>
+                        <p class="notify">Currently you have no deals for this restaurant. Start adding a deal below</p>
+                        <form>
+                            <label>Deal Name</label>
+                             <%=m.text_field :name%>
+                            <div class="clear"></div>
+
+                            <label>Select cuisine</label>
+                            <div class="clear"></div>
+                          <%= select(:addMeals, :cuisine_id,    @cuisines.collect {|p| [p.name,p.id]  }, {:prompt => 'cuisine'})%>
+                            <div class="clear"></div>
+
+                            <label>About the meal</label>
+                            <div class="clear"></div>
+                            <%=m.text_area :description, :size=>"20*20"%>
+                            <div class="clear"></div>
+
+                            <label>Meal Info</label>
+                            <div class="clear"></div>
+                            <select class="info" ><option>select</option></select>             <%=  m.text_field :meal_info%>
+                            <div class="clear"></div>
+                            <a href="#" id="addmore">Add more</a>
+                            <div class="clear"></div>
+
+                            <label>Add Deal Tags</label>
+                            <div class="clear"></div>
+                           <%=m.text_field :deal_tag ,{:class=>"tags"}%>
+                            <div class="clear"></div>
+
+                            <b class="comment">Add Nutritional Facts</b>
+                            <table>
+                            <thead>
+                                <tr>
+                                    <th class="des">Description</th>
+                                    <th class="val">Value</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="alt">
+                                    <td class="des">Calories</td>
+                                    <td class="val"><%=m.text_field :nutr_calories%></td>
+                                </tr>
+                                <tr class="">
+                                    <td class="des">Total Fat</td>
+                                    <td class="val"><%=m.text_field :nutr_fats%></td>
+                                </tr>
+
+                                <tr class="alt">
+                                    <td class="des">Cholestrol</td>
+                                    <td class="val"><%=m.text_field :nutr_cholestrol%></td>
+                                </tr>
+
+                                <tr class="">
+                                    <td class="des">Sodium</td>
+                                    <td class="val"><%=m.text_field :nutr_sodium%></td>
+                                </tr>
+
+                                <tr class="alt">
+                                    <td class="des">Total Carbs</td>
+                                    <td class="val"><%=m.text_field :nutr_carbs%></td>
+                                </tr>
+
+                                <tr class="">
+                                    <td class="des">Protein</td>
+                                    <td class="val"><%=m.text_field :nutr_protein%></td>
+                                </tr>
+                            </tbody>
+
+                            </table>
+
+
+
+                        <div class="actions">
+                         <%=m.submit "Submit" %>
+                          </div>
+                               </form>
+                    </div><!--add-deal-location ends-->
+ <%end%>
+
+                    <div id="schedule_content" style="display:block">
+
+                          <!--  <div class="call group sel">
+                                    <h4>All Deals</h4><span class="bus_back"><a href="#" id="cellback">back</a></span>
+                                    <select><option>American Cheddah Cheese burger</option></select>
+                                    <span class="pipe td">Today: February 17th 2012</span>
+                            </div>-->
+
+                                <ul class="cusine_types group">
+                                <li class="selected first"><a href="javascript:void(0)" onclick="change_rest_type('restaurant-21')">Arabic</a></li>
+                                <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-22')">Asian</a></li>
+                                 <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-23')">Indian</a></li>
+                                <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-24')">Continental</a></li>
+                                 <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-25')">American</a></li>
+                                <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-26')">Veg</a></li>
+                                 <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-27')">Other</a></li>
+                                   <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-28')">Multi-Cuisines</a></li>
+                     </ul> 
+                            <h3 class="cusine_type_selected">Arabic</h3>
+                            <div class ="top">
+                          <div id="restaurant-21">
+                            
+                            <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+
+                             <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                 <%unless @schedule_details2.nil?%>
+                               <%@schedule_details2.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                         <td><input type="text" value="40"></td>
+                                         <td><%=30%></td>
+                                         <%#=value[0].status%>
+                                          <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png"/></td>
+                                         
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                        <%if value[0].status==1%>
+                                      <td><a class="get_popup" href="/manager/get_popup_arabic/<%=key%>" >Restaurant</a></td>
+                                    </tr>
+
+                                   <%end%>
+
+
+
+                                </tbody>
+                                <%end%>
+
+
+                                <%end%>
+                           </table>
+
+</div>
+
+                             <div id="restaurant-22" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+                           <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                <%unless @schedule_details3.nil?%>
+                                <%@schedule_details3.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td><%=30%></td>
+                                        <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                           <%if value[0].status==1%>
+                                         <td><a class="get_popup" href="/manager/get_popup_asian/<%=key%>" >Restaurant</a></td>
+
+                                    </tr>
+                                     <%end%>
+
+
+                                </tbody>
+                                <%end%>
+                                <%end%>
+                           </table>
+
+                          </div>
+                            <div id="restaurant-23" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>7
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+ <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                <%@a=[]%>
+                                 <%unless @schedule_details4.nil?%>
+                                <%@schedule_details4.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td><%=30%></td>
+
+
+                                        <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                 <%if value[0].status==1%>
+                        <td><a class="get_popup" href="/manager/get_popup_india/<%=key%>"> Restaurant</a></td>
+
+                                    </tr>
+                                    <%end%>
+                                </tbody>
+                                     <%end%>
+
+                                </div>
+
+                                <%end%>
+
+                           </table>
+
+                            </div>
+
+
+                             <div id="restaurant-24" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+                            <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                     <%unless @schedule_details5.nil?%>
+                                   <% @schedule_details5.each do |key, value|%>
+
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td><%=30%></td>
+                                       <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                      <%if value[0].status==1%>
+                                       <td><a class="get_popup" href="/manager/get_popup_contiental/<%=key%>" >Restaurant</a></td></tr>
+                                        <%end%>
+
+
+                                </tbody>
+                                <%end%>
+                                <%end%>
+                         </table>
+
+                            </div>
+
+
+                            <div id="restaurant-25" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+                             <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+
+
+                                <%unless @schedule_details6.nil?%>
+                                <% @schedule_details6.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td><%=30%></td>
+                                       <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                         <%if value[0].status==1%>
+                                     
+                                        <td><a class="get_popup" href="/manager/get_popup_american/<%=key%>" >Restaurant</a></td></tr>
+                                        <%end%>
+
+
+                                </tbody>
+                                <%end%>
+
+                                <%end%>
+                         </table>
+
+                            </div>
+
+
+                            <div id="restaurant-26" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+                             <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                <%unless @schedule_details8.nil?%>
+                                <% @schedule_details8.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                        <td><input type="text" value="40"></td>
+                                       <td><%=30%></td>
+                                    
+                                        <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                             <%if value[0].status==1%>
+                                   
+                                               <td><a class="get_popup" href="/manager/get_popup_veg/<%=key%>" >Restaurant</a></td></tr>
+                                               <%end%>
+
+
+                                </tbody>
+                                <%end%>
+                                <%end%>
+                           </table>
+
+                            </div>
+
+
+                            <div id="restaurant-27" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+
+                              <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                   <%unless @schedule_details7.nil?%>
+                               <% @schedule_details7.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                         <td><input type="text" value="40"></td>
+                                      <td><%=30%></td>
+                                        <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                          <%if value[0].status==1%>
+                                        
+                                        <td><a class="get_popup" href="/manager/get_popup_other/<%=key%>" >Restaurant</a></td></tr> 
+                                        <%end%>
+
+
+
+                                </tbody>
+                                <%end%>
+                                <%end%>
+                       </table>
+
+                            </div>
+
+
+
+                            <div id="restaurant-28" style="display:none">
+                               <div class="trend">
+                                <h6>Average Trend</h6>
+
+                                <div class="group">
+
+                                <div class="days" id="mon">
+                                        <p></p>
+                                        <p>Request</p>
+                                        <p>Sold</p>
+                                  </div>
+
+                                    <div class="days" id="mon">
+                                        <p class="day">Mon</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="tue">
+                                        <p class="day">Tue</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="wed">
+                                        <p class="day">Wed</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="thu">
+                                        <p class="day">Thu</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="fri">
+                                        <p class="day">Fri</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days" id="sat">
+                                        <p class="day">Sat</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+
+                                    <div class="days last" id="sun">
+                                        <p class="day">Sun</p>
+                                        <p>3</p>
+                                        <p>3</p>
+                                    </div>
+                              </div>
+
+                              <div class="group">
+                                <div class="sec">
+                                    <p>Rating rCvd</p>
+                                    <p><span class="star"></span><span class="star"></span><span class="star"></span></p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total units sold</p>
+                                    <p>40</p>
+                                </div>
+
+                                <div class="sec">
+                                    <p>Total Sale</p>
+                                    <p>AED 3,500</p>
+                                </div>
+
+                              </div>
+
+
+
+                            </div><!-- trend ends-->
+
+
+
+
+                              <div class="mealallocation clear">
+                                <p>Quick Target Setting</p>
+                                <select><option># All Days</option>
+                                <option># Every Monday</option>
+                                <option># Every Tuesday</option>
+                                <option># Every Wednesday</option>
+                                <option># Every Thr</option>
+                                <option># Every Sat</option>
+                                 <option># Every Sun</option>
+                                <option># Every Weekday</option>
+                                <option># Every Weekend</option>
+                                </select>
+                                <select><option>1</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                 <option>100</option>
+
+                                </select>
+                                <a href="#"> Set Target</a>
+                            </div>
+
+                            <div class="call group">
+                                <h4>Plan for the next 2 weeks</h4>
+                                <a href="#" id="addnewdeal">Update changes</a>
+                                <span class="pipe">1st - 19th 35 deals in your pipe (view pipeline)</span>
+                           </div>
+  <table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Target</th>
+                                        <th>Offer</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                <%unless @schedule_details9.nil?%>
+                                 <%@schedule_details9.each do |key, value|%>
+                                <tbody>
+                                    <tr>
+                                        <td><%=key.strftime("%B %d %Y")%> </td>
+                                       <td><input type="text" value="40"></td>
+                                        <td><%=30%></td>
+                                       <%unless value[0].status==1%>
+                                         <td><img src="/images/awarded.png" /></td>
+                                         <%else%>
+                                         <td></td>
+                                         <%end%>
+                                       <%if value[0].status==1%>
+                                       
+                                        <td><a class="get_popup" href="/manager/get_popup_multicuisines/<%=key%>" >Restaurant</a></td></tr>
+                                            <%end%>
+
+
+                                </tbody>
+                                <%end%>
+                                <%end%>
+
+                           </table>
+
+
+                            </div>
+</div>
+                            <!--<table id="plantable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Estimate</th>
+                                        <th>Recieved</th>
+                                        <th>Awarded</th>
+                                        <th>Opted</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1st Dec Mon </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td>40</td>
+                                        <td><img src="///images/awarded.png" /></td>
+                                        <td><a href="#" class="opted">1 restaurant</a></td>
+                                    </tr>
+
+                                  <tr>
+                                        <td>1st Dec Mon </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td>40</td>
+                                        <td><img src="///images/awarded.png" /></td>
+                                        <td><a href="#" class="opted">1 restaurant</a></td>
+                                  </tr>
+
+
+                                    <tr>
+                                        <td>1st Dec Mon </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td>40</td>
+                                        <td><img src="///images/awarded.png" /></td>
+                                        <td><a href="#" class="opted">1 restaurant</a></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>1st Dec Mon </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td class="reject">10</td>
+                                        <td></td>
+                                        <td><a href="#" class="opted">1 restaurant</a></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>1st Dec Mon </td>
+                                        <td><input type="text" value="40"></td>
+                                        <td class="reject">20</td>
+                                        <td></td>
+                                        <td><a href="#" class="opted">1 restaurant</a></td>
+                                    </tr>
+
+                                </tbody>
+                           </table>-->
+
+
+
+
+
+
+                       </div>
+
+
+                    </div><!--schedule_content ends-->
+
+                  

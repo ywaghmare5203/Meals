@@ -1,0 +1,12 @@
+<h1>Login</h1>
+<p>Login to your account</p>
+<div>
+  <%= form_tag('/users/login', :method => "POST") %>
+    <div>Email: <%= text_field_tag 'email' %></div>
+    <div>Password: <%= password_field_tag 'password' %></div>
+    <div><%= submit_tag 'login' %></div>
+  </form>
+
+  <div class="m10">Don't have an account?  Quickly <a href="/users/signup">sign up</a>!</div>
+
+</div>

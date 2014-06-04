@@ -1,0 +1,53 @@
+<% if @dmeal.meal.restaurant.d_restaurant %>
+
+<% if current_admin.manager? %>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $("#appdmeal").click(function(){
+      var token = $('meta[name=csrf-token]').attr('content');
+      $.post("/admin/approve_dmeal", { authenticity_token: token, id: <%= @dmeal.meal.id %> }, function(d){
+        var j = $.parseJSON(d);
+        if(j.status == "ok"){ $("#topboxy").html("Approved!") }
+        else { alert(j.status)}
+      });
+    });
+  });
+  </script>
+  <div class="m10 p5 greybg" id="topboxy">
+  <img src="/img/notice.png"> This meal hasn't been approved yet.  <a id="appdmeal" href="<%= jv %>">Do it now</a>
+  </div>
+<% end %>
+
+
+  <%= form_for(@dmeal, :as => :dmeal, :url => save_dmeal_path(@orig), :method => :post) do |f| -%>
+    <div>Name: <%= f.text_field :name, :size => 20 %></div>
+    <div><%= f.text_area :description, :rows => 5 %></div>
+    <div><%= f.text_area :meal_info, :rows => 5 %></div>
+    <div>Tags: <%= f.text_field :tag_list, :size => 20 %></div>
+    <div>Price: <%= f.text_field :price, :size => 3 %> AED</div>
+    <div>Cuisine: <%= f.select("cuisine_id",  @cuisines.map{|u| [u.name, u.id] }) %></div>
+    <div class="p10">
+      <div>Calories: <%= f.text_field :nutr_calories, :size => 3 %></div>
+      <div>Protein: <%= f.text_field :nutr_protein, :size => 3 %></div>
+      <div>Carbs: <%= f.text_field :nutr_carbs, :size => 3 %></div>
+      <div>Cholesterol: <%= f.text_field :nutr_cholesterol, :size => 3 %></div>
+      <div>Fats: <%= f.text_field :nutr_fats, :size => 3 %></div>
+      <div>Sodium: <%= f.text_field :nutr_sodium, :size => 3 %></div>
+    </div>
+    <div id="pic">
+    <% if @dmeal.photo? %>
+      <%= image_tag(@dmeal.photo(:thumb)) %>
+    <% end %>
+    </div>
+    <div>Picture <%= f.file_field :photo %></div>
+    <div><%= f.submit "Save" %></div>
+    <input type="hidden" name="dmeal[meal_id]" id="dmeal_meal_id" value="<%= @orig %>">
+    <input type="hidden" name="dmeal[restaurant_id]" id="dmeal_restaurant_id" value="<%= @dmeal.meal.restaurant.d_restaurant.id %>">
+    <input type="hidden" name="picture_dup" id="picture_dup">
+  <% end -%>
+<% else %>
+<div>
+You first need to <a href="/admin/cwr/<%= @dmeal.meal.restaurant.id %>/">create</a> the "duplicate" of <%= @dmeal.meal.restaurant.name %>
+</div>
+
+<% end %>  

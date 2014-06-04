@@ -1,0 +1,101 @@
+<% content_for(:script) do %>
+<script tyle="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  var map;
+  $('.inneroffer').click(function(){ document.location.href = $(this).parent().find(".morelink").attr("href") });
+
+  setgeo = function(v){ 
+    $.post("/setgeo", { c:v,authenticity_token: token}, function(d){
+      if($.parseJSON(d).geo == "set"){ document.location.reload() }
+    });
+  };
+
+
+});
+</script>
+<% end %>
+<% content_for(:head) do %>
+<style type="text/css">
+.image { width: 437px; height: 354px }
+</style>
+<% end %>
+
+
+    <div id="todays-deals"> 
+         <div class="content">
+            <p class="caption">To get the food you want</p>
+
+            <h2 class="icons">Todays deals in <%= @cluster.name %> <span id="changelocation"><a href="#" id="setlocation" class="icons">change location</a></span><span id="setcusine"><a href="#">Set Cuisine preferences</a></span></h2>
+            
+            <ul class="group">
+            <% i = 0 -%>
+            <% (0..5).each do  -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => @offers[i], :left => true }) -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => @offers[i+1], :left => false }) -%>
+              <% i += 2 -%>
+            <% end -%> 
+            </ul>
+
+            <p class="showmore"><a href="#" class="icons">Show more details</a></p>
+         </div>
+  </div>
+
+
+    <div id="popup_holder">
+    
+    </div><!-- popup holder ends -->
+    
+    
+      <div id="form">
+          <img src="images/texture-logo.jpg" />
+            <p>Eat what you feel like, Hassle Free!</p>
+           
+        <div class="location">
+          <p>Choose a Location</p>
+          <div class="arrow"></div>
+          <ul class="group">
+          <% @clusters.each do |cluster| %>
+            <li><a href="#" onclick="setgeo(<%= cluster.id %>)"><%= cluster.name %></a><li>
+          <% end %>
+          </ul>
+          <div>
+            <% if @city %>
+            We're showing active clusters from <%= "#{@city.city_name}, #{@city.country_name}" %>,   
+            if you're not in <%= @city.city_name %>, please <a href="#">contact us</a>.
+            <% else %>
+              We can't determine where you are accessing us from.
+            <% end %>
+          </div>
+        </div>
+           
+            <form class="group" id="loginform">
+              <label>Email:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>Password:</label><input type="password" ><br />
+                <div class="clear"></div>
+                <button>Login & Purchase</button>
+            </form>
+            
+             <form class="group" id="signupform">
+              <label>Email:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>Password:</label><input type="password" ><br />
+                <div class="clear"></div>
+                <label>Confirm Password:</label><input type="password" ><br />
+                <div class="clear"></div>
+
+                 <label>Street:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>ZIP:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>Phone Number:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <button id="signup">Sign up</button>
+
+            </form>
+        
+        </div><!--form ends-->
+
+
+

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  d_meal_id: 1
+  d_restaurant_id: 1
+  threshold: 1
+  price: 1.5
+  range: 1
+  owner_id: 1
+  admin_id: 1
+
+two:
+  d_meal_id: 1
+  d_restaurant_id: 1
+  threshold: 1
+  price: 1.5
+  range: 1
+  owner_id: 1
+  admin_id: 1

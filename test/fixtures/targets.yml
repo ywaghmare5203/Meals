@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  amount: 1
+  yday: 1
+  cuisine_id: 1
+  cluster_id: 1
+
+two:
+  amount: 1
+  yday: 1
+  cuisine_id: 1
+  cluster_id: 1

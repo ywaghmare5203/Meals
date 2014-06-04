@@ -1,0 +1,278 @@
+<div class="profile">
+    	<div class="content">
+        	<h2>My Profile</h2>
+            <div class="xbox" >
+
+                <p class="caption first">Personal Information</p>
+               <!-- <form> -->
+                       <div style="color:red;" id="error_msg" ></div>
+                   <%= form_tag('/users/update_user_name' , :remote => true , :html => { :method => "POST" }) do %>
+                    <div class="band group">
+                       
+                      <label>Username</label> <img src="images/edit.jpg" class="u-name"><span id="uname" class="fr"><%= current_username %></span>
+
+                    </div>
+                   <% end  %>
+
+                   <%= form_tag('/users/update_password' , :remote => true , :html => { :method => "POST" }) do %>
+                    <div class="band group">
+                      <label>Password</label><img src="images/edit.jpg" class="p-word"><span id="uname" class="fr">********</span>
+                    </div>
+                   <% end  %>
+
+                   <%= form_tag('/users/update_email' , :remote => true , :html => { :method => "POST" }) do %>
+                    <div class="band group">
+                      <label>Email</label><img src="images/edit.jpg" class="e-mail"><span id="uname" class="fr"><%= @user.email %></span>
+                    </div>
+                  <% end  %>
+            <!--    </form> -->
+             </div> <!-- xbox ends-->
+             <div class="xbox" >
+             	 <p id="cusinemsg">You have to select a minima of <span class="col2">3 Cuisines</span> or select <span class="col1"> veg</span></p>
+                 <p class="caption">Cusine Preferences</p>
+                 <ul class="group cusineselect">
+                    <li class="cuisine noveg">Italian</li>
+                    <li class="cuisine activated noveg">Indian</li>
+                    <li class="cuisine noveg">Oriental</li>
+                    <li class="cuisine veg">Veg</li>
+                    <li class="clear"></li>
+                    <li class="cuisine activated noveg">American</li>
+                    <li class="cuisine activated noveg">Worldwide</li>
+
+                     <li class="cuisine noveg">Arabic</li>
+                 </ul>
+                 <a href="#" class="save" id="savecuisines">Save Changes</a>
+
+                 <span class="err">Please select atleast 3 cuisines or veg</span>
+            </div><!-- xbox ends-->
+            <div class="xbox" >
+                     <p class="caption">Delivery Location(s)</p>
+                     <div class="group">
+                        <a href="#" class="add" id="existlocation">Existing Location(s)</a><a href="#" class="add-dis" id="addlocation">Add Location</a>
+                     </div>
+                      <div class="savedlocations">
+                     <form>
+                        <div class="opt_location group">
+                            <input type="radio" class="radio">
+                           <!-- <span class="tagname">anish</span>-->
+                            <div class="info_adr">
+                                <div class="edit"></div>
+                                <ul class="group primary">
+                                    <li class="locationname">Home</li>
+                                    <li>Anish Tripathi</li>
+                                    <li>Tripathi Chambers</li>
+                                    <li>245 Perin Nariman Street.</li>
+                                    <li class="city">Fort-Mumbai-1</li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="opt_location group">
+                            <input type="radio" class="radio">
+                            <!-- <span class="tagname">anish media</span>-->
+                            <div class="info_adr">
+                                <div class="edit"></div>
+                                <ul class="group">
+                                    <li class="locationname">Home</li>
+                                    <li>Anish Media</li>
+                                    <li>Tripathi House</li>
+                                    <li>245 Versova Street.</li>
+                                    <li class="city">Mumbai-60</li>
+                                </ul>
+                            </div>
+                        </div>
+                     </form>
+                     </div><!-- saved locations ends-->
+                      <div class="newlocation">
+                        <form>
+                            <div class="locationdetails group">
+                            	<div class="col">
+                                    <label>First Name </label>
+                                    <div class="clear"></div>
+                                    <input type="text" id="locationname">
+                                    <div class="clear"></div>
+                                    <label>Address Lilne1 </label>
+                                    <div class="clear"></div>
+                                    <input type="text" id="place">
+                                    <div class="clear"></div>
+                                    <label>City </label>
+                                    <div class="clear"></div>
+                                    <input type="text" id="street">
+                                    <div class="clear"></div>
+                                    <label>Zip Code </label>
+                                    <div class="clear"></div>
+                                    <input type="text" id="landmark">
+                                    <div class="clear"></div>
+                                 </div>
+
+                                 <div class="col">
+                                    <label>Last Name </label>
+                                    <div class="clear"></div>
+                                    <input type="text" >
+                                    <div class="clear"></div>
+                                    <label>Address Line 2 </label>
+                                    <div class="clear"></div>
+                                    <input type="text" >
+                                    <div class="clear"></div>
+                                    <label>State </label>
+                                    <div class="clear"></div>
+                                    <input type="text" >
+                                    <div class="clear"></div>
+                                    <label>Telephone Number </label>
+                                    <div class="clear"></div>
+                                    <input type="text" >
+                                    <div class="clear"></div>
+                                 </div>
+
+                                  <div class="col">
+                                    <label>Address tagged as </label>
+                                    <div class="clear"></div>
+                                    <input type="text" id="locationname">
+                                    <div class="clear"></div>
+                                 </div>
+                                 <div class="clear"></div>
+                                 <span class="primary"><input type="checkbox" class="chk">Make this my primary shiping address</span>
+                                 <div class="clear"></div>
+
+                                <button id="savelocation">Save Location</button> <button id="addnewlocation">Add Location</button><a href="#" class="cancel" id="cancellocation">Cancel</a>
+                            </div>
+                        </form>
+                     </div><!-- new location ends-->
+
+             </div><!--xbox ends-->
+
+             <div class="xbox">
+                 <p class="caption">De-activate</p>
+                 <a href="#" class="save">De-activate my Account</a>
+             </div><!--xbox ends-->
+
+
+        </div>
+    </div><!-- profile ends -->
+
+
+
+      <div id="popup_holder">
+
+    </div><!-- popup holder ends -->
+
+
+    	<div id="form">
+        	<div class="holder">
+            	<div class="close"></div>
+                	<div class="mealsholder">
+                      <div class="mealdetails group">
+                        <p class="mealname">Sliders for Game Day: Brisket Short Rib and Classic</p>
+                         <div class="buy cost group">
+                            <div class="box">
+                                <p></p>
+                                <p>AED 10</p>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Quantity</p>
+                                <select><option>2</option></select>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Total</p>
+                                <p>AED 20</p>
+                            </div>
+                        </div><!-- buy cost ends-->
+                    </div>
+                  </div><!--meals holder ends-->
+
+                  <div class="memberpoint">
+                  	<div class="earned">
+                    	<p>You've earned</p>
+                        <p class="pointsearned">50</p>
+                        <p>Points with this meal</p>
+                        <p class="msg">Sign up to place your order</p>
+                    </div>
+                    <p>Already a Member? <b id="log"><a href="#">Login</a></b></p>
+                  </div>
+
+                  <p class="yo">Your order</p>
+
+
+
+
+                <form class="group" id="loginform">
+                    <label>Login</label>
+                    <div class="clear"></div>
+                    <input type="text" value="email" rel="email"><br />
+                    <div class="clear"></div>
+                    <input type="password" value="password" rel="password"><br />
+                    <div class="clear"></div>
+                    <button class="login">Login</button><b class="toggle"><a href="#" id="forgotpassword">forgot password</a></b>
+
+                    <div class="forgotpasswordbox">
+                        <p class="notify">Please enter your email address below. We will send you an email to confirm your password.</p>
+                        <label>Email</label>
+                        <div class="clear"></div>
+                        <input type="text" value="email" rel="email"><br />
+                        <button id="submit">Submit</button>
+					</div>
+                </form>
+
+                 <form class="group" id="signupform">
+                 <p>New user?</p>
+                   <label>Email:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                    <label>Confirm Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                     <label>Street:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>ZIP:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Phone Number:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <button id="signup">Sign up</button>
+                </form>
+            </div><!-- holder ends -->
+
+        </div><!--form ends-->
+        <div class="pusher"></div>
+
+
+     <script>
+
+            // function coupon_apply_click(){
+            // alert("1111111");
+  //$('u_name_submit').click(function(){
+            // alert("dasdasdad");
+            // var url = "<%=url_for(:controller=>"users",:action=>"update_user_name")%>";
+            // url += "?user_name=" + escape($("u_name").value) ;
+            // new Ajax.Request('url'  , {method:'POST'});
+
+  //       });
+
+//}
+
+
+
+      
+    //  $("coupon_spinner").style.visibility = "visible";
+
+
+
+  //    new Ajax.Request(url,
+  //  {
+  //    onComplete: function(transport){
+   //     $("coupon_spinner").style.visibility = "hidden";
+   //     if (typeof calcTotal  == "function")
+   //       calcTotal();
+   //     if ($("price_discount_text"))
+    //      $("price_discount_text").hide();
+
+    //  },
+    //  method:'GET',
+   //   asynchronous:true,
+  //    evalScripts:true}
+ // );
+
+
+     </script>

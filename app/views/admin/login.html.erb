@@ -1,0 +1,16 @@
+ <p style="color: red"><%= flash[:notice] %></p>
+<div class="adminsales">
+   <div class="adminLogin">
+<%#*<h1>Admin login</h1>%>
+<%#*<p>Login to your account</p>%>
+<div class="memberlogin">
+  <p>Admin Login</p>
+  <%= form_tag('/admin/login', :method => "POST") %>
+    <div>Email: <%= text_field_tag 'email' %></div>
+    <div>Password: <%= password_field_tag 'password' %></div>
+    <div class="actions"><%= submit_tag 'login' %></div>
+</form>
+</div>
+</div>
+ </div>
+<div class="pusher"></div>

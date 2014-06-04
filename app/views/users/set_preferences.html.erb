@@ -1,0 +1,295 @@
+
+
+<div class="profile">
+    	<div class="content">
+        	<h2>My Profile</h2>
+          <div class="xbox" >
+
+                <p class="caption first">Personal Information</p>
+               <!-- <form> -->
+                       <div style="color:red;" id="error_msg" ></div>
+                   <%= form_tag('/users/update_user_name' , :remote => true , :html => { :method => "POST" }) do %>
+                    <div class="band group">
+
+                      <label>Username</label> <img src="images/edit.jpg" class="u-name"><span id="uname" class="fr"><%= current_username %></span>
+
+                    </div>
+                   <% end  %>
+
+                   <%= form_tag('/users/update_password' , :remote => true , :html => { :method => "POST" }) do %>
+                    <div class="band group">
+                      <label>Password</label><img src="images/edit.jpg" class="p-word"><span id="uname" class="fr">********</span>
+                    </div>
+                   <% end  %>
+
+                   <%= form_tag('/users/update_email' , :remote => true , :html => { :method => "POST" }) do %>
+                    <div class="band group">
+                      <label>Email</label><img src="images/edit.jpg" class="e-mail"><span id="uname" class="fr"><%= @user.email %></span>
+                    </div>
+                  <% end  %>
+            <!--    </form> -->
+             </div> <!-- xbox ends-->
+
+
+
+
+             <div class="xbox" >
+             	<p id="cusinemsg">You have to select a minima of <span class="col2">3 Cuisines</span> or select <span class="col1"> veg</span></p>
+                 <p class="caption">Cusine Preferences</p>
+               
+               <div style="color:red;" id="cuisine_update"></div>
+         <%= form_tag('/users/set_cuisines' ,  :remote => true  , :html => { :method => "POST" }) do %>
+
+
+                <div class="cusine-preferences">
+                   <div class="left-preferences">
+                 <ul class="group cusineselect">
+                 <% @cuisines.each do |cuisine| %>
+                       <li class="cuisine noveg <%= user_has_cuisine?(cuisine)?'activated' :''%> "> <%= check_box_tag "user[cuisine_ids][]", cuisine.id, user_has_cuisine?(cuisine), :onclick=>"limitUserchoice(this)" -%> <%= cuisine.name -%></li>
+                    <!-- <li class=""><input  type="checkbox" value="<%#= cuisine.id %>" name="cousins[]" /> <%#= cuisine.name%></li> -->
+                 <% end %>
+
+                </ul>
+                   </div>
+                <div class="right-preferences"><ul class="group cusineselect1"><li class="cuisine veg <%= user_is_veg?(current_user)?'activatedveg' :''%>"><%= check_box_tag "user[is_veg]", true , user_is_veg?(current_user), :onclick=>"deSelectAll(this);" -%> Veg </li></ul></div>
+                 </div>
+            
+                 <input type="submit" name="submit" value="Save Changes" class="save" style="height:27px; font-size: 14px; padding-bottom: 4px;" />
+
+               <!--  <span class="err">Please select atleast 3 cuisines or veg</span> -->
+        <% end %>
+               
+                       
+               <!--<p id="cusinemsg">You have to select a minima of <span class="col2">3 Cuisines</span> or select <span class="col1"> veg</span></p>
+                 <p class="caption">Cusine Preferences</p>
+                 <ul class="group cusineselect">
+                    <li class="cuisine noveg">Italian</li>
+                    <li class="cuisine activated noveg">Indian</li>
+                    <li class="cuisine noveg">Oriental</li>
+                    <li class="cuisine veg">Veg</li>
+                    <li class="clear"></li>
+                    <li class="cuisine activated noveg">American</li>
+                    <li class="cuisine activated noveg">Worldwide</li>
+
+                     <li class="cuisine noveg">Arabic</li>
+                 </ul>
+                 <a href="#" class="save" id="savecuisines">Save Changes</a>
+
+                 <span class="err">Please select atleast 3 cuisines or veg</span> -->
+
+             </div><!-- xbox ends-->
+
+
+
+
+            <div class="xbox"  id="newlocation">
+              <p class="caption">Delivery Location(s)</p>
+              <div class="group">
+                <a href="#" class="add" id="existlocation">Existing Location(s)</a><a href="#" class="add-dis" id="addlocation">Add Location</a>
+              </div>
+              <div class="savedlocations">
+                <form>
+
+                  <% @userlocation.each do |userlocation|%>
+
+                      <div class="opt_location group">
+                        <input type="radio" class="radio">
+                        <!-- <span class="tagname">anish</span>-->
+                        <div class="info_adr">
+                          <div class="edit" onclick="editValue(<%=userlocation.id%>)" ></div>
+                          <ul class="group primary">
+                            <li class="locationname"><%=userlocation.address_tagged_as%></li>
+                            <li><%=userlocation.first_name%>  </li>
+                            <li>  <%=userlocation.last_name%>  </li>
+                            <li> <%=userlocation.address_line1%>  </li>
+                            <li> <%=userlocation.address_line2%>   </li>
+                            <li> <%=userlocation.city%>     </li>
+                            <li>  <%=userlocation.state%>    </li>
+                            <li>  <%=userlocation.zipcode%>    </li>
+                            <li> <%=userlocation.phone%></li>
+                            <li> <%=userlocation.address_tagged_as%></li>
+                            <span id="first_name" style="display:none;" ><%=userlocation.first_name %></span>
+
+                            <span id="last_name" style="display:none;"><%=userlocation.last_name %> </span>
+
+                            <span id="first_name_<%=userlocation.id%>" style="display:none;" ><%=userlocation.first_name %></span>
+
+                            <span id="last_name_<%=userlocation.id%>" style="display:none;"><%=userlocation.last_name %> </span>
+                            <span id="address_line1_<%=userlocation.id%>" style="display:none;"><%=userlocation.address_line1 %> </span>
+                            <span id="address_line2_<%=userlocation.id%>" style="display:none;"><%=userlocation.address_line2 %> </span>
+                            <span id="city_<%=userlocation.id%>" style="display:none;"><%=userlocation.city %> </span>
+                            <span id="state_<%=userlocation.id%>" style="display:none;" ><%=userlocation.state %> </span>
+                            <span id="zipcode_<%=userlocation.id%>" style="display:none;"><%=userlocation.zipcode%> </span>
+                            <span id="phone_<%=userlocation.id%>" style="display:none;" ><%=userlocation.phone %> </span>
+                            <span id="address_tagged_as_<%=userlocation.id%>" style="display:none;" ><%=userlocation.address_tagged_as %> </span>
+
+                          </ul>
+                        </div>
+                      </div>
+
+                  <%end%>
+                </form>
+              </div><!-- saved locations ends-->
+              <div class="newlocation" >
+                <%= form_for( 'preference' , :url => url_for(:controller => "users", :action => "set_preferences"), :html =>{ :method=> "post"}  ) do |f| %>
+
+
+                    <div class="locationdetails group">
+
+                      <div class="col">
+                        First Name  </br>
+                        <%= f.text_field :first_name %>  </br>
+                        <div class="clear"></div>
+                        Address Lilne1  </br>
+                        <%= f.text_field :address_line1 %>  </br>
+                        <div class="clear"></div>
+                        City 
+                        <div class="clear"></div>
+                        <%= f.text_field :city %>     </br>
+                        <div class="clear"></div>
+                        Zip Code   </br>
+                        <%= f.text_field :zipcode %>   </br>
+                        <div class="clear"></div>
+                      </div>
+
+
+                      <div class="col">
+                        Last Name  </br>
+                        <%= f.text_field :last_name %>   </br>
+                        <div class="clear"></div>
+                        Address Lilne2  </br>
+                        <%= f.text_field :address_line2 %>  </br>
+                        <div class="clear"></div>
+                        State
+                        <div class="clear"></div>
+                        <%= f.text_field :state %>     </br>
+                        <div class="clear"></div>
+                        Telephone Number  </br>
+                        <%= f.text_field :phone %>    </br>
+                        <div class="clear"></div>
+                      </div>
+
+                      <div class="col">
+                        Address tagged as  </br>
+                        <%= f.text_field :address_tagged_as %>
+                        <div class="clear"></div>
+                      </div>
+
+                      <%= f.hidden_field :user_id, :value => @user.id %>
+
+                      <input type="hidden" name="locationid" id="locationid" value="" />
+
+                      <%# f.hidden_field :locationid , :value => "", :id => "locationID" %>
+                      <%# f.hidden_field :update, :value => "no", :id => "update_status" %>
+
+                      <input type="hidden" name="update" id="update" value="no" />
+
+
+                      <div class="clear"></div>
+                      <%= f.check_box :primary_address %> Make this my primary shiping address
+                      <div class="clear"></div>
+                      <div class="actions">
+                      <%= f.submit :Save_Location %>
+                      </div>
+                    </div>
+
+
+                <% end %>
+              </div><!-- new location ends-->
+
+            </div><!--xbox ends-->
+
+             <div class="xbox">
+                 <p class="caption">De-activate</p>
+                 <a href="#" class="save">De-activate my Account</a>
+             </div><!--xbox ends-->
+
+
+        </div>
+    </div><!-- profile ends -->
+
+
+
+      <div id="popup_holder">
+
+    </div><!-- popup holder ends -->
+
+
+    	<div id="form">
+        	<div class="holder">
+            	<div class="close"></div>
+                	<div class="mealsholder">
+                      <div class="mealdetails group">
+                        <p class="mealname">Sliders for Game Day: Brisket Short Rib and Classic</p>
+                         <div class="buy cost group">
+                            <div class="box">
+                                <p></p>
+                                <p>AED 10</p>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Quantity</p>
+                                <select><option>2</option></select>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Total</p>
+                                <p>AED 20</p>
+                            </div>
+                        </div><!-- buy cost ends-->
+                    </div>
+                  </div><!--meals holder ends-->
+
+                  <div class="memberpoint">
+                  	<div class="earned">
+                    	<p>You've earned</p>
+                        <p class="pointsearned">50</p>
+                        <p>Points with this meal</p>
+                        <p class="msg">Sign up to place your order</p>
+                    </div>
+                    <p>Already a Member? <b id="log"><a href="#">Login</a></b></p>
+                  </div>
+
+                  <p class="yo">Your order</p>
+
+
+
+
+                <form class="group" id="loginform">
+                    <label>Login</label>
+                    <div class="clear"></div>
+                    <input type="text" value="email" rel="email"><br />
+                    <div class="clear"></div>
+                    <input type="password" value="password" rel="password"><br />
+                    <div class="clear"></div>
+                    <button class="login">Login</button><b class="toggle"><a href="#" id="forgotpassword">forgot password</a></b>
+
+                    <div class="forgotpasswordbox">
+                        <p class="notify">Please enter your email address below. We will send you an email to confirm your password.</p>
+                        <label>Email</label>
+                        <div class="clear"></div>
+                        <input type="text" value="email" rel="email"><br />
+                        <button id="submit">Submit</button>
+					</div>
+                </form>
+
+                 <form class="group" id="signupform">
+                 <p>New user?</p>
+                   <label>Email:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                    <label>Confirm Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                     <label>Street:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>ZIP:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Phone Number:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <button id="signup">Sign up</button>
+                </form>
+            </div><!-- holder ends -->
+
+        </div><!--form ends-->
+        <div class="pusher"></div>

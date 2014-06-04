@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>iWannaEat.com - Home</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+  <script type="text/javascript" src="/js/fullcalendar.min.js"></script>
+  <script type="text/javascript" src="/js/interaction.js"></script>
+ <!-- twitter Social Button Tracking -->
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+ <!-- FB Social Button Tracking -->
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+
+
+
+  <%= yield(:head) -%>
+  <%= csrf_meta_tags %>
+ <!-- <link rel="stylesheet" href="/css/meeldeel.css" /> -->
+</head>
+
+<body>
+
+<div id="wrapper" class="stick_spacing">
+
+	<div id="header" class="stick">
+    	<div class="content group">
+            <h1 class="logo">
+            <a href= <%= root_url %>  ></a>
+            </h1>
+
+            <div class="header_info">
+                  <% if logged_in? %>
+              <p class="activity friends"><a href="#" class="icons">Invite Friends</a></p>
+                  <% end %>
+                <p class="activity mobapp"><a href="/mobileapps" class="icons">Mobile App</a></p>
+
+               <% if logged_in? %>
+                         <span><p><%= link_to("Logout", logout_url , :style => "color: #3399CC;font-family: Museo500,Arial,Helvetica,sans-serif;font-size: 14px;") %></p></span>
+
+               <% else %>
+                         <span id="signup_new">Sign up</span>
+                        <p class="login"><%= link_to("Login", root_url, :class=>"icons", :id => "login") %></p>
+              <% end %>
+
+ 
+           </div>
+        </div>
+    </div><!-- header ends-->
+
+ <!-- <div id="main"> -->
+   <%= yield %>
+ <!-- </div> -->
+
+    <div id="footer">
+      <div class="content group">
+          <!--<div class="social group">
+              <span class="icons fb">
+                  <a href="#"></a>
+                </span>
+                <span class="icons tw">
+                  <a href="#"></a>
+                </span>
+            </div> -->
+            <div class="footerlist group">
+                <ul class="group">
+
+                   <li>
+                        <%= link_to "For Restaurant owners", "/admin/restaurants/new" %>
+                        <!-- <a href="signup_business.html">For Restaurant owners</a> -->
+
+                     </li>
+                    <li>
+                         <%= link_to "For Mobile", "/mobileapps" %>
+                     <!--    <a href="mobileapps.html">For Mobile</a> -->
+
+                    </li>
+                    <li>
+                      <%= link_to "About Us", "/aboutus" %>
+                     <!--    <a href="aboutus.html">About Us</a> -->
+
+                    </li>
+
+                    <li>
+                          <%= link_to "Careers", "/careers" %>
+                       <!--   <a href="careers.html">Careers</a> -->
+
+                    </li>
+
+                    <li>
+                         <%= link_to "Privacy", "/privacy" %>
+                         <!--<a href="privacy.html">Privacy</a> -->
+
+                    </li>
+
+                    <li>
+                          <%= link_to "Terms", "/terms" %>
+                        <!-- <a href="terms.html">Terms</a> -->
+
+                    </li>
+
+                </ul>
+                <p>&copy 2012 iWannaEat.com. All rights reserved</p>
+            </div>    
+        </div>
+    </div><!-- footer ends -->
+
+
+</div> <!-- wrapper -->
+<%= yield(:script) -%>
+</body>
+</html>

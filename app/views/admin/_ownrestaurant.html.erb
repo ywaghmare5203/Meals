@@ -1,0 +1,21 @@
+<div class="p5 rest" id="rest<%= restaurant.id %>">
+  <div class="left">
+    <div class="bold"><%= restaurant.name %></div>
+    <% if restaurant.status.to_i.eql?(0) %>
+    <div class="smallgrey"><img class="vmid" src="/img/pending.png" /> Status pending</div>
+    <% else %>
+    <div class="smallgrey"><img class="vmid" src="/img/approved.png" /> Status approved</div>
+    <% end %>
+    <% unless restaurant.coords? && restaurant.cluster %>
+    <div class="smallgrey"><img class="vmid" src="/img/notice.png" /> 
+      <%= "No GPS coordinates. " unless restaurant.coords? %> 
+      <%= "No cluster defined " unless restaurant.cluster %> 
+    </div>
+  <% end %>
+  </div>
+  <div class="right">
+    <%= link_to "edit &raquo".html_safe, edit_restaurant_url(restaurant) %>
+   </div>
+  <div class="clear"></div>
+</div>
+

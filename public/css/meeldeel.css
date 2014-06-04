@@ -1,0 +1,105 @@
+body {margin:0; padding:0; font-family:arial,sans-serif,verdana }
+#topcontainer,#container { margin: 0 auto 0 auto; width:960px }
+.left { float: left  }
+.right { float: right }
+.clear { clear: both;  }
+#topmenu {width:100%;height:60px; background: #810717; box-shadow:0 10px 20px #ddd; }
+#topnav, #topnav a { color: #3399CC; padding-top: 24px }
+.p10 { padding: 10px }
+.p5 { padding: 5px }
+.m10 { margin: 10px 0  }
+.ml5 { margin-left: 5px }
+.f18 { font-size: 12px }
+.greybg { background: #f0f0f0; border: 1px #c0c0c0 solid }
+.greyborder { border: 1px #c0c0c0 solid }
+.h1 { font-size: 24px; font-weight: bold }
+.h2 { font-size: 18px; font-weight: bold }
+.smallhint, .smallgrey { font-size: 10px; text-decoration:italic; color:#808080 }
+.small { font-size: 12px; }
+.hint { font-size: 12px; text-decoration:italic; color:#808080 }
+.bold { font-weight: bold }
+.clickable:hover { cursor: pointer }
+.error{color:#ee0000;}
+.field-block{float:left; margin: 0 0 20px 0; overflow: hidden;}
+.field-block span{text-align:left; margin-left: 10px; margin-top: -25px;}
+.field-block input, .field-block select{clear:both;}
+.logo{background:url(../images/logo.jpg) no-repeat; display:block;height:77px; width:263px;float:left; }
+.logo-ad{background:url(../images/logo-admin.jpg) no-repeat; display:block;height:77px; width:263px;float:left; }
+.logo_bus{margin-left:10px;}
+
+#container input, #container input#upload {
+    border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 16px;
+    height: 24px;
+    padding: 9px 5px;
+}
+#container select {
+    background: none repeat scroll 0 0 #F5F5F5;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    height: 44px;
+    min-width: 50px;
+    padding: 9px 5px;
+}
+.adminsales {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #999999;
+    margin: 10px;
+    min-height: 400px;
+    padding: 10px;
+}
+
+#container .adminsales #add-deal-location input {
+    margin-bottom: 15px;
+    width: 250px;
+}
+.actions input {
+    background: none repeat scroll 0 0 #F2433F;
+    border: medium none !important;
+    border-radius: 20px 20px 20px 20px !important;
+    box-shadow: 0 0 0 0 #FFFFFF !important;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Museo500,Arial,Helvetica,sans-serif;
+    font-size: 14px !important;
+    font-weight: bold;
+    height: 27px !important;
+    margin: 10px 10px 0 0;
+    padding: 0 15px !important;
+    width: auto !important;
+}
+#container .business_form input.lft,#container .business_form select.lft, #container #add-deal-location input.lft{margin-left:10px;}
+#container #add-deal-location select.lft{margin-left:10px;}
+
+#container .adminsales #add-deal-location textarea {
+    border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    height: 150px;
+    margin-bottom: 20px;
+    width: 300px;
+}
+.maps{ width:490px; height:224px;float:left; margin-top:8px;}
+
+#container {
+    color: #333333;
+    font-family: Museo500,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+}
+
+#container .loggedinfo {
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #3399CC;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 38px;
+    overflow: visible;
+    padding: 0 10px 0 8px;
+    position: relative;
+}
+
+.add-deal{margin-bottom:20px;}
+.add-deal .loc{float:left;width:180px; padding-left:10px;}
+.add-deal .loc ul{padding-top: 5px;display:block; margin-bottom:10px;}
+.add-deal .loc ul li{line-height:30px;cursor:pointer;}

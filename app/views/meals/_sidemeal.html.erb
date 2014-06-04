@@ -1,0 +1,11 @@
+<div class="m10">
+  <div class="left">
+    <%= image_tag(offer.meal.picture(:thumb)) %>
+  </div>
+  <div class="right p5">
+    <div><%= offer.meal.name %></div>
+    <div><%= link_to("view offer", show_meal_url(offer.meal)) %></div>
+  </div>
+  <div class="clear"></div>
+</div>
+

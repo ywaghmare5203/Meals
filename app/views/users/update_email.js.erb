@@ -1,0 +1,5 @@
+        <% if @user.errors.any? %>
+    $("#error_msg").empty();
+         $("#error_msg").html("<%= escape_javascript(render :partial => 'error_msg' ) %>");
+     <% end %>
+

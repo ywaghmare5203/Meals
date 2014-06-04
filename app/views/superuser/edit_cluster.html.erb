@@ -1,0 +1,138 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  var pos = new google.maps.LatLng(25.118,55.184); // center
+  var opts = {zoom:11,center:pos,mapTypeId:google.maps.MapTypeId.ROADMAP};
+  var map = new google.maps.Map(document.getElementById("map"), opts);
+  var points = new Array(<% if @cluster.points -%>
+  <% all_points = @cluster.points.split("|")
+    all_points.each do |p| -%>
+    <%= "new google.maps.LatLng(#{p})" -%><%= "," unless p.eql?(all_points.last) %>
+  <% end -%>
+  <% end -%>);
+  var area = null;
+  map.setCenter(pos);
+
+  redraw = function(){
+    if(area){ area.setMap(null) }
+    area = new google.maps.Polygon({paths:points,strokeColor:"#999999",strokeWeigth:1,strokeOpacity:0.7,fillColor:"#999999",fillOpacity:0.2, clickable:false });
+    area.setMap(map);
+  };
+
+  updatepoints = function(){
+    var tmp = ""; var i; for(i in points){tmp+=points[i].lat()+","+points[i].lng()+"|"}
+    $("#cluster_points").val(tmp.substring(0,tmp.length-1));
+  };
+
+  var listener = google.maps.event.addListener(map, "click", function(e){
+    points[points.length] = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
+    if(points.length > 2)
+    {
+      $("#maphint").html("<a href=\"<%= jv %>\" id=\"mapundo\">undo last point</a>");
+      redraw();
+      $("#mapundo").click(function(){points.pop();updatepoints();redraw()});
+    }
+    else {$("#maphint").html("You need at least 3 points, "+(3-points.length).toString()+" more"); }
+    updatepoints();
+  });
+
+
+  // if cluster exists already
+   // <%# if @cluster.points -%>redraw();
+    <%#*map.fitBounds(area.getBounds());%>
+  <%# end %>
+
+
+});
+function validate_form_fields(id){
+var cluster_name=document.getElementById('cluster_name').value;
+var cluster_description=document.getElementById('cluster_description').value;
+document.getElementById("name").innerHTML=""
+document.getElementById("description").innerHTML=""
+var msg='false';
+if(cluster_name==''){
+msg='true';
+document.getElementById("name").innerHTML="Enter Cluster Name";
+document.getElementById("cluster_name").focus();
+}
+if(cluster_description==''){
+msg='true';
+document.getElementById("description").innerHTML="Enter Description";
+document.getElementById("cluster_description").focus();
+}
+
+
+
+if(msg=='false')
+return true;
+else
+return false;
+
+}
+</script>
+<script type="text/javascript">
+function validate_form_fields(id){
+var cluster_name=document.getElementById('cluster_name').value;
+var cluster_description=document.getElementById('cluster_description').value;
+
+
+var msg='';
+if(cluster_name=='')
+msg +='Please Enter Email\n';
+if(cluster_description=='')
+msg +='Please Enter Passwordl\n';
+if(msg=='')
+return true;
+else{
+alert(msg)
+return false;
+}
+
+}
+</script>
+
+
+<p>Edit cluster</p>
+<%= form_for(@cluster, :as =>:cluster, :url =>"/superuser/edit_cluster/#{@cluster.id}",:method => "post",:html=>{:onSubmit=>"return validate_form_fields(this);",:name=>"/superuser/edit_cluster/#{@cluster.id}"}) do |f| %>
+<div class="field-block">
+     <span id="name" class="error"></span>
+     <label>Name:</label>
+     <div class="clear"></div>
+   <%= f.text_field :name, :size => 20 %>
+</div>
+ <%=  f.hidden_field :cluster_edit, :value=>params[:id]  , :name=> "cluster_edit"%>
+
+<div class="clear"></div>
+
+    <div class="field-block">
+     <span id="description" class="error"></span>
+     <label>Password:</label>
+     <div class="clear"></div>
+     <%= f. text_area :description, :cols => 25, :rows => 5 %>
+</div>
+
+
+<div class="clear"></div>
+
+    <div class="field-block">
+     <span id="description" class="error"></span>
+     <label>Location</label>
+     <div class="clear"></div>
+      <%= f.hidden_field :points %>
+
+  <div id="map" style="width:300px;height:220px; border: 1px solid #ccc">
+  </div>
+  <div id="maphint" class="hint"></div>
+</div>
+
+
+
+
+
+ 
+
+<div class="clear"></div>
+<div class="actions">
+  <%= f.submit ' create ' %>
+</div>
+<% end %>
+

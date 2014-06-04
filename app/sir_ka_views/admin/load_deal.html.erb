@@ -1,0 +1,64 @@
+<script type="text/javascript">
+  var offers = null;
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  $(".submitoffer").click(function(){
+		var yday = $(this).attr("id").replace(/submit/,"");
+		$.post("/admin/submitoffer/<%= @deal.id %>", { 
+			authenticity_token: token, 
+			amount: $("#offer" + yday).val(),
+			yday: yday
+		 }, 
+		function(d){ if ($.parseJSON(d).status == "ok"){ 
+       $("#offer" + yday).html($("#offer" + yday).val());
+      //alert("ok");
+      } 
+    });
+	});
+
+
+});
+</script>
+<div>
+  <div class="m10">
+    <div class="h2"><%= @deal.meal.name %></div>
+    <div class="hint"><%= @deal.restaurant.name %></div>
+  </div>
+
+
+	<% (0..14).each do |offset| %>
+	<% day = Time.now + offset.days %>
+		<div class="p5">
+			<div class="left" style="width:100px">
+				<%= day.strftime("%a %d %b") %>
+			</div>
+			<div class="left have" style="width:100px">
+				<% target = Target.where(:cuisine_id=>@deal.meal.cuisine_id,:cluster_id=>@deal.restaurant.cluster_id,:yday=>day.yday).first %>
+				<% if target %>
+					Need: <input type="text" style="width:40px" size="3" readonly="true" value="<%= target.amount %>">
+				<% else %>
+					Not defined
+				<% end %>
+			</div>
+			<div class="left need" style="width:40px">
+				<% if target %>
+          <% offer = Offer.where(:deal_id => @deal.id, :yday => day.yday).first 
+              offer = offer.maximum_order.to_i if offer %>
+          <% if target.frozen? %>
+          <%= offer %>
+          <% else %>
+  				<input type="text" size="3" style="width:40px" id="offer<%= day.yday %>" value="<%= offer %>">
+          <% end %>
+				<% end %>
+			</div>
+			<div class="right" style="width:100px">
+				<% if target && !target.frozen? %>
+  				<input class="submitoffer" type="submit" size="2" value="ok" style="width:40px" id="submit<%= day.yday %>">                 
+				<% end %>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	<% end %>    
+
+</div>

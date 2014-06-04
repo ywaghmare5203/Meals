@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  number: MyText
+  ccv: 1
+  expiry_month: 1
+  expiry_year: 1
+  user_id: 1
+  order_id: 1
+
+two:
+  number: MyText
+  ccv: 1
+  expiry_month: 1
+  expiry_year: 1
+  user_id: 1
+  order_id: 1

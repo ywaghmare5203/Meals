@@ -1,0 +1,489 @@
+<script type="text/javascript">
+function change_rest_type(id){
+
+var children_ids = [];
+
+
+$("div.top").contents().filter(
+
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+</script>
+
+<div class="add-deal group">
+  <div class="loc">
+        	<h4>My locations</h4>
+            <ul>
+            	<li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Location</a>
+        </div><!-- add location ends-->
+
+        <div class="add-deal-form">
+			<ul class="tabs group">
+            	<li><%= link_to 'Scheduler', :controller => 'manager', :action => 'scheduler'%></li>
+                <li> <%= link_to 'Approval', :controller => 'manager', :action => 'approval'%></li>
+                <li> <%= link_to 'Feedback', :controller => 'manager', :action => 'feedback'%></li>
+                <li> <%= link_to 'Pipeline', :controller => 'manager', :action => 'pipeline'%></li>
+                <li class="activetab"><%= link_to 'Portfolio', :controller => 'manager', :action => 'portfolio' %></li>
+            </ul>
+
+                <!--	<h4>Personal Information<i> - Customize your personal information</i></h4>
+                    <div class="editinfo">
+                        <div class="band group hgt" style="height:40px"><label>Password</label><span id="uname">anishmedia</span><img src="images/edit.jpg"></div>
+                        <div class="band group hgt"><label>Password</label><span id="uname">********</span><img src="images/edit.jpg"></div>
+                        <div class="band group hgt"><label>Email</label><span id="uname">anish@anishmedia.net</span><img src="images/edit.jpg"></div>
+                        <div class="band group hgt"><label>Phone </label><span id="uname">000 000 0000</span><img src="images/edit.jpg"></div>
+                    </div>-->
+<ul class="tab-content">
+            	<li class="visible">
+                               <div id="messages">
+      <span style="color:red"><%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>  </span>
+    </div>
+       <ul class="cusine_types group">
+                                <li class="selected first"><a href="javascript:void(0)" onclick="change_rest_type('restaurant-1')">All</a></li>
+                                <li ><a href="javascript:void(0)" onclick="change_rest_type('restaurant-2')">Arabic</a></li>
+                                <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-3')">Asian</a></li>
+                                 <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-4')">Indian</a></li>
+                                <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-5')">Continental</a></li>
+                                 <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-6')">American</a></li>
+                                <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-8')">Veg</a></li>
+                                 <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-7')">Other</a></li>
+                                   <li><a href="javascript:void(0)" onclick="change_rest_type('restaurant-9')">Multi-Cuisines</a></li>
+                     </ul>
+                     <h3 class="cusine_type_selected">All</h3>
+                     
+                     <div class="top">
+                  
+                     <div id="restaurant-1">
+                       <table class="tabledes lft_aln">
+
+                        <thead>
+                          <tr >
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                           <%if @restaurants.nil?%>
+                          <h4>There are no restaurants to show under this cuisine.</h4>
+                            <%end%>
+
+                          <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                            <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                  
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            
+                               </tbody>
+                               
+                    </table>
+                     </div>
+                        <div id="restaurant-2" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          
+                          <% if resturants.cuisine_id==2 %>
+                            <tr>
+                              <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+                    </table>
+                     </div>
+                          <div id="restaurant-3" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==3 %>
+                            <tr>
+                              <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%= get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+                    </table>
+                     </div>
+                     <div id="restaurant-4" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==4 %>
+                            <tr>
+                              <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+                    </table>
+                     </div>
+
+  <div id="restaurant-5" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==5 %>
+                            <tr>
+                              <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+                    </table>
+                     </div>
+
+
+
+                       <div id="restaurant-6" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==6 %>
+                            <tr>
+                              <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+
+                    </table>
+                     </div>
+
+                        <div id="restaurant-7" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==7 %>
+                            <tr>
+                              <tr class="alt">
+                               <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+
+                    </table>
+                     </div>
+
+                        <div id="restaurant-8" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==8 %>
+                            <tr>
+                              <tr class="alt">
+                               <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+
+                    </table>
+                     </div>
+
+                        <div id="restaurant-9" style="display:none">
+                     <table class="tabledes  lft_aln">
+
+                        <thead>
+                            <tr>
+                                <th>S#</th>
+                                <th>Restaurant Name</th>
+                                <th>Restaurant type</th>
+                                <th>Location</th>
+                                <th>Contact person</th>
+                                <th><center>Avg. rating</center></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                           <%@count=0%>
+                           <%@restaurants.each do |resturants|  %>
+                          <% if resturants.cuisine_id==9 %>
+                            <tr>
+                              <tr class="alt">
+                                <td><%=@count+= 1  %></td>
+                                <td><%=resturants.name%></td>
+
+                                <td><%=get_cuisine_nameby_id(resturants.cuisine_id)%></td>
+
+
+                                <td><%=resturants.address%></td>
+                                <td>Saurabh Sachdev</td>
+                                <td><center><img src="/images/smiley.png" /><center></td>
+                                <td>
+                                <div class="action group rest-list-act">
+                                      <%= link_to 'Edit', {:action => 'restaurant_edit', :controller=>"manager", :id => resturants.id} %>
+                                            <span>/</span>
+                                            <a href="#" class="">Order history</a>
+                                </div></td>
+                            </tr>
+                            <%end%>
+                            <%end%>
+                               </tbody>
+
+                    </table>
+                     </div>
+                                             
+
+                     </div>
+
+                </li>
+</ul>
+</div>
+       
+</div>
+<div class="pusher"></div>
+
+   

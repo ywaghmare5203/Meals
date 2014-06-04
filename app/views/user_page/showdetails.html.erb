@@ -1,0 +1,296 @@
+<<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>iWannaEat.com - Home</title>
+<link rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="js/interaction.js"></script>
+ <!-- twitter Social Button Tracking -->
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+ <!-- FB Social Button Tracking -->
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+</head>
+
+<body>
+<div id="wrapper">
+ <div class="stick detailspace">
+   
+      <div class="content">
+        
+          <b class="back"><a href="/user_page_home/<%=@restaurant.cluster_id%>" class="icons">back to todays deals</a></b>
+            <div id="detailcaption" class="group">
+                <h2 class="large">Sliders for Game Day: <%=@meal_details.name-%></h2>
+                <div class="buy">
+                  <label class="tags">Price</label><label class="tags lasttag">Quantity</label>
+                    <div class="clear"></div>
+                    <label>AED</label><span class="cost">10</span>
+                    <select class="qty"><option>1</option></select>
+                    <a href="#" class="buynow buynowmealdetail">BUY NOW</a>
+                </div>
+             </div>   
+        
+        </div>
+    </div>
+    
+    <div class="content detailstick" >
+
+        <div class="group">
+            <div class="visual">
+                <%= image_tag @meal_details.picture(:big)-%>
+                <div class="tag">
+                  <p class="holder">10 remaining
+                      <div class="hinge icons"></div>
+                    </p>
+                    
+                    
+                </div>
+            </div>
+            
+            <div class="visual_details group">
+                 <div id="plugins">
+                  
+                        <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>  
+                           <script type="text/javascript">_ga.trackFacebook();</script><div class="fb-like" data-href="http://www.iwannaeat.com" data-send="false" data-layout="button_count" data-width="40" data-show-faces="true"></div>
+                            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hyperarts">Tweet</a>
+                  
+                  </div><!-- plugin ends -->
+                    
+                    <div class="info adj_mar">
+                      <p>Delivery Info</p>
+                        <ul class="left addr_format">
+                           <% if logged_in?-%>
+                           <li class="customer">Anish Tripathi</li>
+                             <li>Tripathi Chambers</li>
+                             <li>245 Perin Nariman Street.</li>
+                             <li>Fort-Mumbai-1</li>
+                        </ul>
+                        <%end%>
+                    </div>
+                    
+                     <div class="info adj_mar">
+
+                      <p>Meal Info</p>
+                        <ul class="listing">
+                          <%if @meal_details.meal_info-%>
+                         <%= @meal_details.meal_info-%>
+                         <%else%>
+                           <p>Their is no description of this meal</p>
+                           <%end%>
+
+                          </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <p class="about">About the Meal</p>
+                    <span class="desc">
+                      <%= @meal_details.description-%>
+                       </span>
+
+            </div>
+           
+        </div> <!-- visual details ends-->
+        <div class="infobox">
+            <p class="cap">Delivered by</p>
+            <div class="delivery group">
+              <div class="addr">
+                  <img src="/images/gourmet.jpg" />
+                    <div class="addr_content">
+                      <p class="title"><%= @restaurant.name -%></p>
+                       <span><%=  @restaurant.address.gsub("\n","<br/>").html_safe-%></span>
+                        
+                        <span> <%= @restaurant.phone -%></span>
+                        <span class="url"><a href="<%@restaurant.website%>"><%=@restaurant.website-%></a></span>
+                    </div>
+                   
+              </div>
+                
+             <div class="maps"></div>  
+            </div>
+           
+        </div><!-- infobox ends-->
+        <div class="infobox group">
+          <div class="box">
+            <p>Nutritional Facts</p>
+          <div class="facts">
+              <p class="group"><span class="left">Description</span><span>Value</span></p>
+                <ul class="left">
+                  <li>Calories</li>
+                    <li>Total Fat</li>
+                    <li>Cholestrol</li>
+                    <li>Sodium</li>
+                    <li>Total Carbs </li>
+                    <li>Protien</li>
+                </ul>
+                 <ul>
+                  <li><%=@meal_details.nutr_calories-%></li>
+                    <li><%= @meal_details.nutr_fats-%></li>
+                    <li><%= @meal_details.nutr_cholestrol-%></li>
+                    <li><%= @meal_details.nutr_sodium-%></li>
+                    <li><%= @meal_details.nutr_carbs-%></li>
+          <li><%= @meal_details.nutr_protein-%></li>
+                </ul>
+            </div><!-- facts ends-->
+              <p class="note">*the nutritional content presented above is accurate, we hold
+no responsbility if you go ahead and make a dish on your own</p>
+            </div>
+            <div class="box">
+                <div class="sayings">
+                    <p>What are people saying</p>
+                    <span class="icons">  Butter Chicken is among the best known Indian foods all over the world.
+                            Its gravy can be made as hot or mild as you like so it<br />
+                            suits most palates."<img src="/images/endquote.jpg" />
+                    </span>
+                    
+                     <span class="icons"> Butter Chicken is among the best known Indian foods all over the world.
+                            Its gravy can be made as hot or mild as you like so it<br />
+                            suits most palates."<img src="/images/endquote.jpg" />
+                    </span>
+                
+                </div>
+           </div>
+        </div>
+        
+       <div class="infobox">
+        <p>Similar Deals</p>
+        <ul class="viewdeals group">
+          <li>
+              <img src="/images/d1.jpg" />
+               <div class="right">
+                    <p>Applewood Bacon and
+                    Cheddar Sliders<p/>
+                    <a href="#">View Deal</a>
+                </div>
+            </li>
+            
+            <li>
+              <img src="/images/d2.jpg" />
+                <div class="right">
+                    <p>Applewood Bacon and
+                    Cheddar Sliders<p/>
+                    <a href="#">View Deal</a>
+                </div>
+            </li>
+            
+            <li>
+              <img src="/images/d3.jpg" />
+                <div class="right">
+                    <p>Applewood Bacon and
+                    Cheddar Sliders<p/>
+                    <a href="#">View Deal</a>
+                </div>
+            </li>
+            
+            <li>
+              <img src="images/d4.jpg" />
+                <div class="right">
+                    <p>Applewood Bacon and
+                    Cheddar Sliders<p/>
+                    <a href="#">View Deal</a>
+                </div>
+            </li>
+        </ul>
+       
+       </div>
+         
+    </div>
+  
+     
+    
+    
+    
+    
+       <div id="popup_holder">
+    
+    </div><!-- popup holder ends -->
+    
+    
+      <div id="form">
+          <div class="holder">
+              <div class="close"></div>
+                  <div class="mealsholder">
+                      <div class="mealdetails group">
+                        <p class="mealname">Sliders for Game Day: Brisket Short Rib and Classic</p>
+                         <div class="buy cost group">
+                            <div class="box">
+                                <p></p>
+                                <p>AED 10</p>
+                            </div>
+                            
+                            <div class="box">
+                                <p class="label">Quantity</p>
+                                <select><option>2</option></select>
+                            </div>
+                            
+                            <div class="box">
+                                <p class="label">Total</p>
+                                <p>AED 20</p>
+                            </div>
+                        </div><!-- buy cost ends-->
+                    </div>
+                  </div><!--meals holder ends--> 
+                  
+                  <div class="memberpoint">
+                    <div class="earned">
+                      <p>You've earned</p>
+                        <p class="pointsearned">50</p>
+                        <p>Points with this meal</p>
+                        <p class="msg">Sign up to place your order</p>
+                    </div>
+                    <p>Already a Member? <b id="log"><a href="#">Login</a></b></p>
+                  </div>
+                  
+                  <p class="yo">Your order</p>
+                
+                <!--<img src="images/logo.jpg" />-->
+                
+            
+               
+                <form class="group" id="loginform">
+                    <label>Login</label>
+                    <div class="clear"></div>
+                    <input type="text" value="email" rel="email"><br />
+                    <div class="clear"></div>
+                    <input type="password" value="password" rel="password"><br />
+                    <div class="clear"></div>
+                    <button class="login">Login</button><b class="toggle"><a href="#" id="forgotpassword">forgot password</a></b>
+                    
+                    <div class="forgotpasswordbox">
+                        <p class="notify">Please enter your email address below. We will send you an email to confirm your password.</p>
+                        <label>Email</label>
+                        <div class="clear"></div>
+                        <input type="text" value="email" rel="email"><br />
+                        <button id="submit">Submit</button>
+          </div>
+                </form>
+              
+                 <form class="group" id="signupform">
+                 <p>New user?</p>
+                   <label>Email:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                    <label>Confirm Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                     <label>Street:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>ZIP:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Phone Number:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <a href="order-details.html"><button id="signup">Sign up</button></a>
+                </form>
+            </div><!-- holder ends -->
+        
+        </div><!--form ends-->
+      <div class="pusher"></div>
+</div><!-- wrapper ends-->
+<!-- footer ends -->
+</body>
+</html>

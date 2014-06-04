@@ -1,0 +1,36 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+<% if @drestaurant.lat.to_f != 0.0 && @drestaurant.lng.to_f != 0.0 %>
+  var pos = new google.maps.LatLng(<%= @drestaurant.lat %>,<%= @drestaurant.lng %>);
+<% else %>
+  var pos = new google.maps.LatLng(25.118,55.184);
+<% end %>
+
+  var opts = {  
+    zoom : 11, center: pos, mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeControl: true, 
+    mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }
+  };
+  map = new google.maps.Map(document.getElementById("dmap"),opts);
+
+<% if @drestaurant.lat.to_f != 0.0 && @drestaurant.lng.to_f != 0.0 %>
+  var marker = new google.maps.Marker({ position: pos });
+  marker.setMap(map);
+<% end %>
+
+});
+</script>
+<%= form_for(@drestaurant, :as => :drestaurant, :url => save_drestaurant_path(@orig), :method => "post") do |f| %>
+<div>Name: <%= f.text_field :name, :size => 20 %></div>
+<div>Phone: <%= f.text_field :phone, :size => 20 %></div>
+<div>Website: <%= f.text_field :url, :size => 20 %></div>
+<div><%= f.text_area :address, :rows => 5%></div>
+<div><%= f.text_area :description, :rows => 5%></div>
+<%= f.hidden_field :lat -%>
+<%= f.hidden_field :lng -%>
+<div>Cuisine: <%= f.select("cuisine_id",  @cuisines.map{|u| [u.name, u.id] }) %></div>
+<div>Cluster: <%= f.select("cluster_id",  @clusters.map{|u| [u.name, u.id] }) %></div>
+<div id="dmap"></div>
+<%= f.submit "Update" %>
+<input type="hidden" name="drestaurant[restaurant_id]" id="drestaurant_restaurant_id" value="<%= @orig %>">
+<% end %>

@@ -1,0 +1,397 @@
+
+<% content_for :title , 'iWannaEat.com - Home' %>
+
+
+<% content_for(:head) do %>
+
+
+<script>
+
+ jQuery(function($){
+  // alert('document ready');
+
+    $("#form_indicator").hide();
+    $("#signupp").show();
+
+  $("#signupform")
+        .bind('ajax:loading', function() {alert("loading!");})
+        .bind('ajax:before', function() {
+
+
+         $("#signupp").hide();
+         $("#form_indicator").show();
+
+
+          })
+        .bind('ajax:success', function(data, status, xhr) {//alert("success!");
+                                                           })
+        .bind('ajax:failure', function(xhr, status, error) {alert("failure!");})
+        .bind('ajax:complete', function() {
+
+        //  $("#form_indicator").css('display','block');
+        //  $("#signupp").css('display','none');
+
+            $("#form_indicator").hide();
+            $("#signupp").show();
+        });
+});
+
+ </script>
+
+
+
+
+
+<link rel="stylesheet" href="css/style_new.css" />
+<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="js/fullcalendar.min.js"></script>
+<script type="text/javascript" src="js/interaction.js"></script>
+
+<% end %>
+
+<% content_for(:script) do %>
+
+<% end %>
+
+
+  <div id="wrapper">
+
+	<div id="header">
+    	<div class="content group">
+            <h1 class="logo">
+              <a href= <%= root_url %>  ></a>
+            </h1>
+
+            <div class="header_info">
+                 <% if logged_in? %>
+                    <p class="activity friends"><a href="#" class="icons">Invite Friends</a></p>
+                 <% end %>
+
+                <p class="activity mobapp"><a href="/mobileapps" class="icons">Mobile App</a></p>
+               <!-- <span id="signup">Sign up</span>
+                <p class="login"><a href="#" class="icons" id="login">Login</a></p>-->
+
+           </div>
+        </div>
+    </div><!-- header ends-->
+
+    <div id="container">
+
+    <% unless flash[:notice].nil? and flash[:alert].nil? %>
+    <div id="messages">
+
+       <%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>
+    </div>
+    <% end %>
+  </div>
+
+<div class="loginbanner0" id="log_ban">
+    	<div class="content">
+        <h2 class="slogan">
+        	<span>Delivering Meal choices,</span>
+			<p>Daily!</p>
+
+        </h2>
+        	<div class="memberlogin group">
+            	<p>Members Login</p>
+
+
+                    <%= form_tag( users_login_path, :method => "POST") do %>
+                      <%= text_field_tag 'email', value = "email" , {:rel=>"email" , :class => "clear_text"} %><br />
+                      <div class="clear"></div>
+                      <%= password_field_tag 'password' , value = "password" , {:rel=>"password" , :class => "clear_text"} %><br />
+                      <div class="group" >
+                      <%= button_tag 'Login' ,:class => "login" ,:value => 'Login', :id =>'submit' %> </div>
+                  <% end %>
+
+
+
+
+
+             <div class="group" >
+
+                 <b class="toggle">
+                 <a href="#" id="forgotpassword">forgot password?</a></b>
+
+                 <a href="#" class="signup" id="signup">Sign up</a>
+                 </div>
+                  <div class="forgotpasswordbox clear" >
+
+
+                        <p class="notify" id="show_msg">Please enter your email address below. We will send you an email to confirm your password.</p>
+                        <div class="clear"></div>
+
+                        <%= form_tag('/users/forgot_password' , :remote => true , :html => { :method => "POST" }) do %>
+                          <%= text_field_tag 'email', value = "email" , {:rel=>"email"  , :class => "clear_text"} %>
+                          <%= button_tag 'Submit' ,:value => 'Submit' , :id => "submit" %>
+                        <a href="#" id="closebox" style="float:right; margin:6px 18px 0 0;">X</a>
+		       <% end %>
+
+
+                  </div>
+
+               </div>
+
+        </div>
+	</div><!-- login banner ends-->
+
+    <div class="curr_serving">
+    	
+
+        <div class="content">
+        	<span>Currently serving: </span>
+                   <%= clustor_list(@clusters).html_safe %>
+        </div>
+     
+    </div><!-- curr_serving ends-->
+   <div class="loc">
+   		<div class="content">
+        	<span>(dont see you location? <a href="#" class="getlisted">get it listed</a>)</span>
+        </div>
+   </div>  <!-- loc ends -->
+
+
+   <div class="howitworks">
+   		<div class="hiw-hd content">
+        	<span>How it works</span>
+
+        </div>
+   </div>
+
+   <div class="hiw-steps">
+   		<div class="content">
+   			<ul class="group">
+            	<li>
+                	<span>
+                    	<p>Get Registered</p>
+                        <p class="desc">A simple form that will quickly get your initial setup.</p>
+                    </span>
+                </li>
+
+                <li>
+                	<span>
+                    	<p>Set Prefrences</p>
+                        <p class="desc">Like a specific cuisine? or want to try everything?</p>
+                    </span>
+                </li>
+
+                <li>
+                	<span>
+                    	<p>Easy 1-Click order</p>
+                        <p class="desc">Order without any hassle just click and pay.</p>
+                    </span>
+                </li>
+
+                <li class="last">
+                	<span>
+                    	<p>Eat & Earn Points!</p>
+                        <p class="desc">Get the food delivred to you and earn points for your next meal</p>
+                    </span>
+                </li>
+            </ul>
+        </div>
+   </div>
+
+   <div id="popup_holder">
+
+   </div><!-- popup holder ends -->
+
+   <div id="form">
+        	<div class="holder">
+            	<div class="close"></div>
+                	<div class="mealsholder">
+                      <div class="mealdetails group">
+                        <p class="mealname">Sliders for Game Day: Brisket Short Rib and Classic</p>
+                         <div class="buy cost group">
+                            <div class="box">
+                                <p></p>
+                                <p>AED 10</p>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Quantity</p>
+                                <select><option>2</option></select>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Total</p>
+                                <p>AED 20</p>
+                            </div>
+                        </div><!-- buy cost ends-->
+                    </div>
+                  </div><!--meals holder ends-->
+
+                  <div class="memberpoint">
+                  	<div class="earned">
+                    	<p>You've earned</p>
+                        <p class="pointsearned">50</p>
+                        <p>Points with this meal</p>
+                        <p class="msg">Sign up to place your order</p>
+                    </div>
+                    <p>Already a Member? <b id="log"><a href="#">Login</a></b></p>
+                  </div>
+
+                  <p class="yo">Your order</p>
+
+               <!-- <img src="images/logo.jpg" />-->
+
+
+
+                <form class="group" id="loginform">
+                    <label>Login</label>
+                    <div class="clear"></div>
+                    <input type="text" value="email" rel="email"><br />
+                    <div class="clear"></div>
+                    <input type="password" value="password" rel="password"><br />
+                    <div class="clear"></div>
+                   <button class="login">Login</button><b class="toggle"><a href="#" id="forgotpassword">forgot password</a></b>
+
+                    <div class="forgotpasswordbox">
+
+                        <p class="notify">Please enter your email address below. We will send you an email to confirm your password.</p>
+                        <label>Email</label>
+                        <div class="clear"></div>
+                        <input type="text" value="email" rel="email"><br />
+                        <button id="submit">Submit</button>
+
+
+
+                    </div>
+                </form>
+
+
+
+
+
+
+
+               <%= form_for @user, :as => :user, :url => "/pages/signup" , :remote => true , :html => {:class => "group", :id => "signupform" , :method => "post" } do |f| %>
+                   <div id="error_msg" class="error-color"></div>
+
+               <p>New user?</p>
+                      <label>Email:</label><%= f.text_field :email  , {:rel=>"email" ,:class => "enter_text"} %><br />
+                       <div class="clear"></div>
+                      <label>Password:</label><%= f.password_field :password , {:rel=>"password" ,:class => "enter_text"} %><br />
+                       <div class="clear"></div>
+                       <label>Confirm Password:</label><%= f.password_field :password_confirmation  , {:rel=>"password_confirmation" ,:class => "enter_text"}%><br />
+                       <div class="clear"></div>
+                 
+                  <label>Street:</label><%= f.text_field :street , {:rel=>"street" ,:class => "enter_text"} %><br />
+                       <div class="clear"></div>
+                         <label>ZIP:</label><%= f.text_field :zipcode  , {:rel=>"zipcode" ,:class => "enter_text"}%><br />
+                       <div class="clear"></div>
+                          <label>PO:</label><%= f.text_field :po  , {:rel=>"po" ,:class => "enter_text"}%><br />
+                       <div class="clear"></div>
+                          <label>Address:</label><%= f.text_field :address  , {:rel=>"address" ,:class => "enter_text"}%><br />
+                       <div class="clear"></div>
+                        <label>Select your cluster </label>
+                  <select name="cluster_nm" select id="cluster_id">
+                    <% @clusters.each do |cluster| %>
+                        <option value="<%= cluster.id %>"><%= cluster.name %></option>
+                    <% end %>
+                  </select>
+                  <div class="clear"></div>
+                                <label>Phone Number:</label><%= f.text_field :phone , {:rel=>"phone" ,:class => "enter_text"} %><br />
+                       <div class="clear"></div>
+
+
+<%#= f.submit 'Sign Up' , :id => 'signup' %>
+
+
+                        <%= button_tag 'Sign Up' , :id =>'signupp' %>
+
+                  <!--  <div style="display:none;" id = "form_submit_button">
+                        <%#= image_submit_tag "/images/confirm.gif", {:title => 'Sign up'} %></div> -->
+
+                      <div id = "form_indicator">
+                          <%= image_tag("/images/spinner.gif",:alt=>"Processing" , :style => "width:16px; height:16px;") -%> </div>
+                  <% end %>
+
+
+
+
+
+
+             <!-- Form start for get_it_listed   -->
+
+
+                 <%= form_for @request_location, :as => :request_location, :url => "/users/get_it_listed" , :remote => true , :html => {:class => "group", :id => "getlisted" , :method => "post" } do |f| %>
+                     <p id="get_it_listed">"If you would like our service to start in your neighborhood, please give us your contact details and we will inform you as soon as we start in your location!!!!"</p>
+                     <div class="clear"></div>
+                        <%= f.text_field 'r_name' , { :value => "Your Name" , :rel=>"Your Name" , :class => "clear_text" } %><br />
+                     <div class="clear"></div>
+                        <%= f.text_field 'r_location' , { :value => "Your Location" , :rel=>"Your Location"  , :class => "clear_text"}  %><br />
+                     <div class="clear"></div>
+                        <%= f.text_field 'r_email' , { :value => "email" , :rel=>"email" , :class => "clear_text"} %><br />
+                     <div class="clear"></div>
+                    <%= button_tag 'Submit' ,  :class => 'sub_location' ,:value => 'Submit'%>
+                <%  end %>
+
+                           <!-- Form end for get_it_listed   -->
+            </div><!-- holder ends -->
+
+        </div><!--form ends-->
+
+
+ <div id="footer">
+    	<div class="content group">
+        	<!--<div class="social group">
+            	<span class="icons fb">
+                	<a href="#"></a>
+                </span>
+                <span class="icons tw">
+                	<a href="#"></a>
+                </span>
+            </div>-->
+            <div class="footerlist group">
+                <ul class="group">
+                     <li>
+                        <%= link_to "For Restaurant owners", "/admin/restaurants/new" %>
+                        <!-- <a href="signup_business.html">For Restaurant owners</a> -->
+
+                     </li>
+                    <li>
+                         <%= link_to "For Mobile", "mobileapps" %>
+                     <!--    <a href="mobileapps.html">For Mobile</a> -->
+
+                    </li>
+                    <li>
+                      <%= link_to "About Us", "aboutus" %>
+                     <!--    <a href="aboutus.html">About Us</a> -->
+
+                    </li>
+
+                    <li>
+                          <%= link_to "Careers", "careers" %>
+                       <!--   <a href="careers.html">Careers</a> -->
+
+                    </li>
+
+                    <li>
+                         <%= link_to "Privacy", "privacy" %>
+                         <!--<a href="privacy.html">Privacy</a> -->
+
+                    </li>
+
+                    <li>
+                          <%= link_to "Terms", "terms" %>
+                        <!-- <a href="terms.html">Terms</a> -->
+
+                    </li>
+                </ul>
+                <p>&copy2011-2012 iWannaEat.com. All rights reserved</p>
+            </div>
+        </div>
+    </div><!-- footer ends -->
+
+
+
+
+
+
+</div><!--wrapper ends-->
+
+
+
+
+

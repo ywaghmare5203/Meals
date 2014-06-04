@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  weekday: 1
+  meal_id: 1
+  maximum_order: 1
+
+two:
+  weekday: 1
+  meal_id: 1
+  maximum_order: 1

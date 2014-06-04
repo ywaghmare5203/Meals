@@ -1,0 +1,10 @@
+<% today = Time.now %>
+<% d = today + a.days %>
+<div>
+  <% m = "m#{meal.id}d#{d.yday}" %>
+  <% o = meal.offers.where(:yday => d.yday).first %>
+  <input <%= "checked" if o %> class="<%= d.strftime("%a") %> offer" type="checkbox" id="<%= m %>" name="<%= m %>">
+  <label for="<%= m %>"><%= d.strftime("%a %d %h %Y") %></label>
+  <span id="hint-<%= m %>"></span>
+</div>
+

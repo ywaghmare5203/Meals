@@ -1,0 +1,27 @@
+<h1>New Admin</h1>
+<p>Add a new admin account</p>
+<%= form_for @admin, :as => :admin, :url => "/admin/create", :method => "post"  do |f| %>
+  Email: <%= f.text_field :email, :size => 20 %><br />
+  Password: <%= f.password_field :password, :size => 20 %><br />
+  Role: 
+  <select id="admin_role_id" name="admin[role_id]">
+    <% counter = 0; Admin.roles.each do |role| %>
+    <option value="<%= counter %>"><%= role %></option>
+    <% counter += 1  %>
+    <% end %>
+  </select>
+   <br/> 
+
+
+  City: 
+  <select id="admin_city_id" name="admin[city_id]">
+    <% City.all.each do |city| %>
+    <option value="<%= city.id  %>"><%= city.name %></option>
+    <% end %>
+  </select>
+   <br/> 
+
+
+  <%= f.submit ' sign up ' %>
+<% end %>
+

@@ -1,0 +1,49 @@
+<div>
+  <div>Name: <input id="orig_name" type="text" value="<%= @meal.name %>" readonly="readonly"></div>
+  <div>Description: 
+    <textarea cols="30" rows="5" id="orig_description" readonly="yes"><%= @meal.description %></textarea>
+  </div>
+  
+  <div>Meal Info: 
+    <textarea cols="30" rows="5" id="orig_mealinfo" readonly="yes"><%= @meal.meal_info %></textarea>
+  </div>
+
+  <div>Tags: <input id="orig_tag_list" readonly="readonly" type="text" value="<%= @meal.tag_list %>"></div>
+  <div>Price: <input id="orig_price" readonly="readonly" type="text" value="<%= @meal.price %>"></div>
+
+  <div>Cuisine: 
+    <select>
+    <% if @meal.cuisine %>
+      <option value="<%= @meal.cuisine_id %>"><%= @meal.cuisine.name  %></option>
+    <% else %>
+      <option>No cuisine specified</option>
+    <% end %>
+    </select>
+  </div>
+
+  <div>
+    <%= image_tag @meal.picture(:thumb) %>
+  </div>
+ 
+  <a id="dup" href="<%= jv %>">Duplicate values &raquo;</a>
+ 
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#dup").click(function(){
+    $("#dmeal_name").val($("#orig_name").val());
+    $("#dmeal_price").val($("#orig_price").val());
+    $("#dmeal_description").val($("#orig_description").val());
+    $("#dmeal_price").val($("#orig_price").val());
+    $("#dmeal_tag_list").val($("#orig_tag_list").val());
+    $("#dmeal_vegetarian").attr("checked", <%= @meal.vegetarian? %>);
+    $("#dmeal_cuisine_id").val("<%= @meal.cuisine_id.to_i %>");
+    $("#dmeal_meal_info").val($("#orig_meal_info").val());
+    $("#pic").html("<img src=\"<%= @meal.picture %>\">");
+    $("#picture_dup").val("yes");
+  });
+});
+</script>
+
+

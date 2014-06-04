@@ -1,0 +1,275 @@
+
+<script type="text/javascript">
+  function confirmValidate(){
+var Check = confirm("Are you sure you want to Reject this Restaurant ?");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+
+  function confirmApprovedValidate(){
+var Check = confirm("Are you sure you want to Approve this Restaurant?");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+  function confirmDeleteValidate(){
+var Check = confirm("Are you sure you want to Delete this Restaurant Permanently?");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+  function confirmRejectValidate(){
+var Check = confirm("Are you sure you want to Reject this Restaurant?");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+</script>
+
+<script type="text/javascript">
+
+function change_rest_type1(id){
+var children_ids = [];
+
+$("div.top1").contents().filter(
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+</script>
+
+<div class="add-deal group">
+  <div class="loc">
+        	<h4>My locations</h4>
+            <ul>
+            	<li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Location</a>
+        </div><!-- add location ends-->
+        <div class="add-deal-form">
+			<ul class="tabs group">
+            	<li><%= link_to 'Scheduler', :controller => 'manager', :action => 'scheduler'%></li>
+                <li class="activetab"> <%= link_to 'Approval', :controller => 'manager', :action => 'approval'%></li>
+                <li> <%= link_to 'Feedback', :controller => 'manager', :action => 'feedback'%></li>
+                <li> <%= link_to 'Pipeline', :controller => 'manager', :action => 'pipeline'%></li>
+                <li> <%= link_to 'Portfolio', :controller => 'manager', :action => 'portfolio' %></li>
+            </ul>
+
+          <ul class="tab-content">
+            	<li class="visible">
+              <div id="messages">
+      <span style="color:red"><%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>  </span>
+    </div>
+<ul class="group cusine_types" id="sub_tabs">
+<li class="selected"><a href="javascript:void(0)" onclick="change_rest_type1('sales')">Sales</a></li>
+<li class="no_bdr"><a href="javascript:void(0)" onclick="change_rest_type1('copywrite')">Copywriter</a></li>
+                    </ul>
+
+                        <div class="top1">
+                <div id="sales">
+                         
+                      <p>New restaurants added</p>
+                  <table class="tabledes tablestyle">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Delivery Staff</th>
+                                <th>Sales Staff</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+
+                        <%@restaurants.each do |resturants_add|%></tr>
+
+
+                            <tr>
+                                  <td><%=resturants_add.name%></td>
+                                    <td><%= get_cuisine_nameby_id(resturants_add.cuisine_id) %></td>
+                                    <td><%=resturants_add.address%></td>
+                                    <td><%=resturants_add.delivery_staff%></td>
+                                    <td><%=getAdminNamebyId(resturants_add.sales_owner_id)%></td>
+
+                                        <td class="group actions"><span>
+                                            <%= link_to image_tag("/images/awarded.png", :border=>0 ), {:action => 'restaurants_approved', :controller => "manager",:id => resturants_add.id},:confirm => "Are you sure you want to Approved this item?", :onclick=>" return confirmApprovedValidate();"%></span>
+                                          <span>
+                                            
+                                            <%= link_to image_tag("/images/cross.gif", :border=>0 ), {:action => 'restaurants_delete', :controller => "manager",:id => resturants_add.id},:confirm => "Are you sure you want to delete this item?", :onclick=>" return confirmValidate();"%></span>
+
+
+
+
+                                     <%#= f.check_box :check1, {:multiple => true},     %>
+
+                                 <!--     <%#*<input type="checkbox" value="<%=resturants.id%>" name="manager[check1][]" id="manager_check1_<%#=resturants.id%>" <%#= getCheckedStatus(resturants.id) %> >%>-->
+
+                                      <!--<img src="images/awarded.png" /></span><span><img src="images/cross.gif" />--></span></td>
+                            </tr>
+
+
+                             <%end%>
+                        </tbody>
+                    </table>
+                      
+                    <p>Restaurant(s) deleted</p>
+                     <table class="tabledes">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Delivery Staff</th>
+                                <th>Sales Staff</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                 <%@restaurant_deleted.each do |d_resturants|  %></tr>
+
+
+                            <tr>
+                                  <td><%=d_resturants.name%></td>
+                                    <td><%= get_cuisine_nameby_id(d_resturants.cuisine_id) %></td>
+                                    <td><%=d_resturants.address%></td>
+                                    <td><%=d_resturants.delivery_staff%></td>
+                                    <td><%=getAdminNamebyId(d_resturants.sales_owner_id)%></td>
+
+                                        <td class="group actions"><span>
+                        <%= link_to image_tag("/images/awarded.png", :border=>0 ), {:action => 'permanent_delete', :controller => "manager",:id => d_resturants.id},:onclick=>" return confirmDeleteValidate();"%></span>
+                                          <span>
+                                            <%= link_to image_tag("/images/cross.gif", :border=>0 ),{:action => 'partially_delete', :controller => "manager",:id => d_resturants.id},:onclick=>" return confirmRejectValidate();"%></span>
+
+
+
+
+                                     <%#= f.check_box :check1, {:multiple => true},     %>
+
+                                 <!--     <%#*<input type="checkbox" value="<%=resturants.id%>" name="manager[check1][]" id="manager_check1_<%#=resturants.id%>" <%#= getCheckedStatus(resturants.id) %> >%>-->
+
+                                      <!--<img src="images/awarded.png" /></span><span><img src="images/cross.gif" />--></span></td>
+                            </tr>
+
+
+                             <%end%>
+                        </tbody>
+                    </table>
+
+                       <p>Restaurant(s) updated</p>
+                     <table class="tabledes">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Change Information</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="alt">
+                                <td>Moti Mahal</td>
+                                <td>Indian</td>
+                                <td>Bar Dubai</td>
+                                <td>Address change(<span><a href="#">see details</a></span>)</td>
+                                  <td class="group actions"><span><img src="/images/awarded.png" /></span><span><img src="/images/cross.gif" /></span></td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                    </div><!-- sales-->
+
+                     <div id="copywrite" style="display: none">
+                     	<p></p>
+
+                       <table class="tabledes" id="copywritetable">
+                    	<thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name of the meal</th>
+                                <th>Cusine</th>
+                                <th>Restaurant</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                          <%if @meals.nil?%>
+                          <h4>Sorry! There are no meals to show!!!!</h4>
+                          <%else%>
+                          <%@count=0%>
+                          <% @meals.each do |m|%>
+                            <tr>
+                                <td><%=@count+= 1  %></td>
+                                <td>
+
+                                  <div class="reqt group">
+                                    <%= image_tag m.picture(:thumb),:size => "50x50"%>
+
+
+                                        <div class="brieft" style="margin-left: 10px; float:left; text-align: left;">
+                                          <p class="itemnamet"><%=m.name%></p>
+                                          <p class="rest">delivered by:<%= get_restaurant_name_by_id(m.restaurant_id)%></p>
+                                        </div>
+
+                                          <input type="hidden" name="update" id="update" value="<%=m.id%> " />
+                                    </div>
+                                </td>
+
+                                  <td><%=get_cuisine_nameby_id(m.cuisine_id)%></td>
+
+                                <td><%= get_restaurant_name_by_id(m.restaurant_id)%></td>
+                                <td><%= link_to 'view', :controller => 'manager', :action => "edit_review",:id => m.id %> </td>
+                            </tr>
+
+
+  <%end%>
+  <%end%>
+                        </tbody>
+                    </table>
+
+                    </div><!-- sales-->
+                        </div>
+
+          </li>
+          </ul>
+</div>
+</div>
+      
+<div class="pusher"></div>

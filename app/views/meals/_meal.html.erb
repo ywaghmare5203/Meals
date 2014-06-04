@@ -1,0 +1,34 @@
+<%  #Dashboard partial that is displayed for every meal
+-%>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".mealitem").click(function(){    
+    var v = $(this).attr("id").replace(/meal/,"");
+    $("#col3").html("<img src=\"/img/loading.gif\">");
+    $.get("/admin/deal/" + v, function(d){ $("#col3").html(d); });
+  });
+});
+</script>
+
+<div class="mealitem" id="meal<%= meal.id %>">
+  <div class="left">
+    <div>
+      <img src="/img/meal.gif"> 
+      <span class="h2"><%= meal.name %></h2>
+    </div>
+     <div class="smallhint"><%= meal.description[0..50] %>...</div>
+     <% if meal.d_meal && meal.d_meal.status.eql?(1) %>
+     <div class="smallhint"><img src="/img/approved.png">Ready for publishing!</div>
+     <% end %>
+
+    <div>
+      <%= link_to "edit >", edit_meal_url(meal) %>
+    </div>
+
+  </div>
+  <div class="right">
+    <%= image_tag meal.picture(:thumb) %><br />
+  </div>
+  <div class="clear"></div>
+</div>

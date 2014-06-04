@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MeeldeelCom</title>
+  <%= yield(:head) -%>
+  <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="/css/meeldeel.css" />
+</head>
+<body>
+  <div id="topmenu">
+    <div id="topcontainer">
+      <div class="left"><a href="/admin/#"><img src="/img/logo.jpg" border="0" /></a>  ADMIN</div>
+      <div class="right" id="topnav">
+        <% if admin_logged_in? %>
+          Logged in as <%= current_admin.email %>
+          | <%= link_to "dashboard", admin_dashboard_url %>
+          | <%= link_to("logout", admin_logout_url) %>
+        <% else %>
+           <%= link_to("admin login", admin_login_url) %> | 
+        <% end %>
+      </div>
+    </div> <!-- topcon -->
+  </div> <!-- top menu -->
+  <div class="clear"></div>
+  <div id="container">
+
+    <% unless flash[:notice].nil? and flash[:alert].nil? %>
+    <div id="messages">
+      <%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>
+    </div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+
+<%= js_jquery -%>
+<%= yield(:script) -%>
+<% unless flash[:notice].nil? and flash[:alert].nil? %>
+<script type="text/javascript"> $(document).ready(function(){ $("#messages").fadeOut(2000); }); </script>
+<% end %>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<% content_for :script do %>
+<%= js_gmap(true) %>
+<%= render(:partial => "jsgmap", :locals => {:restaurant => @restaurant } ) %>
+<% end %>
+<% content_for(:head) do %>
+<style type="text/css">
+#map { width:400px; height: 300px; border: 1px solid #c0c0c0 }
+</style>
+<% end %>
+<div class="m10">
+  <span class="h1">Edit restaurant</span>
+  <% unless @restaurant.approved? %>
+    <% if @restaurant.admin.request_hash %>
+      <span class="m10 p10" id="approved"><img src="/img/pending.png">Approved, waiting for user to sign up</span> 
+    <% else %>
+      <span class="m10 p10" id="approved"><img src="/img/pending.png">  This restaurant hasn't been approved yet 
+      <% if current_admin.admin? || current_admin.superuser? %>
+        (<a href="#" id="aplink">do it now &raquo;</a>)
+      <% end %>
+    <% end %>
+    </span>
+  <% end %>
+</div>
+
+<%= form_for(@restaurant, :as => :restaurant, :url => "/admin/restaurants/#{@restaurant.id}/edit", :method => "post") do |f| %>
+<div class="left">
+  <%= f.text_field :name, :class => "f18"  %><br />
+  <%= f.text_area :description, :rows => 5 %><br />
+
+  <% if current_admin.admin? || current_admin.superuser? || current_admin.manager? %>
+  <%= f.hidden_field :cluster_id %>
+  <div id="clustername"><%= @restaurant.cluster.name if @restaurant.cluster %></div>
+  <div id="clusterdesc"><%= @restaurant.cluster.description if @restaurant.cluster %></div>
+  <% end %>
+  
+  <% if (@restaurant.approved? && current_admin.owner?) %>
+  <div>
+    <%= link_to "Add a new meal ", add_meal_url(@restaurant) %>
+  </div>
+  <% end %>
+
+</div>
+<div class="right">
+  <div>
+    <div id="map"></div>
+    <%= f.hidden_field :lat %>
+    <%= f.hidden_field :lng %>
+    <div id="maphint"></div>
+
+  </div>
+
+</div>
+<div class="clear"></div>
+  <%= f.submit "  Save Changes ", :class => "p5 f18" %>
+<% end %>

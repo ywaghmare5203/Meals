@@ -1,0 +1,11 @@
+<div class="meal" id="dmeal<%= dmeal.meal.id %>">
+  <div class="left">
+  <%= image_tag(dmeal.photo(:thumb), :width => 50) %>
+  </div>
+  <div class="right">
+    <div><%= dmeal.name %></div>
+    <div class="smallhint"><%= dmeal.restaurant.name %></div>
+    <div class="smallhint"><em>Needs approval &raquo;</em></div>
+  </div>
+  <div class="clear"></div>
+</div>

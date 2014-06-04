@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  order_id: 1
+  service: 1
+  food: 1
+  courtesy: 1
+  cleanliness: 1
+  value_for_money: 1
+  comments: MyText
+
+two:
+  order_id: 1
+  service: 1
+  food: 1
+  courtesy: 1
+  cleanliness: 1
+  value_for_money: 1
+  comments: MyText

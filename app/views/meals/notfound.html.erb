@@ -1,0 +1,13 @@
+<div class="left">
+<h1>Deal expired</h1>
+The deal of this meal has been expired, we're sorry.  Please check our homepage for more offers.
+</div>
+
+<div class="right greybg p5 m10">
+  We have following on offer:
+<% @offers.each do |offer| %>
+  <%= render(:partial => "sidemeal", :locals => {:offer => offer}) %>
+<% end %>
+</div>
+
+<div class="clear"></div>

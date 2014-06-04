@@ -1,0 +1,204 @@
+
+<style>
+.todays-deals .pagination {margin: 40px auto 0 auto; overflow: hidden; text-align: center;  width: 276px;}
+.todays-deals .pagination a{cursor: pointer; }
+.todays-deals .pagination a:hover{ text-decoration: underline !important;}
+.todays-deals .pagination .next_page{  font-size: 24px; margin: 0 auto 30px auto; text-align: center; color: #333333 !important;
+    padding-bottom: 8px; padding-right: 30px; background: url("../images/icons.jpg") no-repeat scroll 0 0 transparent;
+    background-position: right -293px; width: 215px;}
+.todays-deals .pagination a.next_page:hover{background: url("../images/icon_hover.jpg") no-repeat scroll right -293px transparent;}
+.todays-deals .pagination .next_page{ float:left;}
+.todays-deals .pagination .previous_page{float:left;}
+
+
+.todays-deals .pagination a.previous_page{padding-bottom: 27px; padding-right: 30px; background: url("../images/back-icon.png") no-repeat scroll 0 0 transparent;}
+.todays-deals .pagination a.previous_page:hover{background: url("../images/back-icon.png") no-repeat scroll bottom left transparent;}
+</style>
+
+
+<% content_for(:script) do %>
+<script tyle="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  var map;
+  $('.inneroffer').click(function(){ document.location.href = $(this).parent().find(".morelink").attr("href") });
+
+  setgeo = function(v){ 
+    $.post("/setgeo", { c:v,authenticity_token: token}, function(d){
+      if($.parseJSON(d).geo == "set"){ document.location.reload() }
+    });
+  };
+
+
+});
+</script>
+<% end %>
+<% content_for(:head) do %>
+<style type="text/css">
+.image { width: 437px; height: 354px }
+</style>
+<% end %>
+
+
+
+
+<div id="plugins" class="stick stick_pg_spacing stick_bg">
+        <div class="content">
+         <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+              <script type="text/javascript">_ga.trackFacebook();</script><div class="fb-like" data-href="http://www.iwannaeat.com" data-send="false" data-layout="button_count" data-width="40" data-show-faces="true"></div>
+                <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hyperarts">Tweet</a>
+
+         </div>
+
+     </div><!-- plugin ends -->
+
+      <div class="todays-deals stick ">
+         <div class="content stick_bg">
+
+           <% if user_has_cuisines? %>
+           
+               <p class="caption">Your cuisine preferences are : <%= user_cuisines_list.html_safe %> </p>
+           <% elsif  @user.is_veg? %>
+             <p class="caption">Your cuisine preference is : Veg </p>
+
+           <% else %>
+                <p class="caption">To get the food you want</p>
+           <% end %>
+
+            <div class="group">
+
+                <h2>Todays deals in <%= @cluster.name %> <span id="changelocation"><a href="/set_preferences#newlocation" class="icons" >change location</a></span></h2>
+                <span id="setcusine"><a href="/set_preferences">Set Cuisine preferences</a></span>
+            
+
+              <!--<h2>Todays deals in <%#= @cluster.name %> <span id="changelocation"><a href="#" id="setlocation" class="icons">change location</a></span>
+               <span id="setcusine"><a href="profile.html">Set Cuisine preferences</a></span></h2> -->
+
+
+
+             <!-- <h2 class="icons">Todays deals in <%#= @cluster.name %> <span id="changelocation"><a href="#" id="setlocation" class="icons">change location</a></span>
+             <span id="setcusine"><a href="#">Set Cuisine preferences</a></span></h2>  -->
+
+
+            </div>
+        </div>
+      </div><!-- todays deals sticky header ends-->
+     
+
+
+
+    <div class="todays-deals">
+         <div class="content">
+        <!--    <p class="caption">To get the food you want</p>
+
+            <h2 class="icons">Todays deals in <%#= @cluster.name %> <span id="changelocation"><a href="#" id="setlocation" class="icons">change location</a></span><span id="setcusine"><a href="#">Set Cuisine preferences</a></span></h2> -->
+            
+    <ul class="group">
+            <%  offerss = @offers.first %>
+
+            
+           <% if @user.cuisines.size == 0 &&  !@user.is_veg? %>
+
+            <% i = 0 -%>
+            <% (0..2).each do  -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => offerss[i], :left => true }) -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => offerss[i+1], :left => false }) -%>
+              <% i += 2 -%>
+            <% end -%>
+
+
+            <% elsif @user.is_veg? %>
+
+            <% i = 0 -%>
+            <% (0..2).each do  -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => offerss[i], :left => true }) -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => offerss[i+1], :left => false }) -%>
+              <% i += 2 -%>
+            <% end -%>
+
+            <% else %>
+            <% i = 0 -%>
+            <% (0..2).each do |pp| -%>
+              <% offers = offerss[pp] %>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => offers[0], :left => true }) -%>
+              <%= render(:partial => "offerhomepage", :locals => { :offer => offers[1], :left => false }) -%>
+              <% i += 2 -%>
+            <% end -%>
+           <% end %>
+
+
+        </ul>
+
+                   <%= will_paginate @offers %>
+
+
+            <p class="back" style="display:none;" ><a href="#" class="back-icons"></a></p>
+            <p class="showmore" style="display:none;" ><a href="#" class="icons">Show more meals</a></p>
+         </div>
+  </div>
+
+
+    <div id="popup_holder">
+    
+    </div><!-- popup holder ends -->
+    
+    
+      <div id="form">
+          <img src="images/texture-logo.jpg" />
+            <p>Eat what you feel like, Hassle Free!</p>
+           
+        <div class="location">
+          <p>Choose a Location</p>
+          <div class="arrow"></div>
+          <ul class="group">
+          <% @clusters.each do |cluster| %>
+            <li><a href="#" onclick="setgeo(<%= cluster.id %>)"><%= cluster.name %></a><li>
+          <% end %>
+          </ul>
+          <div>
+            <% if @city %>
+            We're showing active clusters from <%= "#{@city.city_name}, #{@city.country_name}" %>,   
+            if you're not in <%= @city.city_name %>, please <a href="#">contact us</a>.
+            <% else %>
+              We can't determine where you are accessing us from.
+            <% end %>
+          </div>
+        </div>
+           
+           <!-- <form class="group" id="loginform">
+              <label>Email:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>Password:</label><input type="password" ><br />
+                <div class="clear"></div>
+                <button>Login & Purchase</button>
+            </form>
+            
+             <form class="group" id="signupform">
+              <label>Email:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>Password:</label><input type="password" ><br />
+                <div class="clear"></div>
+                <label>Confirm Password:</label><input type="password" ><br />
+                <div class="clear"></div>
+
+                 <label>Street:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>ZIP:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <label>Phone Number:</label><input type="text" ><br />
+                <div class="clear"></div>
+                <button id="signup">Sign up</button>
+
+            </form> -->
+        
+        </div><!--form ends-->
+
+
+

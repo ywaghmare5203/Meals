@@ -1,0 +1,88 @@
+<script type="text/javascript">
+function validate_form_fields(id){
+var admin_email=document.getElementById('admin_email').value;
+var admin_password=document.getElementById('admin_password').value;
+document.getElementById("email").innerHTML=""
+document.getElementById("password").innerHTML=""
+var msg='false';
+if(admin_email==''){
+msg='true';
+document.getElementById("email").innerHTML="Enter Email Address";
+document.getElementById("admin_email").focus();
+}
+if(admin_password==''){
+msg='true';
+document.getElementById("password").innerHTML="Enter Password";
+document.getElementById("admin_password").focus();
+}
+var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+if (filter.test(admin_email)== false) {
+msg ='true';
+document.getElementById("email").innerHTML="Enter Valid Email";
+document.getElementById("admin_email").focus();
+}
+
+
+
+if(msg=='false')
+return true;
+else
+return false;
+
+}
+</script>
+ <div class="adminsales">
+<h1>New Admin</h1>
+<p>Add a new admin account</p>
+<%= form_for(@admin, :as =>:admin, :url =>"/superuser/create",:method => "post",:html=>{:onSubmit=>"return validate_form_fields(this);",:name=>"/superuser/create"}) do |f| %>
+
+
+  
+    <div class="field-block">
+     <span id="email" class="error"></span>
+     <label>Email:</label>
+     <div class="clear"></div>
+   <%= f.text_field :email, :size => 20 %>
+</div>
+<div class="clear"></div>
+
+
+    <div class="field-block">
+     <span id="password" class="error"></span>
+     <label>Password:</label>
+     <div class="clear"></div>
+    <%= f.password_field :password, :size => 20 %>
+</div>
+  <div class="clear"></div>
+
+
+  <div class="field-block">
+     <span id="Role" class="error"></span>
+     <label>Role:</label>
+     <div class="clear"></div>
+    <select id="admin_role_id" name="admin[role_id]">
+    <% counter = 0; Admin.roles.each do |role| %>
+    <option value="<%= counter %>"><%= role %></option>
+    <% counter += 1  %>
+    <% end %>
+  </select>
+</div>
+
+
+    <div class="field-block">
+     <span id="Role" class="error"></span>
+     <label>City:</label>
+     <div class="clear"></div>
+    <select id="admin_city_id" name="admin[city_id]">
+    <% City.all.each do |city| %>
+    <option value="<%= city.id  %>"><%= city.name %></option>
+    <% end %>
+  </select>
+</div>
+<div class="clear"></div>
+  <div class="actions">
+  <%= f.submit ' sign up ' %>
+  </div>
+<% end %>
+ </div>
+

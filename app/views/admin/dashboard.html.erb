@@ -1,0 +1,204 @@
+<% content_for :head do %>
+<style type="text/css">
+#col1 { width: 200px; border-right: 1px solid #c0c0c0; }
+.rest, .mealitem { margin: 10px 0; border-bottom: 1px solid #c0c0c0 }
+.rest:hover, .mealitem:hover { background: #e0e0e0; cursor: pointer; } 
+.col { width: 360px; border-right: 1px solid #c0c0c0; padding: 5px } 
+#map, #dmap { width: 300px; height:300px; border: 1px solid #c0c0c0 }
+.offer,.day,.cluster, .meal { padding: 5px; background: #f0f0f0; border-top: 1px solid #fff; border-bottom: 1px solid #ccc }
+.day:hover, .cluster:hover, .meal:hover { background: #e0e0e0; cursor: pointer }
+#reloadrestaurant img {  cursor: pointer }
+#reloadrestaurant { padding-top: 3px }
+</style>
+<% end %>
+<% content_for :script do %>
+<%= js_gmap(true) %>
+<script type="text/javascript" src="/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript">
+  var map, map2;
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  var waiting = "<img src=\"/img/loading.gif\">";
+  $(".owner*").click(function(){
+    var id = $(this).attr("id");
+    $.post("/admin/approve", { authenticity_token: token, id: id }, function(d){
+      var s = $.parseJSON(d);if(s.status=="ok"){ $("#div"+id).fadeOut("slow")} else{alert("Something went wrong")}
+    });
+  });
+
+  getcol2=function(s){ $("#col2").html(waiting);$.get(s,function(d){$("#col2").html(d)}) };
+  getcol3=function(s){ $("#col3").html(waiting);$.get(s,function(d){$("#col3").html(d)}) };
+
+  <% if current_admin.owner? && @restaurants.count > 0 -%>
+  getcol2("/admin/meals/<%= @restaurants[0].id %>/list");
+  $(".rest").click(function(){getcol2("/adm
+  in/meals/"+$(this).attr("id").replace(/rest/,"")+"/list")});
+  <% end -%>
+
+  <% if current_admin.admin? -%>
+  $(".rest").click(function(){var url=$(this).attr("id").replace(/rest/,"/admin/restaurants/")+"/edit";document.location.href=url});
+  <% end -%>
+
+  <% if current_admin.superuser? -%>
+  $(".rest").click(function(){var url=$(this).attr("id").replace(/rest/,"/admin/restaurants/")+"/edit";document.location.href=url});
+  $("#addadmin").click(function(){getcol2("/admin/new")});  
+  $("#addcluster").click(function(){getcol2("/admin/cluster")});  
+  $(".cluster").click(function(){ getcol2("/admin/cluster/"+$(this).attr("id").replace(/cluster/,""))});
+  $(".user").click(function(){ getcol2("/admin/edit/"+$(this).attr("id").replace(/user/,""))});
+  <% end -%>
+
+
+  <% if current_admin.manager? -%>
+  // all functions for superusers
+  $(".day").click(function(){ 
+      getcol2("/admin/schedule/" + $(this).attr("id").replace(/day/,"")); 
+      getcol3("/admin/scheduleinfo/" + $(this).attr("id").replace(/day/,"")); 
+  });  
+
+  <% end -%>
+
+
+  <% if current_admin.copywriter? %>
+
+  function reloadRestaurant(v){ 
+  }
+
+  function loadRestaurant(v){
+    reloadRestaurant(v);
+    var h = "<img src=\"/img/reload.gif\">";
+    $("#reloadrestaurant").html(h);
+    $("#reloadrestaurant img").click(function(){ reloadRestaurant(v); });
+  }
+
+  $("#restaurants").change(function(){ var v = $(this).val(); if(v){ loadRestaurant(v); } });  
+
+    <% if params[:cwr_id].to_i > 0 -%>
+    loadRestaurant(<%= params[:cwr_id] %>);
+    <% end -%>
+
+
+  <% end -%> // copywriter
+
+
+
+});
+</script>
+<% end %>
+<div class="left" id="col1">
+
+  <% if current_admin.owner? %>
+
+    <% @restaurants.each do |r|  %>
+    <%= render(:partial => "ownrestaurant", :locals => { :restaurant => r }) %>
+    <% end %>
+    <%= link_to "Add a new restaurant", new_restaurant_url %>
+
+  <% end %>
+
+  <% if current_admin.copywriter? %>
+    <select id="restaurants">
+      <option value="">Select a restaurant .. </option>
+    <% @restaurants.each do |r|  %>
+      <option value="<%= r.id %>"><%= r.name %></option>
+    <% end %>
+    </select>
+    <span id="reloadrestaurant"></span>
+    <div id="meals">
+    </div>
+  <% end %>
+
+
+  <% if current_admin.manager? %>
+    <div>New meals:</div>
+    <div class="m10">
+    <% @dmeals.each do |dmeal| %>
+      <%= render(:partial => "dmeal", :locals => { :dmeal => dmeal }) %>
+    <% end %>
+    </div>
+
+
+
+    <div>Schedule:</div>
+    <div id="days" class="m10">
+    <% (0..15).each do |o| %>
+      <% day = Time.now + o.days %>
+      <div class="day" id="day<%= day.yday %>"><%= day.strftime("%a %d %b") %> &raquo;</div>
+    <% end %>
+    </div>
+
+  <% end %>
+
+
+  <% if current_admin.admin? %>
+    <div class="p5"><strong>New requests:</strong></div>
+    <div class="m10">
+    <% @requests.each do |admin| %>
+      <% if admin.restaurants.size > 0%>
+      <%= render(:partial => "approvals", :locals => { :restaurant => admin.restaurants.first }) %>
+      <% end %>
+    <% end %>
+    <% if @requests.empty? %>
+      <div class="hint"><em>No pending requests</em></div>
+    <% end %>
+    </div>
+
+
+  <% end %>
+  
+  <% if current_admin.superuser? %>
+    <div class="f16">Admins:</div>
+    <div class="m5">
+    <% @admins.each do |admin| %>
+      <%= render(:partial => "adminuser", :locals => { :admin => admin }) %>
+    <% end %>
+    <a href="<%= jv %>" id="addadmin">Add a new admin user</a>
+    </div>
+
+    <div class="f16">Clusters:</div>
+    <div class="m5">
+    <% @clusters.each do |cluster| %>
+      <%= render(:partial => "cluster", :locals => { :cluster =>cluster }) %>
+    <% end %>
+    <a href="<%= jv %>" id="addcluster">Add a new cluster</a>
+    </div>
+
+  
+  <% end %>
+
+</div>
+
+<div class="left col" id="col2">
+
+  <% if current_admin.owner? %>
+  <% end %>
+
+
+  <% if current_admin.admin? %>
+    <div><strong>Restaurants:</strong></div>
+    <% @restaurants.each do |r|  %>
+    <%= render(:partial => "ownrestaurant", :locals => { :restaurant => r }) %>
+    <% end %>
+  <% end %>
+
+
+</div>
+
+<div class="right col" id="col3">
+
+  <% if current_admin.superuser? %>
+    <% @restaurants.each do |r|  %>
+      <%= render(:partial => "ownrestaurant", :locals => { :restaurant => r }) %>
+    <% end %>
+  <% end %>
+
+  <% if current_admin.owner? %>
+  <% end %>
+
+
+   
+</div>
+
+
+
+<div class="clear">
+</div>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  user_id: 1
+  address: MyText
+  cluster_id: 1
+
+two:
+  name: MyString
+  user_id: 1
+  address: MyText
+  cluster_id: 1

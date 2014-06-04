@@ -1,0 +1,46 @@
+<script type="text/javascript">
+  function confirmValidate(){
+var Check = confirm("Are you sure you want to delete this <%= admin.role  %>?");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+</script>
+<div class="user p5 clickable" style="border-bottom:1px solid #c0c0c0" id="user<%= admin.id %>">
+  
+  <div class="small bold">
+    <% if admin.superuser? %>
+    <img src="/img/locked.png">
+    <% elsif admin.admin? %>
+    <img src="/img/admin.png">
+     <% elsif admin.manager? %>
+    <img src="/img/admin.png">
+     <% elsif admin.copywriter? %>
+    <img src="/img/admin.png">
+    <% else  %>
+    <img src="/img/owner.png">
+    <% end %>
+    <%= admin.email %>
+    <div class="right">
+       <%= link_to "Delete", {:action => 'delete_admin', :controller => "superuser",:id => admin.id},:confirm => "Are you sure you want to delete this item?", :onclick=>" return confirmValidate();"%>
+     </div>
+  </div>
+  <div class="clear">
+    <div class="smallhint"><%= admin.role  %></div>
+  </div>
+  <% if admin.owner? %>
+  <div>
+    <% admin.restaurants.each do |r| %>
+      <div class="smallhint ml5">- <%= r.name %></div>
+    <% end %>
+      
+  </div>
+
+
+  <% end %>
+
+
+</div>

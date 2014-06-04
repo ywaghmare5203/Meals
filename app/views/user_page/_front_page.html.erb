@@ -1,0 +1,21 @@
+
+<%if meal%>
+<li<%= " class=\"left\"".html_safe if left.eql?(true) %>>
+  <a href="/showdetails/<%= meal.id%>">
+   
+    <p class="icons"><%=meal.name %></p>
+                <%= image_tag  meal.picture(:big)%>
+  </a>
+
+
+  <% if  10 %>
+    <div class="tag">
+           <div class="holder">Ending soon...
+              <div class="hinge icons"></div>
+           </div>
+   </div>
+  <% end %>
+
+
+</li>
+<%end%>

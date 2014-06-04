@@ -1,0 +1,59 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+<% if @restaurant.lat.to_f != 0.0 && @restaurant.lng.to_f != 0.0 %>
+  var pos = new google.maps.LatLng(<%= @restaurant.lat %>,<%= @restaurant.lng %>);
+<% else %>
+  var pos = new google.maps.LatLng(25.118,55.184);
+<% end %>
+
+  var opts = {  
+    zoom : 11, center: pos, mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeControl: true, 
+    mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }
+  };
+  map = new google.maps.Map(document.getElementById("map"),opts);
+  var marker = new google.maps.Marker({ position: pos, map: map } );
+  marker.setMap(map);
+
+  $("#dup").click(function(){
+    $("#drestaurant_name").val($("#orig_name").val());
+    $("#drestaurant_description").val($("#orig_description").val());
+    $("#drestaurant_address").val($("#orig_address").val());
+    $("#drestaurant_phone").val($("#orig_phone").val());
+    $("#drestaurant_url").val($("#orig_url").val());
+    $("#drestaurant_cluster_id").val("<%= @restaurant.cluster_id %>");
+    $("#drestaurant_cuisine_id").val("<%= @restaurant.cuisine_id %>");
+    $("#drestaurant_lat").val(<%= @restaurant.lat %>);
+    $("#drestaurant_lng").val(<%= @restaurant.lng %>);
+    
+    
+    pos = new google.maps.LatLng(<%= @restaurant.lat %>,<%= @restaurant.lng %>);
+    var dmap = new google.maps.Map(document.getElementById("dmap"),opts);
+    dmap.setCenter(pos);
+    marker.setMap(map);
+    marker = new google.maps.Marker({ position: pos, map: dmap } );
+    marker.setMap(dmap);
+    
+
+  });
+
+});
+</script>
+
+<div>Name: <input id="orig_name" type="text" value="<%= @restaurant.name %>" readonly="readonly"></div>
+<div>Phone: <input id="orig_phone" type="text" value="<%= @restaurant.phone %>" readonly="readonly"></div>
+<div>Website: <input id="orig_url" type="text" value="<%= @restaurant.url %>" readonly="readonly"></div>
+<div><textarea id="orig_address" cols="40" rows="5" readonly="yes"><%= @restaurant.address %></textarea></div>
+<div><textarea id="orig_description" cols="40" rows="5" readonly="yes"><%= @restaurant.description %></textarea></div>
+<div>Cuisine: 
+<select id="orig_cuisine_id" readonly="yes">
+<option value="<%= @restaurant.cuisine_id %>"><%= @restaurant.cuisine.name %></option>
+</select>
+</div>
+<div>Cluster: 
+	<select id="orig_cluster_id" readonly="yes">
+	<option value="<%= @restaurant.cluster_id %>"><%= @restaurant.cluster.name %></option>
+	</select>
+</div>
+<div id="map"></div>
+<a id="dup" href="<%= jv %>">Duplicate values &raquo;</a>

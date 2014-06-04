@@ -1,0 +1,231 @@
+<script>
+ $(document).ready(function() {
+   $("#restaurant_id").change(function() {
+ this.form.submit();
+  });
+ });
+</script>
+
+<div class="group">
+
+                    <div class="filters">
+
+                <span><a href="#"></a>  </span>
+                    <span><a href="#"></a>  </span>
+                    <span><a href="#"></a> </span>
+                    <span><a href="#"></a></span>
+                </div>
+
+                <div class="viewby">
+                 <%= form_for(@restaurant, :url => "dashboard", :method=>"post") do |f| %>
+
+                  <label>Select Restaurant Name </label>
+                  <%= f.select(:id, @restaurant_array ) %>
+
+                  <%end%>
+
+                </div>
+        </div>
+
+                <%  @meals.each do |m|  %>
+                <div class="req group">
+
+                <div class="action group">  </div>
+
+                  <td align="left"><%= image_tag('/images/4.jpg',:size => "50x50") %></td>
+
+
+                <div class="brief">
+                <td><h2><%=m.name%></h2></td>
+
+
+
+                <div class="clear"></div>
+                <td><h3><%= getRestaurantNamebyId(m.restaurant_id) %></h3></td>
+
+
+                </div>
+
+                  <div class="action group">
+
+                  <td align="right"><%= link_to "Edit & Review",{:action => 'edit_review',:controller=>'copywriters', :id=>m.id}%></td>
+
+                  </div>
+
+
+                <!--<div class="brief">-->
+                <div class="clear"></div>
+
+                </div>
+
+                <%end%>
+
+
+
+      <!--      <div class="req group">
+            <img src="images/business_status_icon.jpg"  />
+                <div class="brief">
+                <p class="itemname">Butter Chicken</p>
+                <p class="restaurant">Moti Mahal</p>
+                </div>
+
+                <div class="action group">
+                <i>2 days ago</i>
+                    <p class="currentstatus_reject">1 comment by manager</p>
+                    <a href="preview_business -alerts.html" target="_blank">see comment</a>
+            </div>
+                <div class="clear"></div>
+                <!--<a href="#" class="smalledit" target="_blank">edit</a>
+            </div>-->
+
+
+         <!-- <div class="req group">
+            <img src="images/business_status_icon.jpg"  />
+                <div class="brief">
+                <p class="itemname">Butter Chicken</p>
+                <p class="restaurant">Moti Mahal</p>
+                </div>
+
+                <div class="action group">
+                <i>2 days ago</i>
+                    <p class="currentstatus">approved</p>
+                    <a href="preview_business -alerts.html" target="_blank" class="ext_rght"></a>
+            </div>
+                <div class="clear"></div>
+
+            </div>-->
+
+        <div class="pusher"></div>
+
+
+
+
+
+
+
+        
+
+
+        <div class="adminsales">
+
+            <div id="add-deal-location" style="display:block">
+                <div style="position:absolute;right:20px;">
+
+                        <div class="comment ">
+                                    <div class="highlight">
+                                        <p>Approve &amp; Publish this Deal</p>
+                                       <a href="#" id="approvethis">Approve this Deal</a>
+                                    </div>
+
+                                    <div class="highlight">
+                                        See something wrong or need to change something?
+                                        <textarea id="txt_ar"></textarea>
+                                        <button id="adcomment">Add Comment</button>
+                                        <p class="msg">Your message has been sent</p>
+                                    </div>
+                                </div>
+
+                        </div>
+                </div>
+
+                        <h4>Add Deal for Moti Mahal - Jumerah </h4>
+
+                <%= form_for(@edit, :as => :meal, :url =>"edit_review", :id=> @edit.id, :method => "post" ) do |f| %>
+
+
+                            <label>Deal Name </label>
+                            <input type="checkbox" class="check"  />
+                            <%= f.text_field :name %>
+
+
+
+                            <div class="clear"></div>
+
+                            <label>Select cuisine</label>
+                            <input type="checkbox" class="check"  />
+
+                            <%= f.select(:id, @cuisine_array ) %>
+                            <div class="clear"></div>
+
+                            <label>About the meal</label>
+                            <br></br>
+                              <input type="checkbox" class="check check_alt"  />
+                             <%= f.text_area :description %>
+
+
+                            <div class="clear"></div>
+
+                            <label>Meal Info</label>
+
+                            <%= f.select(:id, @meal_array ) %>
+
+                             <input type="checkbox" class="check check_alt"  />
+
+                            <input type="checkbox" class="check"  />
+                            <input type="text"  />
+                            <div class="clear"></div>
+
+
+                            <div id="addmore" class="clonedInput">
+                            <a href="#" id="addmore">Add more</a>
+                            </div>
+                            <div class="clear"></div>
+
+                            <label>Add Deal Tags</label>
+                             <input type="checkbox" class="check"  />
+                            <input type="text"  />
+                            <div class="clear"></div>
+
+                            <label>Upload Photos</label>
+                            <input type="checkbox" class="check"  />
+                            <input type="file"  id="upload" />
+                            <div class="clear"></div>
+
+                             <input type="checkbox" class="check check_alt"  /><b class="toggle-nutrition expand">Add Nutritional Facts</b>
+                            <div  id="nutrition-values" class="clear">
+                            <table>
+                            <thead>
+                            <tr>
+                                <th class="des">Description</th>
+                                    <th class="val">Value</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr class="alt">
+                                <td class="des">Calories</td>
+                                    <td class="val"><input type="text" /></td>
+                                </tr>
+                                <tr class="">
+                                <td class="des">Total Fat</td>
+                                    <td class="val"><input type="text" /></td>
+                                </tr>
+
+                                <tr class="alt">
+                                <td class="des">Cholestrol</td>
+                                    <td class="val"><input type="text" /></td>
+                                </tr>
+
+                                <tr class="">
+                                <td class="des">Sodium</td>
+                                    <td class="val"><input type="text" /></td>
+                                </tr>
+
+                                <tr class="alt">
+                                <td class="des">Total Carbs</td>
+                                    <td class="val"><input type="text" /></td>
+                                </tr>
+
+                                <tr class="">
+                                <td class="des">Protein</td>
+                                    <td class="val"><input type="text" /></td>
+                                </tr>
+                            </tbody>
+
+                            </table>
+                            </div>
+                            <div class="clear"></div>
+                            <a href="#" class="submitdeal">Re - Submit</a>
+
+                      <%end%>
+                    </div><!--add-deal-location ends-->

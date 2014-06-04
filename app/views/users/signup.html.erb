@@ -1,0 +1,8 @@
+<h1>Users#signup</h1>
+<p>Signup for a new account</p>
+<%= form_for @user, :as => :user, :url => "/users/signup", :method => "post"  do |f| %>
+  Email: <%= f.text_field :email %><br />
+  Password: <%= f.password_field :password %><br />
+  <%= f.submit ' sign up ' %>
+<% end %>
+

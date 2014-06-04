@@ -1,0 +1,15 @@
+<div class="p5" id="divlink<%= restaurant.id %>" style="border-bottom:1px solid #c0c0c0" >
+  <div class="left">
+    <div><img src="/img/owner.png"> <strong><%= restaurant.name %></strong></div>
+    <div class="smallhint"><%= restaurant.admin.email %></div>
+  </div>
+  <div class="right">
+  <% if restaurant.admin.request_hash %>
+  Approved already <%= time_ago_in_words(restaurant.admin.updated_at) %> ago, waiting for user to create account (<a class="enable owner" id="link<%= restaurant.id %>" href="#">resend</a>)
+  <% else %>
+    <%= link_to "edit", edit_restaurant_url(restaurant.id) %> | 
+  <% end %>
+  </div>
+  <div class="clear"></div>
+</div>
+

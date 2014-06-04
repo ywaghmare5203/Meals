@@ -1,0 +1,50 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".targetsave").click(function(){});
+	$(".targetnew").click(function(){ /* set target */});
+});
+</script>
+
+
+<div>
+	<table>
+		<tr>
+			<td>Cuisine</td>
+			<td>Target</td>
+			<td>Have</td>
+		</tr>
+	<% counter = 0 %>
+	<% @clusters.each do |cluster| %>
+		<tr>
+			<td colspan="3"><strong><%= cluster.name %></strong></td>
+		</tr>
+		<% @cuisines.each do |cuisine| %>
+		<% counter += 1 %>
+			<tr>
+				<td><%= cuisine.name %></td>
+				<% target = Target.where(:yday => @yday, :cuisine_id => cuisine.id, :cluster_id => cluster.id).first -%>
+
+				<% if target -%>
+					<td><input type="text" size="2" id="target<%= target.id %>" value="<%= target.amount.to_i %>"></td>
+					<td><a class="targetsave" href="<%= jv %>" id="targetset<%= target.id %>">save</a></td>
+					<td id="have">
+            <%= target.have.to_i %>
+            <a href="<%= jv %>" class="loadinfo" id="load<%= target.id %>">&raquo;</a>
+          </td>		
+				<% else %>
+					<td><input class="targets" type="text" size="2" id="settarget<%= counter %>" value="0"></td>
+					<input type="hidden" id="cuisine<%= counter %>" value="<%= cuisine.id %>">
+					<input type="hidden" id="cluster<%= counter %>" value="<%= cluster.id %>">
+					<td>
+            <a class="targetnew" href="<%= jv %>" id="set<%=counter %>">save</a>
+            <span id="hint<%= counter %>"></span>
+          </td>
+					<td id="have"></td>		
+				<% end -%>
+	
+			</tr>
+		<% end %>
+	<% end %>
+	</table>
+</div>
+

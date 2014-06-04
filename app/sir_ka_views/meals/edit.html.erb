@@ -1,0 +1,57 @@
+<% content_for(:script) do %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  $("#moredays").hide();
+
+});
+</script>
+
+<% end -%>
+<div class="m10">
+
+  <div class="left" style="width:550px">
+
+    <%= form_for(@meal, :as => :meal, :url => "/restaurants/#{ @restaurant }/meals/#{ @meal.id }/edit", :method => 'post') do |f|%>
+      Name: <%= f.text_field :name %><br />
+      Description <%= f.text_area(:description, { :cols => 40, :rows => 5}) %><br />
+      Meal Info <%= f.text_area(:meal_info, { :cols => 40, :rows => 5}) %><br />
+
+
+      Picture: <%= f.file_field :picture %><br />
+      Vegetarian: <%= f.check_box(:fp_vegetarian) %><br />
+
+      <div class="m10">
+
+        <div>
+          Tags: <%= f.text_field :tag_list, :size => 20 %><br/>
+          <span class="hint">(Comma seperated: vegetarian, organic, mutton, pizza...)</span>
+        </div>
+
+        <div>
+          Cuisine: <%= f.select("cuisine_id",  @cuisines.map{|u| [u.name, u.id] }) %>
+        </div>
+
+      </div>
+
+
+      <input type="hidden" name="restaurant" value="<%= @restaurant %>" />
+      <%= f.submit " save changes " %>
+    <% end %>
+  </div>
+
+  <div class="right" style="width:330px">
+
+
+    <% if @meal.picture? %>
+    <%= image_tag @meal.picture(:medium) %>
+    <% end %>
+
+  </div>
+
+  <div class="clear">
+  </div>
+
+</div>
+

@@ -1,0 +1,85 @@
+<% content_for(:script) do %>
+<script type="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  $("input.check").click(function(){
+    var k = $(this).attr("id");
+    var c = $("#" +  k + ":checked").val() ? "true" : "false";
+    $.post("/users/set_fp", { key: k, val: c, authenticity_token: token }, function(d){
+      var answer = $.parseJSON(d);
+      if(answer.status == "ok")
+      {
+        k = k.replace(/fp_/,"sp_");
+        $("#"+k).html("changed").show().fadeOut(1000);
+      }
+    });
+  });
+
+  $("#fp_vegan").click(function(){
+    // $("#fp_vegetarian").
+    alert("aa");
+  });
+
+  $("input.cuisine").click(function(){
+    //$("input.cuisine").each
+    var k = $(this).attr("id");
+    var c = $("#" +  k + ":checked").val() ? "true" : "false";
+    
+  });
+
+});
+</script>
+<% end %>
+<% content_for (:head) do %>
+<style type="text/css">
+.hint { color: #808080 }
+</style>
+<% end %>
+<div class="left">
+
+  <div class="m10">
+    <h2>Personal Information</h2>
+    <div>Name: <input type="text" name="name" id="name" class="profileinfo" value="<%= current_user.name %>"></div>
+    <div>
+      Password: 
+      <input type="password" name="password" id="password" class="profileinfo" value="dummyvalue"> 
+      <span class="hint">Please type a new password</span>
+      </div>
+  </div>
+
+  <h2>Food preferences</h2>
+  <div class="m10">Select your favorite cuisines:</div>
+
+  <div class="m10">
+    <% @cuisines.each do |cuisine| %>
+      <div>
+        <input class="cuisine" type="checkbox" id="cuisine<%= cuisine.id %>" name="cuisine<%= cuisine.id %>">
+        <label for="cuisine<%= cuisine.id %>"><%= cuisine.name %></label>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <input class="check" type="checkbox" id="fp_vegetarian" name="fp_vegetarian" <%= "checked" if current_user.fp_vegetarian.eql?(true) %> />
+    <label for="fp_vegetarian">Only show vegetarian meals</label>
+    <span class="hint" id="sp_vegetarian"></span>
+  </div>
+
+  <div>
+    <input class="check" type="checkbox" id="fp_vegan" name="fp_vegan" <%= "checked" if current_user.fp_vegan.eql?(true) %>/>
+    <label for="fp_vegan">Only show vegan meals</label>
+    <span class="hint" id="sp_vegan"></span>
+  </div>
+
+  <div>
+    <input class="check" type="checkbox" id="fp_glutenfree" name="fp_glutenfree" <%= "checked" if current_user.fp_glutenfree.eql?(true) %> />
+    <label for="fp_glutenfree">Only show glutenfree meals</label>
+    <span class="hint" id="sp_glutenfree"></span>
+  </div>
+
+</div>
+
+<div class="right">
+</div>
+
+<div class="clear"></div>

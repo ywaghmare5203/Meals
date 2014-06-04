@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MeeldeelCom</title>
+  <%= yield(:head) -%>
+  <%= csrf_meta_tags %>
+   <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+   <script type="text/javascript" src="/js/fullcalendar.min.js"></script>
+  <script type="text/javascript" src="/js/interaction.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div id="wrapper">
+  <div id="header">
+    <div class="group content">
+      <h1 class="logo logo_bus">
+         <a href= <%= root_url %>  ></a>
+      </h1>
+      <div class="header_info">
+        <p class="activity friends"><a href="/invite_friends" class="icons">Invite Friends</a></p>
+        <p class="activity mobapp"><a href="/mobileapps" class="icons">Mobile App</a></p>
+
+      </div>
+    </div>
+  </div><!-- header ends-->
+
+  <div class="content">
+
+      <%= yield %>
+
+  </div>
+  <div class="pusher"></div>
+
+</div>
+
+<div id="footer">
+  <div class="content group">
+    <!--<div class="social group">
+        <span class="icons fb">
+            <a href="#"></a>
+        </span>
+        <span class="icons tw">
+            <a href="#"></a>
+        </span>
+    </div>-->
+    <div class="footerlist group">
+      <ul class="group">
+        <li><a href="/admin/restaurants/new">For Restaurant owners</a></li>
+        <li><a href="/mobileapps">For Mobile</a></li>
+        <li><a href="/aboutus">About Us</a></li>
+        <!-- <li><a href="#">Press</a></li>-->
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/terms">Terms</a></li>
+      </ul>
+      <p>&copy2011-2012 iWannaEat.com. All rights reserved</p>
+    </div>
+  </div>
+
+</div><!-- footer ends -->
+
+
+</body>
+</html>

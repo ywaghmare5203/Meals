@@ -1,0 +1,71 @@
+<% content_for(:head) do %>
+<style type="css/text">
+#order{ cursor:pointer; cursor:hand; }
+</style>
+<% end %>
+<% content_for(:script) do %>
+<script type="text/javascript" src="/js/jqueryui.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+
+  $("#order").click(function(){
+    <% if logged_in? %>
+     $.post("/offer/<%= @meal.id %>", { wday: id, authenticity_token: token, checked: checked }, function(data){ 
+      // process order
+    <% else %>
+      $("#orderhelp").addClass("hint").html("You need to <a href=\"/users/login\">login</a> before you can place an order.");
+    <% end %>
+  });
+
+  $(".wday").change(function(){
+    var id = $(this).attr("id");
+    var checked = $(this).is(":checked");
+     $.post("/offer/<%= @meal.id %>", { wday: id, authenticity_token: token, checked: checked }, function(data){ 
+      var resp = $.parseJSON(data);
+      if(resp.status == "ok"){ $("#hint-" + id).show().html("changed").css("background","yellow").fadeOut(2000); }
+    });
+  });
+
+  $("#order").dialog({ title: "Place your order", autoOpen: false });
+
+});
+</script>
+<% end %>
+<div class="left" style="width:700px">
+  <div class="left" style="width:300px">
+    <h1><%= @meal.name %></h1>
+    <div><%= @meal.description %></div>
+  
+  <div class="m10">
+    <a href="javascript:void(0)" id="order"><img src="/img/place_order.jpg"></a>
+    <div id="orderhelp"></div>
+  </div>
+
+  </div>
+  <div class="right" style="margin-left:10px; width:330px">
+    <h1><%= @meal.price %></h1>
+    <%= image_tag @meal.picture.url(:medium) %>
+  </div>
+    <div class="clear"></div>
+
+
+</div>
+
+<div class="right">
+    <div class="greybg p5 m10">
+    <h2>More offers today</h2>
+    <% @offers.each do |o| %>
+      <%= render(:partial => "sidemeal", :locals => {:offer => o}) %>
+    <% end %>
+    </div>
+  
+</div>
+
+<div class="clear"></div>
+
+<div id="order">
+<% if logged_in? %>
+<% else %>
+<% end %>
+</div>

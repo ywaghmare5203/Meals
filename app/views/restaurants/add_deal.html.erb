@@ -1,0 +1,388 @@
+
+
+<script src="/js/jquery.tagsinput.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/jquery.tagsinput.css" />
+
+<script type="text/javascript">
+        $(document).ready(function() {
+          $('#addmore').bind('click', function() {
+
+                var num     = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+                var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+
+
+
+                if(num>9)
+                return false;
+              var news='<div id="input'+newNum+'" class="clonedInput"><label>Meal Info</label> <input type="text" size="30" name="addMeals[meal_info][]" id="meal_info"><a onclick=remove_addmore("input'+newNum+'") href="javascript:void(0)">remove</a></div>';
+              
+                // create the new element via clone(), and manipulate it's ID using newNum value
+               // var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+
+                // manipulate the name/id values of the input inside the new element
+                //newElem.children(':first').attr('id', 'name' + newNum).attr('name', 'name' + newNum);
+
+                // insert the new element after the last "duplicatable" input field
+                $('#input' + num).after(news);
+
+                // enable the "remove" button
+                $('#close').attr('disabled','');
+
+                // business rule: you can only add 5 names
+                if (newNum == 10)
+                    $('#addmore').attr('disabled','disabled');
+
+                });
+
+            $('#btnDel').click(function() {
+                var num = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+                $('#input' + num).remove();     // remove the last element
+
+                // enable the "add" button
+                $('#addmore').attr('disabled','');
+
+                // if only one element remains, disable the "remove" button
+                if (num-1 == 1)
+                    $('#addmore').attr('disabled','disabled');
+            });
+
+            $('#addmore').attr('disabled','disabled');
+
+        });
+
+        function remove_addmore(id){
+
+         var num     = $('.clonedInput').length;
+         if(num>1){
+       $("#"+id).remove();
+
+        }
+        }
+
+    </script>
+
+<script>
+  function onAddTag(tag) {
+            alert("Added a tag: " + tag);
+        }
+        function onRemoveTag(tag) {
+            alert("Removed a tag: " + tag);
+        }
+
+        function onChangeTag(input,tag) {
+            alert("Changed a tag: " + tag);
+        }
+
+$(function() {
+
+  $('#addMeals_deal_tag').tagsInput({
+width: 'auto',
+onChange: function(elem, elem_tags)
+{
+var languages = ['php','ruby','javascript'];
+$('.tag', elem_tags).each(function()
+{
+
+if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+$(this).css('background-color', 'yellow');
+});
+}
+});
+
+});
+
+
+
+</script>
+<script type="text/javascript">
+function validate_form_add_deal(id){
+var addMeals_name=document.getElementById('addMeals_name').value;
+var addMeals_description=document.getElementById('addMeals_description').value;
+var m=document.getElementById('m').value;
+<%#*var addMeals_deal_tag_tag=document.getElementById('addMeals_deal_tag_tag').value;%>
+var addMeals_picture=document.getElementById('addMeals_picture').value;
+var addMeals_nutr_calories=document.getElementById('addMeals_nutr_calories').value;
+var addMeals_nutr_fats = document.getElementById('addMeals_nutr_fats').value
+var addMeals_nutr_sodium=document.getElementById('addMeals_nutr_sodium').value;
+var addMeals_nutr_carbs = document.getElementById('addMeals_nutr_carbs').value
+var addMeals_nutr_protein = document.getElementById('addMeals_nutr_protein').value
+var addMeals_nutr_cholestrol = document.getElementById('addMeals_nutr_cholestrol').value
+var addMeals_cuisine_id = document.getElementById('addMeals_cuisine_id').value
+
+document.getElementById("name").innerHTML=""
+document.getElementById("about_meal").innerHTML=""
+document.getElementById("meal_info").innerHTML=""
+document.getElementById("picture").innerHTML=""
+document.getElementById("calories").innerHTML=""
+document.getElementById("fat").innerHTML=""
+document.getElementById("sodium").innerHTML=""
+document.getElementById("protein").innerHTML=""
+document.getElementById("cuisine_name").innerHTML=""
+document.getElementById("cholestrol").innerHTML=""
+document.getElementById("carbs").innerHTML=""
+
+
+
+var msg='false';
+if(addMeals_name==''){
+msg='true';
+document.getElementById("name").innerHTML="Enter Meal Name";
+document.getElementById("addMeals_name").focus();
+}
+if(addMeals_description==''){
+msg='true';
+document.getElementById("about_meal").innerHTML="Enter About Meals";
+document.getElementById("addMeals_description").focus();
+}
+if(m==''){
+msg='true';
+document.getElementById("meal_info").innerHTML="Enter Meal info";
+document.getElementById("m").focus();
+}
+<%#*if(addMeals_deal_tag_tag==''){%>
+<%#*msg='true';%>
+<%#*document.getElementById("deal_tag").innerHTML="Enter Deal Tag";%>
+<%#*document.getElementById("addMeals_deal_tag_tag").focus();%>
+<%#*}%>
+if(addMeals_picture==''){
+msg='true';
+document.getElementById("picture").innerHTML="Please upload picture";
+document.getElementById("addMeals_picture").focus();
+}
+if(addMeals_nutr_calories==''){
+msg='true';
+document.getElementById("calories").innerHTML="Enter calories value";
+document.getElementById("addMeals_nutr_calories").focus();
+}
+if(addMeals_nutr_fats==''){
+msg='true';
+document.getElementById("fat").innerHTML="Enter fats value";
+document.getElementById("addMeals_nutr_fats").focus();
+}
+if(addMeals_nutr_sodium==''){
+msg='true';
+document.getElementById("sodium").innerHTML="Enter sodium value";
+document.getElementById("addMeals_nutr_sodium").focus();
+}
+if(addMeals_nutr_protein==''){
+msg='true';
+document.getElementById("protein").innerHTML="Enter protein value";
+document.getElementById("addMeals_nutr_protein").focus();
+}
+if(addMeals_cuisine_id==''){
+msg='true';
+document.getElementById("cuisine_name").innerHTML="select Cuisine";
+document.getElementById("addMeals_cuisine_id").focus();
+}
+if(addMeals_nutr_cholestrol==''){
+msg='true';
+document.getElementById("cholestrol").innerHTML="Enter cholestrol value";
+document.getElementById("addMeals_nutr_cholestrol").focus();
+}
+if(addMeals_nutr_carbs==''){
+msg='true';
+document.getElementById("carbs").innerHTML="Enter cholestrol value";
+document.getElementById("addMeals_nutr_carbs").focus();
+}
+if(isNaN(addMeals_nutr_cholestrol)){
+msg='true';
+document.getElementById("cholestrol").innerHTML="Enter Numeric Value for cholestrol";
+document.getElementById("addMeals_nutr_cholestrol").focus();
+}
+if(isNaN(addMeals_nutr_fats)){
+msg='true';
+document.getElementById("fat").innerHTML="Enter Numeric Value for Fats";
+document.getElementById("addMeals_nutr_fats").focus();
+}
+if(isNaN(addMeals_nutr_carbs)){
+msg='true';
+document.getElementById("carbs").innerHTML="Enter Numeric Value for Carbs";
+document.getElementById("addMeals_nutr_carbs").focus();
+}
+if(isNaN(addMeals_nutr_protein)){
+msg='true';
+document.getElementById("protein").innerHTML="Enter Numeric Value for Protein";
+document.getElementById("addMeals_nutr_protein").focus();
+}
+if(isNaN(addMeals_nutr_calories)){
+msg='true';
+document.getElementById("calories").innerHTML="Enter Numeric Value for calories";
+document.getElementById("addMeals_nutr_calories").focus();
+}
+if(isNaN(addMeals_nutr_sodium)){
+msg='true';
+document.getElementById("sodium").innerHTML="Enter Numeric Value for Sodium";
+document.getElementById("addMeals_nutr_sodium").focus();
+}
+var isValid = /\.jpe?g$/i.test(addMeals_picture);
+
+    if (!isValid) {
+
+     msg='true';
+document.getElementById("picture").innerHTML="Enter only jpg, jpeg or png format pictures";
+document.getElementById("addMeals_picture").focus();
+}
+
+
+
+if(msg=='false')
+return true;
+else
+return false;
+
+
+}
+</script>
+
+<div class="add-deal group">
+  <div class="loc" >
+            <h4>My locations</h4>
+            <ul>
+                <li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Location</a>
+        </div>
+
+
+<div class="add-deal-form">
+
+
+		<ul class="tabs group">
+            	<li class="activetab"> <%= link_to 'My Deals Library', :controller => 'restaurants', :action => 'my_deals_library'%></li>
+                <li> <%= link_to 'Deals Pipeline', :controller => 'restaurants', :action => 'deals_pipeline' %></li>
+                <li> <%= link_to 'Manage Locations', :controller => 'restaurants', :action => 'manage_locations'%></li>
+                <li> <%= link_to 'My Account', :controller => 'restaurants', :action => 'my_account'%></li>
+                <li> <%= link_to 'Order History', :controller => 'restaurants', :action => 'order_history' %></li>
+            </ul>
+
+
+   <ul class="tab-content add_deal-tab">
+            	<li class="visible">
+<div id="add-deal-location">
+  <li class="visible">
+    <p style="color: red"><%= flash[:notice] %></p>
+     <!--<%#*<div style="color:#ee0000;"><%= flash[:notice] %></div>%>-->
+<%= form_for(@cuisions_addDeal_new, :as =>:addMeals, :url =>"add_deal",:method => "post",:html=>{:onSubmit=>"return validate_form_add_deal(this);",:name=>"add_deal"}) do |m| %>
+
+ <%if @approve.nil?%>
+                        <h4>Add Deal for Moti Mahal - Jumerah <span class="bus_back"><%= link_to 'Back', :controller => 'restaurants', :action => 'my_deals_library' %></span></h4>
+                        
+                        <%if @meal.empty?%>
+                        <p class="notify">Currently you have no deals for this restaurant. Start adding a deal below</p>
+                        <br></br>
+                        <%end%>
+      <%end%>
+
+                            <label>Deal Name</label>
+                            <div class="clear"></div>
+                            <span id="name" style="color:#ee0000;"></span>
+                            <div class="clear"></div>
+                           <%=m.text_field :name%>
+                        <div style="color:red;" id="error_msg" ></div>
+                            <div class="clear"></div>
+
+                            <div class="clear"></div>
+                            <span id="cuisine_name" style="color:#ee0000;"></span>
+                            <div class="clear"></div>
+                            <div class="clear"></div>
+<%=  m.hidden_field :update, :value=>params[:id]  , :name=> "update"%>
+                            <label>About the meal</label>
+                            <div class="clear"></div>
+                            <span id="about_meal" style="color:#ee0000;"></span>
+                            <div class="clear"></div>
+                           <td><%=m.text_area :description, :size=>"20*20"%> </td>
+                            <div class="clear"></div>
+
+                             <div class="clonedInput" id="input1">
+
+                            <label>Meal Info</label>
+                            <div class="clear"></div>
+                            <span id="meal_info" style="color:#ee0000;"></span>
+                            <div class="clear"></div>
+                          <%= text_field_tag :meal_info[0]%>
+
+                             </div>
+                            
+                            <div class="clear"></div>
+                            <a href="javascript:void(0)" id="addmore">Add more</a>
+                            <div class="clear"></div>
+
+                            <label>Add Deal Tags</label>
+                            <div class="clear"></div>
+                            <span id="deal_tag" style="color:#ee0000;"></span>
+                            <div class="clear"></div>
+                               <%=m.text_field :deal_tag ,{:class=>"tags"}%>
+                            <div class="clear"></div>
+
+                            <label>Upload Photos</label>
+                            <div class="clear"></div>
+                            <span id="picture" style="color:#ee0000;"></span>
+                            <div class="clear"></div>
+                            <div class="file">
+                            <%= m.file_field :picture %>
+                            </div>
+                           <div class="clear"></div>
+                             <span id="calories" style="color:#ee0000;"></span><div class="clear"></div>
+                           <span id="fat" style="color:#ee0000;"></span><div class="clear"></div>
+                           <span id="cholestrol" style="color:#ee0000;"></span><div class="clear"></div>
+                           <span id="sodium" style="color:#ee0000;"></span><div class="clear"></div>
+                           <span id="carbs" style="color:#ee0000;"></span><div class="clear"></div>
+                           <span id="protein" style="color:#ee0000;"></span><div class="clear"></div>
+                           
+                             <b id="toggle-nutrition1"  class="toggle-nutrition expand" onclick="ToggleFacts();">Add Nutritional Facts</b>   <div  id="nutrition-values" class="clear">
+                            <table class="nutri">
+                            <thead>
+                            	<tr>
+                                	<th class="des">Description</th>
+                                    <th class="val">Value</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            	<tr class="alt">
+                                	<td class="des">Calories</td>
+                                    <td class="val"><%=m.text_field :nutr_calories%></td>
+                                </tr>
+                                <tr class="">
+                                	<td class="des">Total Fat</td>
+                                    <td class="val"><%=m.text_field :nutr_fats%></td>
+                                </tr>
+
+                                <tr class="alt">
+                                	<td class="des">Cholestrol</td>
+                                  <td class="val"><%=m.text_field :nutr_cholestrol%></td>
+                                </tr>
+
+                                <tr class="">
+                                	<td class="des">Sodium</td>
+                                    <td class="val"><%=m.text_field :nutr_sodium%></td>
+                                </tr>
+
+                                <tr class="alt">
+                                	<td class="des">Total Carbs</td>
+                                   <td class="val"><%=m.text_field :nutr_carbs%></td>
+                                </tr>
+
+                                <tr class="">
+                                	<td class="des">Protein</td>
+                                   <td class="val"><%=m.text_field :nutr_protein%></td>
+                                </tr>
+                            </tbody>
+
+                            </table>
+                            </div>
+                      
+                            <div class="clear"></div>
+                           <div class="actions">
+                             <%= m.submit "Submit Deal"%>
+                            <%end%>
+                           </div>
+
+                       
+</li>
+                    </div><!--add-deal-location ends-->
+</div>
+                  </div>
+ <div class="pusher"></div>

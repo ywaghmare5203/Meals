@@ -1,0 +1,262 @@
+<script src="/js/jquery.tagsinput.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/jquery.tagsinput.css" />
+<script src="/js/jquery.tagsinput.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+          $('#addmore').bind('click', function() {
+
+                var num     = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+                var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+
+
+
+                if(num>9)
+                return false;
+               var news='<div id="input'+newNum+'" class="clonedInput"><label>Meal Info</label> <input type="text" size="30" name="addMeals[meal_info]" id="meal_info"><a onclick=remove_addmore("input'+newNum+'") href="javascript:void(0)">remove</a></div>';
+
+
+                // create the new element via clone(), and manipulate it's ID using newNum value
+               // var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+
+                // manipulate the name/id values of the input inside the new element
+                //newElem.children(':first').attr('id', 'name' + newNum).attr('name', 'name' + newNum);
+
+                // insert the new element after the last "duplicatable" input field
+                $('#input' + num).after(news);
+
+                // enable the "remove" button
+                $('#close').attr('disabled','');
+
+                // business rule: you can only add 5 names
+                if (newNum == 10)
+                    $('#addmore').attr('disabled','disabled');
+
+                });
+
+            $('#btnDel').click(function() {
+                var num = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+                $('#input' + num).remove();     // remove the last element
+
+                // enable the "add" button
+                $('#addmore').attr('disabled','');
+
+                // if only one element remains, disable the "remove" button
+                if (num-1 == 1)
+                    $('#addmore').attr('disabled','disabled');
+            });
+
+            $('#addmore').attr('disabled','disabled');
+
+        });
+
+        function remove_addmore(id){
+
+         var num     = $('.clonedInput').length;
+         if(num>1){
+       $("#"+id).remove();
+
+        }
+        }
+
+    </script>
+
+<script>
+  function onAddTag(tag) {
+            alert("Added a tag: " + tag);
+        }
+        function onRemoveTag(tag) {
+            alert("Removed a tag: " + tag);
+        }
+
+        function onChangeTag(input,tag) {
+            alert("Changed a tag: " + tag);
+        }
+
+$(function() {
+
+  $('#meals_deal_tag').tagsInput({
+width: 'auto',
+onChange: function(elem, elem_tags)
+{
+var languages = ['php','ruby','javascript'];
+$('.tag', elem_tags).each(function()
+{
+
+if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+$(this).css('background-color', 'yellow');
+});
+}
+});
+
+});
+
+
+</script>
+
+<%#*<script>%>
+ <%#*$(document).ready(function() {%>
+   <%#*$("#restaurant_id").change(function() {%>
+ <%#*this.form.submit();%>
+  <%#*});%>
+ <%#*});%>
+<%#*</script>%>
+
+
+        <div style="color:#ee0000;"><%= flash[:notice] %></div>
+
+
+
+
+<div class="add-deal group">
+<div class="adminsales">
+
+    <%= form_for(@rej_manager, :as => :meals, :url =>"reject_restaurant_by_manager", :id=> @rej_manager.id,:method => "post" ) do |f| %>
+                <div id="add-deal-location" style="display:block">
+                        <div style="position:absolute;right:20px;">
+
+                                <div class="comment ">
+                                    <div class="highlight">
+                                        <p>Approve &amp; Publish this Deal</p>
+
+                                        <div class="actions">
+                                      <%= link_to 'Approve this Deal', :controller => 'copywriter', :action => "approved_meal", :id => @rej_manager.id%>
+                                        </div>
+                                       <!--<a href="#" id="approvethis">Approve this Deal</a>-->
+                                    </div>
+                      <%= form_for(@comment, :as => :MealsCommented, :url =>"reject_restaurant_by_manager",:method => "post" ) do |f| %>
+                                    <div class="highlight">
+
+                                        See something wrong or need to change something?
+
+<%#*<textarea id="txt_ar"></textarea>%>
+                                          <%= f.text_area :commented_data %>
+                                <%=  f.hidden_field :update, :value=>params[:id]  , :name=> "update"%>
+                                        <div class="actions">
+                                          <%= f.submit "Add Comment" %>
+
+                                        </div>
+
+                                       <!-- <button id="adcomment">Add Comment</button>-->
+                                        <p class="msg">Your message has been sent</p>
+                                    </div>
+                                  <%end%>
+
+                                </div>
+
+                        </div>
+
+
+                        <h4>Add Deal for Moti Mahal - Jumerah </h4>
+
+            <%#= form_for(@edit, :as => :meal, :url =>"edit_review", :id => @edit.id,:method => "post" ) do |f| %>
+
+
+                            <label>Deal Name</label>
+
+                            <input type="checkbox" class="check"  value="1"  name="deal_name" />
+                            <%= f.text_field :name, :class=>(@comment.deal_name=="1" ?'err_field':' ')%>
+
+                            <div class="clear"></div>
+
+                       <p> Meal for <%= getCuisineNamebyId(@rej_manager.cuisine_id) %> cuisine</p>
+                       
+                            <div class="clear"></div>
+
+                            <label>About the meal</label>
+                            <br></br>
+                              <input type="checkbox" class="check check_alt"   value="1" name="about_the_meal"/>
+                             <%= f.text_area :description, :class=>(@comment.description=="1" ?'err_field':' ')%>
+
+
+                               <div class="clonedInput" id="input1">
+
+                             <label>Meal Info</label>
+                            <input type="checkbox" class="check" value="1" name="meal_info"/>
+                             <%=  f.text_field :meal_info, :class=> (@comment.meal_info=="1" ?'err_field':' ')%>
+
+                           <!--<a href="javascript:void(0)" onclick="remove_addmore('input1')">remove</a>-->
+                            </div>
+
+
+                            <div class="clear"></div>
+                            <a href="javascript:void(0)" id="addmore">Add more</a>
+                            <div class="clear"></div>
+
+                            <label>Add Deal Tags</label>
+                            <input type="checkbox" class="check" value="1" name="add_deal_tags"/>
+                              <%= f.text_field :deal_tag ,:class=>(@comment.deal_tag=="1" ?'err_field':' ')%>
+                            <%= @comment.deal_tag %>
+                            <div class="clear"></div>
+
+                            <div class="file">
+                           <label>Upload Photos</label>
+                            <input type="checkbox" class="check" value="1" name="upload_photos" />
+                             <%= image_tag  @rej_manager.picture(:mobile), :class=>(@comment.picture_file_name=="1" ?'err_field':' ')%>
+                             <%= f.file_field :picture %>
+                            </div>
+                            <div class="clear"></div>
+                             <input type="checkbox" class="check check_alt"  value="1" name="nutrition" /><b id="toggle-nutrition1"  class="toggle-nutrition expand" onclick="ToggleFacts();">Add Nutritional Facts</b>
+                             <div  id="nutrition-values" class="clear">
+                            <table>
+                            <thead>
+                                <tr>
+                                    <th class="des">Description</th>
+                                    <th class="val">Value</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="alt">
+                                    <td class="des">Calories</td>
+                                    <td class="val">
+                                      <%=  f.text_field :nutr_calories, :class=>(@comment.nutr_calories=="1" ?'err_field':' ')%>
+
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="des">Total Fat</td>
+                                    <td class="val">
+                                     <%=  f.text_field :nutr_fats, :class=>(@comment.nutr_fats=="1" ?'err_field':' ')%></td>
+                                </tr>
+
+                                <tr class="alt">
+                                    <td class="des">Cholestrol</td>
+                                    <td class="val">
+                                       <%=  f.text_field :nutr_cholestrol, :class=>(@comment.nutr_cholestrol=="1" ?'err_field':' ')%></td>
+                                </tr>
+
+                                <tr class="">
+                                    <td class="des">Sodium</td>
+                                    <td class="val">
+                                       <%=  f.text_field :nutr_sodium, :class=>(@comment.nutr_sodium=="1" ?'err_field':' ')%></td>
+                                </tr>
+
+                                <tr class="alt">
+                                    <td class="des">Total Carbs</td>
+                                    <td class="val">
+                                  <%=  f.text_field :nutr_carbs, :class=>(@comment.nutr_carbs=="1" ?'err_field':' ')%></td>
+                                </tr>
+
+                                <tr class="">
+                                    <td class="des">Protein</td>
+                                    <td class="val">
+                                      <%=  f.text_field :nutr_protein, :class=>(@comment.nutr_protein=="1" ?'err_field':' ')%></td>
+
+                                </tr>
+
+                            </tbody>
+
+                            </table>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="actions" style="display: none">
+                            <%= f.submit 'Re-Submit'%>
+                            </div>
+
+                      <%end%>
+                                </div>
+                    </div><!--add-deal-location ends-->
+   </div>
+        <div class="pusher"></div>

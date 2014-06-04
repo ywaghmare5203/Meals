@@ -1,0 +1,13 @@
+Hi<%= " #{@user.name}" if @user.name %>,
+
+The lunch choices in the <%= @user.cluster.name %> are ready.  
+
+<% @user.offer_list.each do |offer| %>
+  <%= link_to ("/show/"+offer.deal.meal.url, offer.deal.meal.name) %>
+  
+<% end %>
+
+
+Thank you,
+Meeldeel
+~         

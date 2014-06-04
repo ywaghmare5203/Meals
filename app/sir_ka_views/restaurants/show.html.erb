@@ -1,0 +1,16 @@
+<h1>Restaurant: <%= @restaurant.name %></h1>
+<p><%= @restaurant.description %></p>
+
+
+<ul>
+  <% @meals.each do |m| %>
+  <li><%= link_to m.name, show_meal_url(:id => @restaurant.id, :meal_id => m.id) %></li>
+  <% end %>
+</ul>
+
+
+<% if logged_in? && current_user.owner?(@restaurant) %>
+<div>
+  <%= link_to("Add a meal", add_meal_url(@restaurant)) %>
+</div>
+<% end %>

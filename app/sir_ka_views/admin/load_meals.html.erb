@@ -1,0 +1,24 @@
+<div class="m10">
+<% @meals.each do |m| %>
+  <div class="meal" id="meal<%= m.id %>">
+    <img src="/img/meal.gif">
+    <%= m.name %>
+  </div>
+<% end %>
+<% if @meals.empty? %>
+<div>There are no meals defined for this restaurant</div>
+<% end %>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+ 
+    $(".meal").click(function(){ 
+      var v = $(this).attr("id").replace(/meal/,"");
+      $("#col2").html("<img src=\"/img/loading.gif\">"); 
+      $("#col3").html("<img src=\"/img/loading.gif\">"); 
+      $.get("/admin/load_meal/" + v, function(d){ $("#col2").html(d); });
+      $.get("/admin/load_dmeal/" + v, function(d){ $("#col3").html(d); });
+    });
+
+});
+</script>

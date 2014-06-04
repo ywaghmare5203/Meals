@@ -1,0 +1,55 @@
+<div class="content">
+  <div class="careers">
+   
+         <div style="color:#ee0000;"><%= flash[:notice] %></div>
+
+
+        <% if @career.errors.any? %>
+            <div id="error_explanation">
+              <ul style="color:#ee0000">
+                <% @career.errors.full_messages.each do |msg| %>
+
+                    <li style="list-style-type:disc; list-style-position: inside;"><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+    <div class=" ">Looking for career opportunities with us?  Please attach your CV and contact information here , We will contact you soon!!!!!
+
+    </div>
+    <%= form_for('career', :url => url_for(:controller => "user_page", :action => "careers", :method=> "post"), :html => {:multipart => true} ) do |f| %>
+
+
+
+          <%= f.label :Name %>
+          <%= f.text_field :name %>
+          <br />
+          <div class="clear"></div>
+
+
+          <%= f.label :Email %>
+          <%= f.text_field :email %>
+          <br />
+          <div class="clear"></div>
+
+          <%= f.label :Attach  %>
+         <div class="file">
+          <%= f.file_field :file %>
+        </div>
+          <br />
+          <div class="clear"></div>
+
+
+        <div class="career-login">
+          <%= f.submit 'Submit' %>
+        </div>
+        <div class="clear"></div>
+
+
+    <% end %>
+
+
+
+  </div><!--careers ends-->
+</div>

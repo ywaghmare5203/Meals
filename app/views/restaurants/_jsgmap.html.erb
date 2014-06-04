@@ -1,0 +1,96 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content'); var map;
+<% if restaurant.lat.to_f != 0.0 && restaurant.lng.to_f != 0.0 %>
+  var pos = new google.maps.LatLng(<%= restaurant.lat %>,<%= restaurant.lng %>);
+<% else %>
+  var pos = new google.maps.LatLng(25.118,55.184);
+<% end %>
+
+  <% @clusters.each do |cluster| %>
+  var cluster<%= cluster.id %> = new Array(<% all_points = cluster.points.split("|")
+       all_points.each do |p| -%><%= "new google.maps.LatLng(#{p})" -%><%= "," unless p.eql?(all_points.last) -%><% end -%>);
+  <% end -%>
+
+  var opts = {  zoom : 11, center: pos, mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeControl: true, mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }};
+  map = new google.maps.Map(document.getElementById("map"),opts);
+
+<% if restaurant.lat.to_f != 0.0 && restaurant.lng.to_f != 0.0 -%>
+  var marker = new google.maps.Marker({position:pos, map:map});
+<% else -%>
+  var marker;
+<% end -%>
+  var newmarker; var area; var listener;
+
+  $("#maphint").html("Select new location");
+  if(listener){google.maps.event.removeListener(listener)}
+  listener = google.maps.event.addListener(map, "click", function(event){
+    if(marker){marker.setMap(null)} 
+    if(newmarker){newmarker.setMap(null)}
+    newmarker=new google.maps.Marker({ position:event.latLng,map:map});newmarker.setMap(map);
+    $("#maphint").html("Save new location? <a href=\"<%= jv %>\" id=\"mapdone\">yes</a> | <a href=\"<%= jv %>\" id=\"mapcancel\">no</a>");
+
+    $("#mapdone").click(function(){ 
+      $("#restaurant_lat").val(event.latLng.lat()); $("#restaurant_lng").val(event.latLng.lng());
+      $("#maphint").html("");
+    
+      // get cluster info
+      var chosen = false;
+      <% @clusters.each do |c| -%>
+      var pc<%= c.id %> = new google.maps.Polygon({paths: cluster<%= c.id %>});
+      if(pc<%= c.id %>.getBounds().contains(event.latLng)){
+        $("#restaurant_cluster_id").val(<%= c.id %>);$("#clustername").html("<%= c.name %>");$("#clusterdesc").html("<%= c.description %>");chosen = true;
+      }
+      <% end -%>
+     
+      if(!chosen){
+        $("#restaurant_cluster_id").val("");$("#clustername").html("No defined cluster");
+        $("#clusterdesc").html("There is no cluster defined for that area yet");
+      }
+
+    });
+
+    $("#mapcancel").click(function(){ 
+      newmarker.setMap(null); marker.setMap(map); 
+      $("#restaurant_lat").val(<%= restaurant.lat.to_f %>); 
+      $("#restaurant_lng").val(<%= restaurant.lng.to_f %>); 
+    });
+  });
+
+
+  function allOk(){
+    if($("#restaurant_lat").val() == $("#restaurant_lat").val() == ""){ 
+      alert("You don't have GPS coordinates!"); 
+      return false;
+    }
+    return true;
+  }
+
+  <% if !restaurant.approved? and admin_logged_in? and current_admin.admin? || current_admin.superuser? %>
+  // approve the restaurant
+  $("#aplink").click(function(){
+    <% 
+      approve_url = ""
+      if restaurant.admin.status.to_i.eql?(0) 
+        approve_url = "/admin/approve" # both user and restaurant
+      else
+        approve_url = "/restaurants/approve"
+      end
+    -%>
+
+    if(allOk){ 
+      $.post("<%= approve_url %>", { id:<%= restaurant.id.to_i %>, authenticity_token: token }, function(d){
+        var j = $.parseJSON(d);
+        if(j.status == "ok"){ 
+          $("#approved").html("<img src=\"/img/approved.png\"> Restaurant approved!").delay(2000).fadeOut("slow");
+        }
+        else { alert("error"); }
+      }); // post
+    }
+  });
+  <% end %>
+
+});
+</script>
+
+

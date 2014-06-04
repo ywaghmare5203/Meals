@@ -1,0 +1,25 @@
+<% content_for :script do %>
+<%= js_gmap(true) %>
+<% end %>
+<h1>User references</h1>
+<div class="m10">Thank you for signing up, now please set your food preferences</div>
+
+  <div>
+    <input type="checkbox" id="fp_vegetarian" name="fp_vegetarian" />
+    <label for="fp_vegetarian">Only show vegetarian meals</label>
+  </div>
+
+  <div>
+    <input type="checkbox" id="fp_vegan" name="fp_vegan" />
+    <label for="fp_vegan">Only show vegan meals</label>
+  </div>
+
+  <div>
+    <input type="checkbox" id="fp_glutenfree" name="fp_glutenfree" />
+    <label for="fp_glutenfree">Only show glutenfree meals</label>
+  </div>
+
+
+  <div id="map"></div>
+
+

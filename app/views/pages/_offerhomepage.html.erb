@@ -1,0 +1,20 @@
+<% if offer %>
+<li<%= " class=\"left\"".html_safe if left.eql?(true) %>>
+  <a href="/showdetails/<%= offer.deal.url %>">
+
+    <p class="icons"><%= offer.deal.meal.name %></p>
+                <%= image_tag  offer.deal.meal.photo(:big)%>
+  </a>
+
+
+  <% if offer.remaining.to_i < 10 %>
+    <div class="tag">
+           <div class="holder">Ending soon...
+              <div class="hinge icons"></div>
+           </div>
+   </div>
+  <% end %>
+
+
+</li>
+<% end %>

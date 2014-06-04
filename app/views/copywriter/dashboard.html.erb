@@ -1,0 +1,242 @@
+<script>
+ $(document).ready(function() {
+   $("#addMeals_restaurant_id").change(function() {
+ this.form.submit();
+  });
+ });
+</script>
+
+ <script type="text/javascript">
+function change_rest_type(id){
+var children_ids = [];
+$("div.top").contents().filter(
+  function(){
+    if (this.nodeType == 1) { // nodeType 1 => div
+      // reg exp matches div
+        try {
+          children_ids.push(this.id);
+        } catch(e){}
+    }
+  }
+);
+
+
+
+// or maybe the more familiar, the non-jquery way
+for(var i = 0 ; i < children_ids.length; i++){
+ $("#"+children_ids[i]).hide();
+}
+$("#"+id).show();
+
+}
+
+
+
+</script>
+<div class="business_status">
+            <div class="group">
+                <div class="filters">
+
+                    <span><a href="javascript:void(0)" onclick="change_rest_type('all')">All</a> /</span>
+                    <span><a href="javascript:void(0)" onclick="change_rest_type('new_meals')">Pending action</a><%=@new_meals.size%> /</span>
+                    <span><a href="javascript:void(0)" onclick="change_rest_type('rejected_by_copy')">Sent for approval</a><%=@reject_meals_by_copy.size%> /</span>
+                    <span><a href="javascript:void(0)" onclick="change_rest_type('rejected_by_manager')">rejected</a>  <%=@reject_meals_by_manager.size%></span>
+                </div>
+                   <%= form_for(@restaurant,:as=>:assMeals, :url => "dashboard", :method=>"post") do |f| %>
+               <p style="color: red"><%= flash[:notice] %></p>
+              <div class="viewby">
+                  <label>Select Restaurant Name </label>
+                  <%= select(:addMeals, :restaurant_id, @restaurant.collect {|p| [p.name,p.id]  }, {:prompt => 'Select Restaurants'})%>
+                     <%#= f.select(:id, @restaurant_array ) %>
+                </div>
+                   <%end%>
+            </div>
+  <div class="top">
+  <div id="all">
+
+
+     <% @reject_meals_by_manager.each do |manager| %>
+           <div class="req group reject">
+                <%= image_tag  manager.picture(:big), :size=> "50x50"%>
+                <div class="brief">
+                    <p class="itemname"><%=manager.name%></p>
+                    <p class="restaurant"><%= getRestaurantNamebyId(manager.restaurant_id) %></p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus_reject">rejected by manager</p>
+                     <%= link_to 'see comment', :controller => 'copywriter', :action => "reject_restaurant_by_manager", :id => manager.id%>
+                    <!--<a href="/preview_business_alerts" target="_blank"  class="ext_rght" ></a>-->
+
+                </div>
+            </div>
+<%end%>
+
+    <% @new_meals.each do |new| %>
+              <div class="req group">
+
+
+                <%= image_tag  new.picture(:big), :size=> "50x50"%>
+                <div class="brief">
+                    <p class="itemname"><%=new.name%></p>
+                    <p class="restaurant"><%= getRestaurantNamebyId(new.restaurant_id) %></p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus">new deal</p>
+
+                    <%= link_to 'edit & review', :controller => 'copywriter', :action => "edit_review",:id => new.id %>
+
+
+                </div>
+                <div class="clear"></div>
+                <!--<a href="#" class="sendreminder">send reminder</a>-->
+
+            </div>
+                <%end%>
+
+    
+    <% @reject_meals_by_copy.each do |copy| %>
+
+            <div class="req group">
+
+
+
+
+                <%= image_tag  copy.picture(:big), :size=>"50x50"%>
+                <div class="brief">
+                    <p class="itemname"><%=copy.name%></p>
+                    <p class="restaurant"><%= getRestaurantNamebyId(copy.restaurant_id) %></p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus">Sent for approval to restaurant</p>
+
+                    <a href="/edit_review"  class="ext_rght"></a>
+
+                </div>
+                <div class="clear"></div>
+              <!--  <a href="#" class="sendreminder">send reminder</a> -->
+
+            </div>
+
+ <%end%>
+
+  </div>
+
+    <div id="rejected_by_copy" style="display: none">
+    <% @reject_meals_by_copy.each do |copy| %>
+
+            <div class="req group">
+
+
+
+
+                <%= image_tag  copy.picture(:big), :size=>"50x50"%>
+                <div class="brief">
+                    <p class="itemname"><%=copy.name%></p>
+                    <p class="restaurant"><%= getRestaurantNamebyId(copy.restaurant_id) %></p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus">Sent for approval to restaurant</p>
+
+                    <a href="/edit_review"  class="ext_rght"></a>
+
+                </div>
+                <div class="clear"></div>
+               <!-- <a href="#" class="sendreminder">send reminder</a>-->
+
+            </div>
+
+ <%end%>
+  </div>
+    <div id="rejected_by_manager" style="display: none">
+
+<% @reject_meals_by_manager.each do |manager| %>
+           <div class="req group reject">
+                <%= image_tag  manager.picture(:big), :size=> "50x50"%>
+                <div class="brief">
+                    <p class="itemname"><%=manager.name%></p>
+                    <p class="restaurant"><%= getRestaurantNamebyId(manager.restaurant_id) %></p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus_reject">rejected by manager</p>
+                     <%= link_to 'see comment', :controller => 'copywriter', :action => "reject_restaurant_by_manager", :id => manager.id%>
+                    <!--<a href="/preview_business_alerts" target="_blank"  class="ext_rght" ></a>-->
+
+                </div>
+            </div>
+<%end%>
+  </div>
+    <div id="new_meals" style="display: none">
+   <% @new_meals.each do |new| %>
+              <div class="req group">
+
+
+                <%= image_tag  new.picture(:big), :size=> "50x50"%>
+                <div class="brief">
+                    <p class="itemname"><%=new.name%></p>
+                    <p class="restaurant"><%= getRestaurantNamebyId(new.restaurant_id) %></p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus">new deal</p>
+
+                    <%= link_to 'edit & review', :controller => 'copywriter', :action => "edit_review",:id => new.id %>
+
+
+                </div>
+                <div class="clear"></div>
+                <!--<a href="#" class="sendreminder">send reminder</a>-->
+
+            </div>
+                <%end%>
+  </div>
+  </div>
+
+      <!--      <div class="req group">
+                <img src="images/business_status_icon.jpg"  />
+                <div class="brief">
+                    <p class="itemname">Butter Chicken</p>
+                    <p class="restaurant">Moti Mahal</p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus_reject">1 comment by manager</p>
+                    <a href="preview_business -alerts.html" target="_blank">see comment</a>
+                </div>
+                <div class="clear"></div>
+                <!--<a href="#" class="smalledit" target="_blank">edit</a>
+            </div>-->
+
+
+         <!-- <div class="req group">
+                <img src="images/business_status_icon.jpg"  />
+                <div class="brief">
+                    <p class="itemname">Butter Chicken</p>
+                    <p class="restaurant">Moti Mahal</p>
+                </div>
+
+                <div class="action group">
+                    <i>2 days ago</i>
+                    <p class="currentstatus">approved</p>
+                    <a href="preview_business -alerts.html" target="_blank" class="ext_rght"></a>
+                </div>
+                <div class="clear"></div>
+
+            </div>-->
+
+
+
+
+        </div><!-- success ends-->
+       <div class="pusher"></div>

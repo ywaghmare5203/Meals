@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="/css/fullcalendar.print.css" />
+<link rel="stylesheet" href="/css/fullcalendar.css" />
+<link rel="stylesheet" href="/css/calender/jquery.ui.core.css"/>
+
+<script type="text/javascript" src="/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.widge.js"></script>
+
+<script>
+
+var EventDates = [<%= @calanderValidate%> ];
+
+function eventDays(date) {
+    var length = EventDates.length, i = 0;
+    var event = null, eventDate = false;
+
+    while (i < length && !eventDate) {
+        event = EventDates[i];
+        eventDate = new Date(event.DateValue).valueOf() === date.valueOf();
+        i++;
+    }
+
+    return [!eventDate, ''];
+}
+
+//var dates = [new Date("02/13/2011"), new Date("02/25/2011"), new Date("03/01/2011")];
+
+
+function showcalender(){
+
+    $("#datepicker").show();
+}
+
+
+$(document).ready(function() {
+   //calendar code
+
+        var date = new Date();
+
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            selectable: true,
+            selectHelper: true,
+
+            events: [
+                <%= @BookedSchdule.chomp unless @BookedSchdule.nil?%>
+            ]
+
+                 //editable: true,
+
+        });
+
+});
+ </script>
+
+<div class="add-deal group">
+  <div class="loc">
+        	<h4>My locations</h4>
+            <ul>
+            	<li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Location</a>
+        </div><!-- add location ends-->
+
+        <div class="add-deal-form">
+			<ul class="tabs group">
+            	<li><%= link_to 'Scheduler', :controller => 'manager', :action => 'scheduler'%></li>
+                <li> <%= link_to 'Approval', :controller => 'manager', :action => 'approval'%></li>
+                <li> <%= link_to 'Feedback', :controller => 'manager', :action => 'feedback'%></li>
+                <li class="activetab"> <%= link_to 'Pipeline', :controller => 'manager', :action => 'pipeline'%></li>
+                <li> <%= link_to 'Portfolio', :controller => 'manager', :action => 'portfolio' %></li>
+            </ul>
+
+           <ul class="tab-content">
+            	<li class="visible">
+
+<div id='calendar' class="fc"></div>
+                </li>
+           </ul>
+</div>
+</div>
+<div class="pusher"></div>
+

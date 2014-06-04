@@ -1,0 +1,43 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#freeze").click(function(){
+    var token = $('meta[name=csrf-token]').attr('content');
+    // update all the offers
+    $.post("/admin/freezetarget", { authenticity_token:token, id: <%= @target.id %>}, function(a){
+      if($.parseJSON(a).status == "ok"){
+<% @target.offers.each do |offer| -%>
+        $.post("/admin/freezeoffer/<%= offer.id %>",{authenticity_token:token,amount:$("#amount<%= offer.id %>").val()},function(d){if($.parseJSON(d).status=="ok"){$("#label<%= offer.id %>").html($("#amount<%= offer.id %>").val())}}); 
+<% end -%>
+      }
+    });
+  });
+});
+</script>
+<div>
+  <%= @target.cuisine.name %>
+</div>
+
+<div>
+  <%= @target.cluster.name %>
+</div>
+
+<% @target.offers.each do |offer| %>
+  <div class="m10 greybox">
+  <div class="left">
+    <div><%= offer.deal.meal.name %></div>
+    <div class="smallhint"><%= offer.deal.restaurant.name %></div>
+  </div>
+  <div class="right" style="width:50px" id="label<%= offer.id %>">
+    <% if offer.status.eql?(1) %>
+      <input type="text" id="amount<%= offer.id %>" value="<%= offer.maximum_order %>" size="3" style="width:40px"/>
+    <% else %>
+      <%= offer.maximum_order %>
+    <% end %>
+  </div>
+  <div class="clear"></div>
+  </div>
+<% end %>
+
+<div>
+<a id="freeze" href="<%= jv %>">freeze schedule</a>
+</div>

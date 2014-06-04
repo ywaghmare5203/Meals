@@ -1,0 +1,12 @@
+<div>
+<% @restaurant.meals.each do |m| %>
+  <%= render(:partial => "meal", :locals => { :meal => m }) %>
+<% end %>
+
+<% if @restaurant.meals.empty? -%>
+  <div class="m10 hint">No meals defined for <%= @restaurant.name %> yet</div>
+<% end %>
+
+</div>
+<div><%= link_to "Add a meal", add_meal_url(@restaurant) %></div>
+

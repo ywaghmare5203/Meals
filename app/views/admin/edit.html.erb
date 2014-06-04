@@ -1,0 +1,25 @@
+<p>Edit an admin account</p>
+<%= form_for @admin, :as => :admin, :url => "/admin/edit/#{@admin.id}", :method => "post"  do |f| %>
+  Email: <%= f.text_field :email, :size => 20 %><br />
+  Password: <input type="password" name="pw" size="20" ><br />
+  Role: 
+  <select id="admin_role_id" name="admin[role_id]">
+    <% counter = 0; Admin.roles.each do |role| %>
+    <option <%= "selected=\"selected\"".html_safe if counter.eql?(@admin.role_id) %> value="<%= counter %>"><%= role %></option>
+    <% counter += 1  %>
+    <% end %>
+  </select>
+   <br/> 
+
+
+  City: 
+  <select id="admin_city_id" name="admin[city_id]">
+    <% City.all.each do |city| %>
+    <option <%= "selected=\"selected\"".html_safe if @admin.city.eql?(city) %> value="<%= city.id  %>"><%= city.name %></option>
+    <% end %>
+  </select>
+   <br/> 
+
+  <%= f.submit ' submit ' %>
+<% end %>
+

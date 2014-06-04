@@ -1,0 +1,127 @@
+<div class="add-deal group">
+  <div class="loc">
+      <span style="color:red"><%=flash[:notice]%></span>
+        	<h4>My locations</h4>
+            <ul>
+            	<li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Location</a>
+        </div><!-- add location ends-->
+
+                	<!--<div class="group location_mgmt">
+                        <div class="flft loc_mgmt">
+                        	<div class="group">
+                            	<img src="images/restaurant.jpg" width="130" height="130"/>
+                                <h3>Moti Mahal - Jumerah</h3>
+                                <p class="tel">+971(4) 3365676</p>
+                                <p class="website">http://www.motimahal.com</p>
+                                <p class="address">Opposite Day to Day Center, Close to Karama Complex, Next to Family Supermarket Karama<p>
+                            </div>
+
+                            <h4>About the Restaurant</h4>
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+								nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+								Duis aute irure dolor in reprehenderit in voluptate velit esse cillum</p>
+
+                            <h4>On the map</h4>
+                            <img src="images/map.jpg" />
+                        </div><!-- location info ends
+
+                        <div class="comment">
+                        	<div class="highlight">
+                            	All your communication with MeelDeel will be sent to: <b>motimahal@motimahal.com</b>
+                            </div>
+
+                            <div class="highlight">
+                            	See something wrong or need to change something?
+                                <textarea></textarea>
+                                <a href ="#" id="adcomment">Add Comment</a>
+                            </div>
+                        </div><!-- comment ends
+                    </div>    -->
+                                <div class="add-deal-form">
+			<ul class="tabs group">
+            	<li><%= link_to 'Scheduler', :controller => 'manager', :action => 'scheduler'%></li>
+                <li> <%= link_to 'Approval', :controller => 'manager', :action => 'approval'%></li>
+                <li class="activetab"><%= link_to 'Feedback', :controller => 'manager', :action => 'feedback'%></li>
+                <li> <%= link_to 'Pipeline', :controller => 'manager', :action => 'pipeline'%></li>
+                <li> <%= link_to 'Portfolio', :controller => 'manager', :action => 'portfolio' %></li>
+            </ul>
+                                   <ul class="tab-content">
+            	<li class="visible">
+
+              <ul class="cusine_types group">
+                            	<li class="selected first">Arabic <span class="negative">(9)</span></li>
+                                <li>Oriental<span class="negative">(9)</span></li>
+                                <li>Indian<span class="negative">(7)</span></li>
+                                <li>European<span class="negative">(9)</span></li>
+                                <li>American<span class="negative">(3)</span></li>
+                                <li>Rest of the world<span class="negative">(9)</span></li>
+                                <li class="no_bdr">Veg<span class="negative">(3)</span></li>
+                            </ul>
+                   <h3 class="cusine_type_selected">Arabic</h3>
+
+                   <div class="quick_filter">
+                   		<p>Quick filter</p>
+                        <select><option>Past 2 Weeks</option></select>
+                        <select><option>Restaurant name</option></select>
+                        <select><option>Negative</option></select>
+                   </div>
+
+                    <table class="tabledes">
+                    	<thead>
+                        	<tr>
+                            	<th>S#</th>
+                                <th>Restaurant name</th>
+                                 <th>Avg. rating recieved</th>
+                                 <th>Avg. daily sales</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        	<tr class="alt">
+                            	<td>1</td>
+                                <td>Moti Mahal</td>
+                                <td><img src="/images/smiley.png" /></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                            	<td>2</td>
+                                <td>Moti Mahal</td>
+                                <td><img src="/images/smiley.png" /></td>
+                                <td></td>
+                            </tr>
+
+
+                            <tr class="alt">
+                            	<td>3</td>
+                                <td>Moti Mahal</td>
+                                <td><img src="/images/smiley.png" /></td>
+                                <td></td>
+                            </tr>
+
+
+                            <tr>
+                            	<td>4</td>
+                                <td>Moti Mahal</td>
+                                <td><img src="/images/smiley.png" /></td>
+                                <td></td>
+                            </tr>
+
+                              <tr class="alt">
+                            	<td>5</td>
+                                <td>Moti Mahal</td>
+                                <td><img src="/images/smiley.png" /></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="rest-list-pad"> 25 restaurants <a href="#">waiting to be approved</a></p>
+                </li>
+                                   </ul>
+</div>

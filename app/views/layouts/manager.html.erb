@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>iWannaEat.com - Home</title>
+
+<link rel="stylesheet" href="/css/style.css" />
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/interaction.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.core.js"></script>
+
+<script src="/js/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.widge.js"></script>
+<link rel="stylesheet" href="/css/calender/jquery.ui.core.css" />
+<link rel="stylesheet" href="/css/calender/jquery.ui.theme.css"/>
+<link rel="stylesheet" href="/css/calender/jquery.ui.datepicker.css"/>
+  <script src="/js/jquery.tagsinput.js"></script>
+
+<script type="text/javascript" src="/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="/js/fullcalendar.min.js"></script>
+<link rel="stylesheet" href="/css/fullcalendar.print.css"/>
+<link rel="stylesheet" href="/css/fullcalendar.css" />
+<script src="/js/jquery.tagsinput.js"></script>
+ <link rel="stylesheet" type="text/css" href="/css/jquery.tagsinput.css" />
+ <script type="text/javascript" src="/js/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script>
+<script type="text/javascript" src="/js/jquery.mousewheel-3.0.4.pack.js"></script>
+<link rel="stylesheet" href="/css/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+
+<!-- twitter Social Button Tracking -->
+</head>
+<body>
+<div id="wrapper">
+    <div id="header">
+        <div class="group">
+            
+                <a href="/manager/scheduler"><h1 class="logo-man logo_bus"></h1></a>
+           
+            <div class="header_info">
+                <!--<p class="activity friends"><a href="#" class="icons">Invite Friends</a></p>
+                <p class="activity mobapp"><a href="#" class="icons">Mobile App</a></p>-->
+                <!-- <span id="signup">Sign up</span>-->
+                <!--<p class="login"><a href="#" class="icons" id="login">Login</a></p>-->
+                <div class="activity loggedinfo">
+             <% if admin_logged_in? %>
+          Logged in as <%= current_admin.email %>
+
+          | <%= link_to("logout", admin_logout_url) %>
+        <% else %>
+           <%= link_to("admin login", admin_login_url) %> |
+        <% end %><!--<b><em>Logged in as </em> anish tripathi</b><span class="caret"></span>-->
+                <!--    <div class="loglist">
+                        <div class="holder">
+                        <div class="arrowup"></div>
+                            <ul>
+                                <li><a href="profile.html">Profile information</a></li>
+                                <li><a href="profile.html">Cuisine Preferences</a></li>
+                                <li><a href="order-details.html">Order Details</a></li>
+                                <li><a href="mypoints.html">My Points</a></li>
+                            </ul>
+                         </div>
+                     </div> -->
+
+
+                </div>
+           </div>
+        </div>
+    </div><!-- header ends-->
+
+      <%=yield%>
+         
+</div>
+   <div id="footer">
+        <div class="content group">
+            <!--<div class="social group">
+                <span class="icons fb">
+                    <a href="#"></a>
+                </span>
+                <span class="icons tw">
+                    <a href="#"></a>
+                </span>
+            </div>-->
+            <div class="footerlist group">
+                <ul class="group bus">
+                <!--    <li><a href="#">For Restaurant owners</a></li>
+                    <li><a href="#">For Mobile</a></li>
+                    <li><a href="#">About Us</a></li>-->
+                    <!-- <li><a href="#">Press</a></li>-->
+                 <!--   <li><a href="#">Careers</a></li>-->
+                    <li><a href="#">Contact iWannaEat.com</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li class="last"><a href="#">Terms</a></li>
+                </ul>
+                <p>&copy2011-2012 iWannaEat.com. All rights reserved</p>
+            </div>
+        </div>
+    </div><!-- footer ends -->
+   <%= yield(:script) -%>
+<% unless flash[:notice].nil? and flash[:alert].nil? %>
+<script type="text/javascript"> $(document).ready(function(){ $("#messages").fadeOut(10000); }); </script>
+<% end %>
+</body>
+</html>

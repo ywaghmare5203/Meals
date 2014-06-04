@@ -1,0 +1,15 @@
+<div class="m10">
+  <%= form_tag("/admin/newpw") %>
+  <% unless @sudo %>  
+    Current password: <input type="password" name="prev_pw"> <br/>
+  <% end %>
+
+    Password: <input type="password" name="pw"> <br/>
+    Password again: <input type="password" name="pw2"> <br/>
+    <input type="submit" value=" submit " />
+  </form>
+</div>
+  
+
+
+

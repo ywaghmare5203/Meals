@@ -1,0 +1,19 @@
+<script type="text/javascript">
+  function confirmValidate(){
+var Check = confirm("do you want to delete it");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+</script>
+<div class="cluster" id="cluster<%= cluster.id %>">
+<%= cluster.name %>
+      <div class="right">
+
+        <%= link_to "Delete", {:action => 'delete_cluster', :controller => "superuser",:id => cluster.id},:confirm => "Are you sure you want to delete this item?", :onclick=>" return confirmValidate();"%>
+   
+    </div>
+</div>

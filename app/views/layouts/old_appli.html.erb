@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>iWannaEat.com</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+  <script type="text/javascript" src="i/js/interaction.js"></script>
+   <!-- twitter Social Button Tracking -->
+  <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+   <!-- FB Social Button Tracking -->
+  <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+  <%= yield(:head) -%>
+  <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="/css/meeldeel.css" />
+</head>
+
+<body>
+  <div id="topmenu">
+    <div id="topcontainer">
+      <div class="left"><a href="/"><img src="/img/logo.jpg" border="0" /></a></div>
+      <div class="right" id="topnav">
+        <% if logged_in? %>
+          Logged in as <%= current_user.email %>
+          | <%= link_to("profile", profile_url) %>
+          | <%= link_to("logout", logout_url) %>
+        <% else %>
+           <%= link_to("login", login_url) %> | 
+           <%= link_to("signup", signup_url) %>  
+        <% end %>
+      </div>
+    </div> <!-- topcon -->
+  </div> <!-- top menu -->
+  <div class="clear"></div>
+  <div id="container">
+
+    <% unless flash[:notice].nil? and flash[:alert].nil? %>
+    <div id="messages">
+      <%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>
+    </div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+
+<%= # js_jquery 
+-%>
+<%= yield(:script) -%>
+<% unless flash[:notice].nil? and flash[:alert].nil? %>
+<script type="text/javascript"> $(document).ready(function(){ $("#messages").fadeOut(2000); }); </script>
+<% end %>
+
+
+    <div id="footer">
+      <div class="content group">
+          <div class="social group">
+              <span class="icons fb">
+                  <a href="#"></a>
+                </span>
+                <span class="icons tw">
+                  <a href="#"></a>
+                </span>
+            </div>
+            <div class="footerlist group">
+                <ul class="group">
+                    <li><a href="/admin/restaurants/new">For Restaurant owners</a></li>
+
+                    <li><a href="/mobileapps">For Mobile</a></li>
+                    <li><a href="/aboutus">About Us</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="/careers">Careers</a></li>
+                    <li><a href="/privacy">Privacy</a></li>
+                    <li><a href="/terms">Terms</a></li>
+
+                </ul>
+                <p>&copyi 2012 iWannaEat.com. All rights reserved</p>
+            </div>    
+        </div>
+    </div><!-- footer ends -->
+
+
+</div> <!-- wrapper -->
+</body>
+</html>

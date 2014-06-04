@@ -1,0 +1,37 @@
+<script type="text/javascript">
+  function confirmValidate(){
+var Check = confirm("do you want to delete it");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+</script>
+<div class="p5 rest" id="rest<%= restaurant.id %>">
+  <div class="left">
+    <div class="bold"><%= restaurant.name %></div>
+    <% if restaurant.status.to_i.eql?(0) %>
+    <div class="smallgrey"><img class="vmid" src="/img/pending.png" /> Status pending</div>
+    <% else %>
+    <div class="smallgrey"><img class="vmid" src="/img/approved.png" /> Status approved</div>
+    <% end %>
+    <% unless restaurant.coords? && restaurant.cluster %>
+    <div class="smallgrey"><img class="vmid" src="/img/notice.png" /> 
+      <%= "No GPS coordinates. " unless restaurant.coords? %> 
+      <%= "No cluster defined " unless restaurant.cluster %>
+    </div>
+  <% end %>
+  </div>
+  <div class="right">
+<%= link_to "edit" ,:controller =>"superuser",:action => "edit_restaurant", :id =>restaurant.id %>&nbsp;&nbsp;
+
+   
+   </div></br>
+   <div class="right">
+     <%= link_to "Delete", {:action => 'restaurant_delete', :controller => "superuser",:id => restaurant.id},:confirm => "Are you sure you want to delete this item?", :onclick=>" return confirmValidate();"%>
+     </div>
+  <div class="clear"></div>
+</div>
+

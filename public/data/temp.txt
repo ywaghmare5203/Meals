@@ -1,0 +1,16 @@
+ <% if @career.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@career.errors.count, "error") %> prohibited this login from being saved:</h2>
+
+      <ul>
+      <% @career.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+
+
+undefined method `tempfile' for nil:NilClass

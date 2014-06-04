@@ -1,0 +1,226 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript">
+  var geocoder = new google.maps.Geocoder();
+
+function geocodePosition(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function updateMarkerStatus(str) {
+
+}
+
+function updateMarkerPosition(latLng) {
+
+  $("#@restaurant_lat").val(latLng.lat());
+  $("#@restaurant_lng").val(latLng.lng());
+
+
+}
+
+function updateMarkerAddress(str) {
+
+}
+
+function initialize() {
+  var latLng = new google.maps.LatLng(<%= @restaurant.lat %>,<%= @restaurant.lng %>);
+
+
+  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    zoom: 8,
+    center: latLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  var marker = new google.maps.Marker({
+    position: latLng,
+    title: 'Point A',
+    map: map,
+    draggable: false
+  });
+
+  // Update current position info.
+  updateMarkerPosition(latLng);
+  geocodePosition(latLng);
+
+  // Add dragging event listeners.
+  google.maps.event.addListener(marker, 'dragstart', function() {
+   // updateMarkerAddress('Dragging...');
+  });
+
+  google.maps.event.addListener(marker, 'drag', function() {
+  //  updateMarkerStatus('Dragging...');
+   // updateMarkerPosition(marker.getPosition());
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+ //   updateMarkerStatus('Drag ended');
+   // geocodePosition(marker.getPosition());
+  });
+}
+
+// Onload handler to fire off the app.
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<div class="add-deal group">
+
+         <div id="detailcaption_bus" class="group content">
+                <h2 class="large fl-lft">Sliders for Game Day: <%= @preview_business.name %></h2><h1 class = "actions"><%= button_to "BACK",:action=>"dashboard",:controller=>"restaurants" %></h1>
+                <div class="buy">
+                    <label class="tags">Price</label><label class="tags lasttag">Quantity</label>
+                    <div class="clear"></div>
+                    <label>AED</label><span class="cost"><%=@preview_business.price%></span>
+                    <select class="qty"><option>1</option></select>
+                    <a href="#" class="buynow buynowmealdetail">BUY NOW</a>
+                </div>
+         </div><!-- detailcaption ends-->
+       <div class="content detailstick adj_prwview" >
+
+        <div class="group">
+            <div class="visual">
+              <img src="/images/<%=@preview_business.picture_file_name%>">
+                <div class="tag">
+                    <p class="holder">10 remaining
+                        <div class="hinge icons"></div>
+                    </p>
+
+
+                </div>
+            </div>
+
+            <div class="visual_details group">
+
+                            <!--<div class="comment abs">
+                                    <div class="highlight">
+                                        <p>Approve &amp; Publish this Deal</p>
+                                       <a href="#" id="approvethis">Approve this Deal</a>
+                                    </div>
+
+                                    <div class="highlight">
+                                        See something wrong or need to change something?
+                                        <textarea></textarea>
+                                        <button id="adcomment">Add Comment</button>
+                                        <p class="msg">Your message has been sent</p>
+                                    </div>
+                                </div>-->
+                     <div id="plugins">
+
+                        <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>
+                           <script type="text/javascript">_ga.trackFacebook();</script><div class="fb-like" data-href="http://www.iwannaeat.com" data-send="false" data-layout="button_count" data-width="40" data-show-faces="true"></div>
+                            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hyperarts">Tweet</a>
+
+                  </div><!-- plugin ends -->
+
+                    <div class="info adj_mar">
+                        <p>Delivery Info</p>
+                        <ul class="left addr_format">
+                             <li class="customer">Anish Tripathi</li>
+                             <li>Tripathi Chambers</li>
+                             <li>245 Perin Nariman Street.</li>
+                             <li>Fort-Mumbai-1</li>
+                        </ul>
+                    </div>
+
+                     <div class="info adj_mar">
+                        <p>Meal Info</p>
+                        <ul class="listing">
+                            <%= @preview_business.meal_info.gsub("\n","</li><li>").html_safe %>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <p class="about">About the Meal</p>
+                    <span class="desc">
+                        <%=@preview_business.description%>
+                    </span>
+
+            </div>
+
+        </div> <!-- visual details ends-->
+        <div class="infobox">
+            <p class="cap">Delivered by</p>
+            <div class="delivery group">
+                <div class="addr">
+                    <img src="images/gourmet.jpg" />
+                    <div class="addr_content">
+                        <p class="title"><%= @restaurant_business.name %></p>
+                        <span><%= @restaurant_business.address.gsub("\n","<br/>").html_safe %>
+                        </span>
+
+                        <span><%=@restaurant_business.phone%></span>
+                        <span class="url"><%=@restaurant_business.website%></a></span>
+                    </div>
+
+                </div>
+
+
+                  <div class="maps" id="mapCanvas">
+
+                  </div>
+            </div>
+
+        </div><!-- infobox ends-->
+        <div class="infobox group">
+            <div class="box">
+                <p>Nutritional Facts</p>
+            <div class="facts">
+                <p class="group"><span class="left">Description</span><span>Value</span></p>
+                <ul class="left">
+                    <li>Calories</li>
+                    <li>Total Fat</li>
+                    <li>Cholestrol</li>
+                    <li>Sodium</li>
+                    <li>Total Carbs    </li>
+                    <li>Protien</li>
+                </ul>
+                 <ul>
+                    <li><%=@preview_business.nutr_calories%></li>
+                    <li><%=@preview_business.nutr_fats %></li>
+                    <li><%=@preview_business.nutr_cholestrol%></li>
+                    <li><%=@preview_business.nutr_sodium%></li>
+                    <li><%=@preview_business.nutr_carbs%></li>
+                    <li><%=@preview_business.nutr_protein%></li>
+                </ul>
+            </div><!-- facts ends-->
+                <p class="note">*the nutritional content presented above is accurate, we hold
+no responsbility if you go ahead and make a dish on your own</p>
+            </div>
+            <div class="box">
+                <div class="sayings">
+                    <p>What are people saying</p>
+                    <span class="icons">    Butter Chicken is among the best known Indian foods all over the world.
+                            Its gravy can be made as hot or mild as you like so it<br />
+                            suits most palates."<img src="/images/endquote.jpg" />
+                    </span>
+
+                     <span class="icons">    Butter Chicken is among the best known Indian foods all over the world.
+                            Its gravy can be made as hot or mild as you like so it<br />
+                            suits most palates."<img src="/images/endquote.jpg" />
+                    </span>
+
+                </div>
+           </div>
+        </div>
+
+
+
+    </div><!-- detail ends-->
+
+
+
+    </div><!-- add-deal ends-->

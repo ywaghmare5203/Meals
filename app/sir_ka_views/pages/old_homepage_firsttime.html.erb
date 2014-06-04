@@ -1,0 +1,49 @@
+<!-- page for first timers -->
+<% content_for(:script) do %>
+<script type="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+  $("body").css("background", "url(/img/bghome.jpg)");
+  $("body").css("background-size", "100%");
+  $("#submit").click(function(){
+    var v = $("#cluster option:selected").val()
+    if(v){$.post("/setgeo",{c:v,authenticity_token:token},function(d){if($.parseJSON(d).geo=="set"){document.location.reload()}})}
+  });
+});
+</script>
+<% end %>
+<% content_for(:head) do %>
+<style type="text/css">
+#choice { width:500px; margin: 150px auto; border: 1px solid #000; padding: 10px; background: #000; opacity:0.8; filter:alpha(opacity=80); color: #fff; } 
+.notrans { opacity: 1.0; filter:alpha(opacity=100)}
+select, input { padding: 5px; font-size: 1.1em }
+ 
+</style>
+<% end %>
+
+<div id="choice">
+  <h1>Welcome to MeelDeel</h1>
+  <div class="m10">
+    Please gives us your location, so we can present you with appetizing lunch deals in your neighborhood.
+  </div>
+
+  <div>
+  <% if @city.to_s.eql?("") %>
+    We can't seem to determine where you're accessing us from
+  <% else %>
+    It seems you're accessing us from <%= "#{@city.city_name}, #{@city.country_name}" %>
+  <% end %>
+  </div>
+
+<div class="m10">
+  <select id="cluster" class="notrans">
+    <option value="">Choose your location</option>
+    <% @clusters. each do |cluster| %>
+    <option value="<%= cluster.id %>"><%= cluster.name %></option>
+    <% end %>
+  </select>
+  <input id="submit" type="button" value=" Go &raquo; ">
+</div>
+
+</div>
+

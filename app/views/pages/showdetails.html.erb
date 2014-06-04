@@ -1,0 +1,320 @@
+<% content_for(:head) do %>
+<style type="text/css">
+.image { width: 437px; height: 354px }
+</style>
+<% end %>
+<% content_for(:script) do %>
+
+<script type="text/javascript" src="/js/jqueryui.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  var token = $('meta[name=csrf-token]').attr('content');
+
+  $("#order").click(function(){ $("#orderpopup").dialog("open"); return false });
+
+  <% unless logged_in? %>
+  $("#signup").click(function(){
+    $("#popupbody").html($("#paymentmethods").html());
+    $("input.paymeth").click(function(){    
+      if($(this).val() == "cod"){ 
+        alert($("#cod_mobile").html());
+        $("#cod_mobile").show();
+      } 
+       
+    });
+  });
+  $("#login").click(function(){
+    var email = $("#loginemail").val();
+    var password = $("#loginpw").val();
+    $.post("/api/login.xml", { email: email, password: password }, function(d){
+      var v = $.parseXML(d);
+      alert(v.status);
+      $("#popupbody").html(d);
+    });
+  });
+  <% end %>
+
+
+});
+</script>
+<% end %>
+
+    <div class="content detailstick" >
+     <!-- <b class="back"><a href="/" class="icons">back to todays deals</a></b> -->
+
+       <!-- <div id="detailcaption" class="group">
+          <h2><%#= @deal.meal.name %></h2>
+            <div class="buy">
+              <label><%#= @deal.meal.price %> AED</label>
+              <select><option>1</option></select>
+                <a href="#" class="buynow">BUY NOW</a>
+            </div>
+
+        </div> -->
+        <div class="group" >
+            <div class="visual">
+                <div class="image" style="background:url('<%= @deal.meal.photo(:big) %>')">
+                <%#= image_tag "/images/overlay.png", :size => "437x354", :class => "image" %>
+                </div>
+
+                    <!-- I will do it when  i work on orders and delivery -->
+
+<% if @deal.today_offer.remaining < 10 %>
+              <div class="tag">               
+                    <p class="holder"><%= @deal.today_offer.remaining %> remaining
+                      <div class="hinge icons"></div>
+                     </p>                  
+              </div> 
+<% end %>
+                    
+            </div>
+            
+            <div class="visual_details group">
+                 <div id="plugins">
+                
+                        <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>  
+                           <script type="text/javascript">_ga.trackFacebook();</script><div class="fb-like" data-href="http://www.iwannaeat.com" data-send="false" data-layout="button_count" data-width="40" data-show-faces="true"></div>
+                            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="hyperarts">Tweet</a>
+                  
+                  </div><!-- plugin ends -->
+
+                    
+                <div class="info adj_mar">
+                  <p>Delivery Info</p>
+                         <ul class="left addr_format">
+                           
+                      <% if logged_in? %>
+                            <% location = @user.deliver_address %>
+                              <% if location %>
+                                    <li class="customer"><%= full_name location %></li>
+                                    <li><%= location.address_line1 %></li>
+                                    <li><%= location.address_line2 %></li>
+                                    <li><%= location.city + " , "  + location.state %></li>
+                                    <li><%= location.zipcode %></li>
+                              <% else %>
+                                    <li>Food will be delivered between 12 and 12:30</li>
+                              <% end %>
+                       <% else %>
+                                    <li>Food will be delivered between 12 and 12:30</li>
+                       <% end %>
+
+
+                         </ul>
+                </div>
+
+                    
+                 <div class="info adj_mar">
+                  <p>Meal Info</p>
+
+                    <ul class="listing">
+                      <li><%= @deal.meal.meal_info.gsub("\n","</li><li>").html_safe %></li>
+                    </ul>
+             
+                </div>
+
+            <div class="clear"></div>
+            <p class="about">About the Meal</p>
+            <span class="desc"> <%= @deal.meal.description %> </span>
+
+        </div>
+           
+        </div> <!-- visual details ends-->
+
+
+
+
+
+        
+        <div class="infobox">
+            <p class="cap">Delivered by</p>
+            <div class="delivery group">
+              <div class="addr">
+                <img src="images/gourmet.jpg" />
+                <div class="addr_content">
+                  <p class="title"><%= @deal.restaurant.name %></p>
+                  <span> <%= @deal.restaurant.address.gsub("\n","<br/>").html_safe %> </span>
+                  <span><%= @deal.restaurant.phone %></span>
+                  <span class="url"><a href="<%= @deal.restaurant.url %>" target="_new"><%= @deal.restaurant.url %></a></span>
+                </div>
+              </div>
+              <div class="maps"></div>  
+            </div>           
+        </div><!-- infobox ends-->
+
+        <div class="infobox group">
+          <div class="box">
+            <p>Nutritional Facts</p>
+          <div class="facts">
+              <p class="group"><span class="left">Description</span><span>Value</span></p>
+
+                <ul class="left">
+                  <li>Calories</li>
+                    <li>Total Fat</li>
+                    <li>Cholestrol</li>
+                    <li>Sodium</li>
+                    <li>Total Carbs </li>
+
+                    <li>Protein</li>
+                </ul>
+                <ul>
+                  <li><%= @deal.meal.nutr_calories %></li>
+                  <li><%= @deal.meal.nutr_fats %></li>
+                  <li><%= @deal.meal.nutr_cholesterol %></li>
+                  <li><%= @deal.meal.nutr_sodium %></li>
+                  <li><%= @deal.meal.nutr_carbs %></li>
+                  <li><%= @deal.meal.nutr_protein %></li>
+                </ul>
+            </div><!-- facts ends-->
+              <p class="note">*the nutritional content presented above is accurate, we hold
+no responsbility if you go ahead and make a dish on your own</p>
+          </div>
+          <div class="box">
+
+              <div class="sayings">
+                  <p>What are people saying</p>
+                  <span class="icons">  Butter Chicken is among the best known Indian foods all over the world.
+                          Its gravy can be made as hot or mild as you like so it<br />
+                          suits most palates."<img src="/images/endquote.jpg" />
+                  </span>
+                  
+                   <span class="icons"> Butter Chicken is among the best known Indian foods all over the world.
+                          Its gravy can be made as hot or mild as you like so it<br />
+
+                          suits most palates."<img src="/images/endquote.jpg" />
+                  </span>
+              
+              </div>
+         </div>
+      </div>
+        
+       <div class="infobox">
+        <p>Similar Deals</p>
+        <ul class="viewdeals group">
+
+          <% @offers.each do |offer| %>
+          <%= render(:partial => "sidemeal", :locals => { :deal => offer.deal }) %>
+          <% end %>
+        </ul>
+       
+       </div>
+         
+    </div>
+
+<div id="popup_holder">
+
+    </div><!-- popup holder ends -->
+
+
+
+<div id="form">
+        	<div class="holder">
+            	<div class="close"></div>
+                	<div class="mealsholder">
+                      <div class="mealdetails group">
+                        <p class="mealname">Sliders for Game Day: Brisket Short Rib and Classic</p>
+                         <div class="buy cost group">
+                            <div class="box">
+                                <p></p>
+                                <p>AED 10</p>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Quantity</p>
+                                <select><option>2</option></select>
+                            </div>
+
+                            <div class="box">
+                                <p class="label">Total</p>
+                                <p>AED 20</p>
+                            </div>
+                        </div><!-- buy cost ends-->
+                    </div>
+                  </div><!--meals holder ends-->
+
+                  <div class="memberpoint">
+                  	<div class="earned">
+                    	<p>You've earned</p>
+                        <p class="pointsearned">50</p>
+                        <p>Points with this meal</p>
+                        <p class="msg">Sign up to place your order</p>
+                    </div>
+                    <p>Already a Member? <b id="log"><a href="#">Login</a></b></p>
+                  </div>
+
+                  <p class="yo">Your order</p>
+
+                <!--<img src="images/logo.jpg" />-->
+
+
+
+                <form class="group" id="loginform">
+                    <label>Login</label>
+                    <div class="clear"></div>
+                    <input type="text" value="email" rel="email"><br />
+                    <div class="clear"></div>
+                    <input type="password" value="password" rel="password"><br />
+                    <div class="clear"></div>
+                    <button class="login">Login</button><b class="toggle"><a href="#" id="forgotpassword">forgot password</a></b>
+
+                    <div class="forgotpasswordbox">
+                        <p class="notify">Please enter your email address below. We will send you an email to confirm your password.</p>
+                        <label>Email</label>
+                        <div class="clear"></div>
+                        <input type="text" value="email" rel="email"><br />
+                        <button id="submit">Submit</button>
+					</div>
+                </form>
+
+                 <form class="group" id="signupform">
+                 <p>New user?</p>
+                   <label>Email:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                    <label>Confirm Password:</label><input type="password" ><br />
+                    <div class="clear"></div>
+                     <label>Street:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>ZIP:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <label>Phone Number:</label><input type="text" ><br />
+                    <div class="clear"></div>
+                    <a href="order-details.html"><button id="signup">Sign up</button></a>
+                </form>
+            </div><!-- holder ends -->
+
+        </div><!--form ends-->
+
+
+
+
+
+
+
+
+<div id="paymentmethods" style="display:none">
+  <div>Choose mode of payment</div>
+
+    <div> <input class="paymeth" type="radio" name="pay" value="cod"> Cash on delivery </div>
+    <div id="cod_mobile" style="display:none;visibility:hidden">
+        Mobile number: <input type="text" name="mobile">
+        <span class="hint">We'll SMS you a code</span>
+    </div>
+
+    <div> <input class="paymeth" type="radio" name="pay" value="cc"> Credit card </div>
+    <div>Creditcard: <input type="text" name="ccard"></div>
+    <div>Expiry: <input type="text" name="expiry"></div>
+    <div>CCV: <input type="text" name="ccv" size="3"></div>
+    <div><input type="submit" value=" submit "></div> 
+
+</div>
+
+<!-- </div> -->
+

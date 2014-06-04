@@ -1,0 +1,16 @@
+<div>
+
+    <div><%= @offers.count %> Offers</div>
+    <div class="m10">
+    <% @cuisines.keys.each do |c| %>
+      <div>
+        <%= c %> : <%= @cuisines[c] %>
+      </div>
+    <% end %>
+    </div>
+
+    <div class="m10">
+    <a id="freeze" href="<%= jv %>">Freeze schedule</a>
+    </div>
+  
+</div>

@@ -1,0 +1,10 @@
+<h1>Restaurants#list</h1>
+<p>Find me in app/views/restaurants/list.html.erb</p>
+<div>
+  <ul>
+  <% @restaurants.each do |r| %>
+    <li><%= link_to(r.name, restaurant_url(r)) %></li>
+  <% end %>
+  </ul>
+</div>
+

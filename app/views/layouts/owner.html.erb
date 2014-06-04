@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MeeldeelCom</title>
+  <%= yield(:head) -%>
+  <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="/css/meeldeel.css" />
+</head>
+<body>
+  <div id="topmenu">
+    <div id="topcontainer">
+      <div class="left"><a href="/"><img src="/img/logo.jpg" border="0" /></a>  OWNER</div>
+      <div class="right" id="topnav">
+        <% if owner_logged_in? %>
+          Logged in as <%= current_owner.email %>
+          | <%= link_to "dashboard", owner_dashboard_url %>
+          | <%= link_to("logout", owner_logout_url) %>
+        <% else %>
+           <%= link_to("owner login", owner_login_url) %> | 
+           <%= link_to("owner signup", owner_signup_url) %>  
+        <% end %>
+      </div>
+    </div> <!-- topcon -->
+  </div> <!-- top menu -->
+  <div class="clear"></div>
+  <div id="container">
+
+    <% unless flash[:notice].nil? and flash[:alert].nil? %>
+    <div id="messages">
+      <%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>
+    </div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+
+<%= js_jquery -%>
+<%= yield(:script) -%>
+</body>
+</html>

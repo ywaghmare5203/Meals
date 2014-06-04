@@ -1,0 +1,15 @@
+<h1>Restaurants#new</h1>
+<p></p>
+<%= form_for(@restaurant, :as => :restaurant, :url => "/admin/request", :method => "post") do |f| %>
+  <select name="city_id">
+  <% @cities.each do |city| %>
+    <option value="<%= city.id %>"><%= city.name %></option>
+  <% end %>
+  </select><br />
+  Name: <%= f.text_field :name %><br />
+  Description: <%= f.text_area :description, :rows => 5%><br />
+
+  Email: <input type="text" id="email" name="email" /><br />
+
+  <%= f.submit " create restaurant " %>
+<% end %>

@@ -1,0 +1,101 @@
+<div class="adminsales">
+   <div style="color:#ee0000;"><%= flash[:notice] %></div>
+                <div class="group"><a href="/sales_locations" id="ad-restaurant" >Add a Restaurant</a></div>
+
+
+ <p class="caps">Restaurant sent for approval(s)</p>
+
+   <table class="tabledes lft_aln left_aln_rest">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                         <th>Location</th>
+                         <th>Delivery staff</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+
+
+
+
+
+                      <% @restaurant_app.each do |resturants|  %>
+
+                            <tr class="alt">
+                                  <td><%=resturants.name%></td>
+                                    <td><%= getCuisineNamebyId(resturants.cuisine_id) %></td>
+                                    <td><%=resturants.address%></td>
+                                    <td><%=resturants.delivery_staff%></td>
+
+                            </tr>
+                               <%end%>
+
+                        </tbody>
+                </table>
+
+                <p class="caps">Restaurant rejected by manager(s)</p>
+
+
+                <table class="tabledes lft_aln left_aln_rest">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                         <th>Location</th>
+                         <th>Delivery staff</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+
+
+                      <%@restaurant_rejected.each do |resturants|  %>
+
+                            <tr class="alt">
+                                  <td><%=resturants.name%></td>
+                                    <td><%= getCuisineNamebyId(resturants.cuisine_id) %></td>
+                                    <td><%=resturants.address%></td>
+                                    <td><%=resturants.delivery_staff%></td>
+                                    <td>
+                                    <div class="action group rest-list-act holder">
+                                   <!-- <a href="/sales_locations_edit" target="_blank">edit</a> -->
+                                   <%= link_to 'Edit', {:action => 'sales_locations_edit', :id => resturants.id} %>
+                                    <span>/</span>
+
+                          <%= link_to "Delete", {:action => 'delete', :controller => "sales",:id => resturants.id},:confirm => "Are you sure you want to delete this item?", :onclick=>" return confirmValidate();"%>
+
+
+                                    <%#*<a href="" class="deletemeal" data-method="delete">Delete</a>%>
+                                    <%#*<div class="confirmation" style ="display: none;" >%>
+                                        <%#*<div class="holder">%>
+                                            <%#*<div class="del_pointer"></div>%>
+                                            <%#*<p>Are you sure you want to delete this meal from your library. This will delete it permanently from our records…. ?%>
+                                           <%#*</p><div class="del_item">OK</div><a href="delete">Cancel</a>%>
+                                           <%#*<p></p>%>
+                                        <%#*</div>%>
+                                    <%#*</div><!-- confirmation ends-->%>
+
+                                <%#*</div></td>%>
+                                    </div>
+                                      </td>
+                                    </tr>
+                               <%end%>
+
+                        </tbody>
+                </table>
+
+
+       </div><!--admin ends-->
+
+
+<div id="popup_holder">
+</div><!-- popup holder ends -->
+   <div class="pusher"></div>

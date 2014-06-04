@@ -1,0 +1,145 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript">
+  var geocoder = new google.maps.Geocoder();
+
+function geocodePosition(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function updateMarkerStatus(str) {
+
+}
+
+function updateMarkerPosition(latLng) {
+
+  $("#@restaurant_lat").val(latLng.lat());
+  $("#@restaurant_lng").val(latLng.lng());
+
+
+}
+
+function updateMarkerAddress(str) {
+
+}
+
+function initialize() {
+  var latLng = new google.maps.LatLng(<%= @restaurant.lat %>,<%= @restaurant.lng %>);
+
+
+  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    zoom: 8,
+    center: latLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  var marker = new google.maps.Marker({
+    position: latLng,
+    title: 'Point A',
+    map: map,
+    draggable: false
+  });
+
+  // Update current position info.
+  updateMarkerPosition(latLng);
+  geocodePosition(latLng);
+
+  // Add dragging event listeners.
+  google.maps.event.addListener(marker, 'dragstart', function() {
+   // updateMarkerAddress('Dragging...');
+  });
+
+  google.maps.event.addListener(marker, 'drag', function() {
+  //  updateMarkerStatus('Dragging...');
+   // updateMarkerPosition(marker.getPosition());
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+ //   updateMarkerStatus('Drag ended');
+   // geocodePosition(marker.getPosition());
+  });
+}
+
+// Onload handler to fire off the app.
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+
+<div class="add-deal group">
+ <div class="loc">
+            <h4>My locations</h4>
+            <ul>
+                <li class="selectedloc_leftnav">Moti Mahal - Jumerah</li>
+                <li>Moti Mahal - Jumerah1</li>
+                <li>Moti Mahal - Jumerah2</li>
+            </ul>
+            <a href="#" class="addlocation">Add a Location</a>
+        </div><!-- add location ends-->
+
+        <div class="add-deal-form">
+
+<ul class="tabs group">
+            	<li> <%= link_to 'My Deals Library', :controller => 'restaurants', :action => 'my_deals_library'%></li>
+                <li> <%= link_to 'Deals Pipeline', :controller => 'restaurants', :action => 'deals_pipeline' %></li>
+                <li class="activetab"> <%= link_to 'Manage Locations', :controller => 'restaurants', :action => 'manage_locations',:id=>@restaurant.id%></li>
+                <li> <%= link_to 'My Account', :controller => 'restaurants', :action => 'my_account'%></li>
+                <li> <%= link_to 'Order History', :controller => 'restaurants', :action => 'order_history' %></li>
+            </ul>
+
+
+   <ul class="tab-content">
+
+<li class="visible">
+  <span style="color:red"><%#=flash[:notice]%></span>
+  
+    
+                	<div class="group location_mgmt">
+                        <div class="flft loc_mgmt">
+                        	<div class="group">
+                            	<img src="/images/restaurant.jpg" width="130" height="130"/>
+                                <h3><%=  @restaurant.name%></h3>
+                                <p class="tel"><%=@restaurant.phone%></p>
+                                <p class="website"><%=@restaurant.website%></p>
+                                <p class="address"><%=@restaurant.address%></p>
+                            </div>
+
+                            <h4>About the Restaurant</h4>
+                            <p><%= @restaurant.description%></p>
+                            
+                            <h4>On the map</h4>
+                             <div class="maps" id="mapCanvas"></div>
+                        </div><!-- location info ends-->
+
+                        <div class="comment">
+                            <div class="highlight">
+                                All your communication with MeelDeel will be sent to: <b>
+                                <%=@restaurant.point1_email%><!-- motimahal@motimahal.com --></b>
+                            </div>
+                            <%= form_for('restaurant_comment', :as => :restaurant_comment, :url =>"restaurant_comment", :method => "post" ) do |c| %>
+                                         <div id="messages">
+      <span style="color:red"><%= "<p class=\"notice\">#{flash[:notice]}</p>".html_safe %>  </span>
+    </div>
+     <div class="highlight">
+                                See something wrong or need to change something?
+                                <%=c.text_area :addcomment  %>
+                                <div class="actions"><%=c.submit "Add Comment"%></div>
+                                <%end%>
+                                
+                               
+                            </div>
+                        </div><!-- comment ends-->
+                         
+                    </div>
+ 
+                </div>
+        
+</li>
+</ul>
+        </div>

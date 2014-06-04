@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  restaurant_id: 1
+  price: 1.5
+  cuisine_id: 1
+  spicy: 1
+
+two:
+  name: MyString
+  description: MyText
+  restaurant_id: 1
+  price: 1.5
+  cuisine_id: 1
+  spicy: 1

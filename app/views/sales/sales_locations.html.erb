@@ -1,0 +1,528 @@
+<script type="text/javascript">
+function validate_form_fields(id){
+var sales_name=document.getElementById('sales_name').value;
+var sales_address=document.getElementById('sales_address').value;
+var sales_address2=document.getElementById('sales_address2').value;
+var sales_zip_code=document.getElementById('sales_zip_code').value;
+var sales_phone=document.getElementById('sales_phone').value;
+var sales_website=document.getElementById('sales_website').value;
+var sales_point1_name=document.getElementById('sales_point1_name').value;
+var sales_point1_email=document.getElementById('sales_point1_email').value;
+var sales_point1_mobile=document.getElementById('sales_point1_mobile').value;
+var sales_description=document.getElementById('sales_description').value;
+var sales_cluster_id=document.getElementById('sales_cluster_id').value;
+var sales_city_id=document.getElementById('sales_city_id').value;
+var sales_cuisine_id=document.getElementById('sales_cuisine_id').value;
+var sales_delivery_staff=document.getElementById('sales_delivery_staff').value;
+
+
+document.getElementById("name").innerHTML=" ";
+document.getElementById("address").innerHTML=" ";
+document.getElementById("address2").innerHTML=" ";
+document.getElementById("zipcode").innerHTML=" ";
+document.getElementById("phone").innerHTML=" ";
+document.getElementById("website").innerHTML=" ";
+document.getElementById("mobile").innerHTML=" ";
+document.getElementById("email").innerHTML=" ";
+document.getElementById("name1").innerHTML=" ";
+document.getElementById("description").innerHTML=" ";
+document.getElementById("cluster_name").innerHTML=" ";
+document.getElementById("city_name").innerHTML=" ";
+document.getElementById("cuisine_name").innerHTML=" ";
+document.getElementById("delivery_staff").innerHTML=" "
+
+
+
+var msg='false';
+// ###### Script for Zip code
+if(sales_zip_code==''){
+msg='true';
+document.getElementById("zipcode").innerHTML="Enter Zipcode";
+document.getElementById("sales_zip_code").focus();
+}
+else if(isNaN(sales_zip_code)){
+msg='true';
+document.getElementById("zipcode").innerHTML="Enter Numeric Value for Zipcode";
+document.getElementById("sales_zip_code").focus();
+}
+else {
+if ((sales_zip_code.length<6) || (sales_zip_code.length>8)){
+msg='true';
+document.getElementById("zipcode").innerHTML = "Zipcode. should be 6 to 8 digit";
+document.getElementById("sales_zip_code").focus();
+}
+}
+
+// ###### Script for phone
+if(sales_phone==''){
+msg='true';
+document.getElementById("phone").innerHTML="Enter Phone Number";
+document.getElementById("sales_phone").focus();
+}
+
+else if(isNaN(sales_phone)){
+msg='true';
+document.getElementById("phone").innerHTML="Enter Numeric Value for Phone";
+document.getElementById("sales_phone").focus();
+}
+else{
+if ((sales_phone.length<10) || (sales_phone.length>12)){
+msg='true';
+document.getElementById("phone").innerHTML = "Phone No. should be 10 to 12 digit";
+document.getElementById("sales_phone").focus();
+}
+}
+
+// ###### Script for website
+if(sales_website==''){
+msg='true';
+document.getElementById("website").innerHTML="Enter Website";
+document.getElementById("sales_website").focus();
+}
+else{
+var regUrl = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+if(regUrl.test(sales_website) == false){
+msg='true';
+document.getElementById("website").innerHTML = "Please enter valid website URL, like http://iwannaeat.com";
+document.getElementById("sales_website").focus();
+}
+}
+
+
+// ###### Script for mobile
+if(sales_point1_mobile==''){
+msg='true';
+document.getElementById("mobile").innerHTML="Enter Mobile Number";
+document.getElementById("sales_point1_mobile").focus();
+}
+else if(isNaN(sales_point1_mobile)){
+msg='true';
+document.getElementById("mobile").innerHTML="Enter Numeric Value for mobile";
+document.getElementById("sales_point1_mobile").focus();
+}
+else{
+if ((sales_point1_mobile.length<10) || (sales_point1_mobile.length>12)){
+msg='true';
+document.getElementById("mobile").innerHTML = "Mobile No. should be 10 to 12 digit";
+document.getElementById("sales_point1_mobile").focus();
+}
+}
+
+// ###### Script for email
+if(sales_point1_email==''){
+msg='true';
+document.getElementById("email").innerHTML="Enter Email Address";
+document.getElementById("sales_point1_email").focus();
+}
+else{
+var filter = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i;
+if (filter.test(sales_point1_email)== false) {
+msg ='true';
+document.getElementById("email").innerHTML="Enter Valid Email";
+document.getElementById("sales_point1_email").focus();
+}
+}
+
+// ###### Script for null field individual
+if(sales_name==''){
+msg='true';
+document.getElementById("name").innerHTML="Enter Restaurant Name";
+document.getElementById("sales_name").focus();
+}
+
+if(sales_address==''){
+msg='true';
+document.getElementById("address").innerHTML="Enter Address Line 1";
+document.getElementById("sales_address").focus();
+}
+
+if(sales_address2==''){
+msg='true';
+document.getElementById("address2").innerHTML="Enter Address Line2";
+document.getElementById("sales_address2").focus();
+}
+
+if(sales_point1_name==''){
+msg='true';
+document.getElementById("name1").innerHTML="Enter Name 1";
+document.getElementById("sales_point1_name").focus();
+}
+
+
+if(sales_description==''){
+msg='true';
+document.getElementById("description").innerHTML="Enter About Meals";
+document.getElementById("sales_description").focus();
+}
+
+if(sales_city_id==''){
+msg='true';
+document.getElementById("city_name").innerHTML="Select City";
+document.getElementById("sales_city_id").focus();
+}
+
+if(sales_cluster_id==''){
+msg='true';
+document.getElementById("cluster_name").innerHTML="Select Cluster";
+document.getElementById("sales_cluster_id").focus();
+}
+
+if(sales_cuisine_id==''){
+msg='true';
+document.getElementById("cuisine_name").innerHTML="Select Cuisine";
+document.getElementById("sales_cuisine_id").focus();
+}
+
+if(sales_delivery_staff==''){
+msg='true';
+document.getElementById("delivery_staff").innerHTML="Select Delivery Staff";
+document.getElementById("sales_delivery_staff").focus();
+}
+
+
+
+
+
+
+
+
+
+if(!EmailChecker(sales_point1_email)){
+msg=true;
+
+}
+
+
+
+
+
+if(msg=='false')
+return true;
+else
+return false;
+
+
+}
+
+function EmailChecker(Email_value){
+
+var filter = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i;
+document.getElementById("email").innerHTML="";
+
+if (filter.test(Email_value)== false) {
+msg ='true';
+document.getElementById("email").innerHTML="Enter Valid Email";
+document.getElementById("sales_point1_email").focus();
+return false;
+}else{
+
+return true;
+}
+
+}
+
+
+</script>
+
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+var geocoder = new google.maps.Geocoder();
+
+function geocodePosition(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+function updateMarkerStatus(str) {
+
+}
+
+function updateMarkerPosition(latLng) {
+
+  $("#sales_lat").val(latLng.lat());
+  $("#sales_lng").val(latLng.lng());
+
+}
+
+function updateMarkerAddress(str) {
+
+}
+
+function initialize() {
+  var latLng = new google.maps.LatLng(25.277, 55.326);
+  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+    zoom: 8,
+    center: latLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  var marker = new google.maps.Marker({
+    position: latLng,
+    title: 'Point A',
+    map: map,
+    draggable: true
+  });
+
+  // Update current position info.
+  updateMarkerPosition(latLng);
+  geocodePosition(latLng);
+
+  // Add dragging event listeners.
+  google.maps.event.addListener(marker, 'dragstart', function() {
+    updateMarkerAddress('Dragging...');
+  });
+
+  google.maps.event.addListener(marker, 'drag', function() {
+    updateMarkerStatus('Dragging...');
+    updateMarkerPosition(marker.getPosition());
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+    updateMarkerStatus('Drag ended');
+    geocodePosition(marker.getPosition());
+  });
+}
+
+// Onload handler to fire off the app.
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<script type="text/javascript">
+
+   var emailok = false;
+var email = $("sales_point1_email");
+  function checkEmail(){
+
+  if($("#sales_point1_email").val()!=""){
+
+if(EmailChecker($("#sales_point1_email").val()))
+  $.ajax({
+type: "POST",
+data: "point1_email="+$("#sales_point1_email").val(),
+
+url: "/sales/check_email",
+
+beforeSend: function(){
+
+$("#email").html("Checking for Email...");
+},
+success: function(data){
+$("#email").html("")
+
+if(data=="true"){
+  $("#email").html("Email Already Exists");
+  document.getElementById("sales_point1_email").focus();
+  $("#sales_point1_email").val("");
+
+}else{
+
+
+}
+
+}
+
+ });
+
+ }else{
+ $("#email").html("Please Enter Email Id");
+  document.getElementById("sales_point1_email").focus();
+ }
+ }
+   
+
+</script>
+
+<div class="add-deal group">
+
+  <div class="adminsales">
+
+    <div id="add-deal-location" style="display:block">
+
+      <h4>Add restaurant</h4><span class="bus_back"><%= link_to 'Back', :controller => 'sales', :action => 'dashboard' %></span>
+<%= form_for(@sales, :as =>:sales, :url =>"sales_locations",:method => "post",:html=>{:onSubmit=>"return validate_form_fields(this);",:name=>"sales_locations"}) do |f| %>
+
+
+        <label>Restaurant Name</label>
+        <span id="name" style="color:#ee0000;"></span>
+         <div class="clear"></div>
+<%= f.text_field :name, :placeholder =>"Restaurant Name", :class=>""%>
+        <span class="error_notify"></span>
+        <div class="clear"></div>
+
+
+         <div class="field-block">
+
+         <span id="city_name" class="error"></span>
+          <label>Select City</label>
+         <div class="clear"></div>
+<%= select(:sales, :city_id, @city.collect {|p| [p.name,p.id]  }, {:prompt => 'Select City'})%>
+                </div>
+        <div class="field-block">
+
+          <span id="cluster_name" class="error"></span>
+           <label>Select Cluster</label>
+          <div class="clear"></div>
+ <%= select(:sales, :cluster_id, @clusters.collect {|p| [p.name,p.id]  }, {:prompt => 'Select Cluster'}, :html => {:class => "lft"})%>
+   </div>
+               <div class="clear"></div>
+
+
+           <div class="field-block">
+
+         <span id="cuisine_name" class="error"></span>
+            <label>Select Cuisine</label>
+         <div class="clear"></div>
+ <%= select(:sales, :cuisine_id, @cuisines.collect {|p| [p.name,p.id]  }, {:prompt => 'Select Cuisine'})%>
+                       </div>
+        <div class="field-block">
+
+          <span id="delivery_staff" class="error"></span>
+          <label>Select Delivery Staff</label>
+          <div class="clear"></div>
+ <%= f.select(:delivery_staff, @staff_array , {},{:class=>"lft"}) %>
+         </div>
+
+           <div class="clear"></div>
+
+        <label>Location Information</label>
+
+        <div class="clear"></div>
+        <span id="address" style="color:#ee0000;"></span>
+        <label>Address Line 1</label>
+        <div class="clear"></div>
+        <%= f.text_field :address, :placeholder =>"Address Line 1", :class=>"bot"%>
+        <div class="clear"></div>
+
+        <div class="field-block">
+
+         <span id="address2" class="error"></span>
+          <label>Address Line 2</label>
+         <div class="clear"></div>
+<%= f.text_field :address2, :placeholder =>"Address Line 2", :class=>"bot"%>
+        </div>
+        <div class="field-block">
+
+          <span id="zipcode" class="error"></span>
+          <label>Zipcode</label>
+          <div class="clear"></div>
+<%= f.text_field :zip_code, :placeholder =>"Zip Code", :class=>"bot lft mini"%>
+        </div>
+        <div class="clear"></div>
+        <div class="field-block">
+
+         <span id="phone" class="error"></span>
+          <label>Phone Number</label>
+         <div class="clear"></div>
+<%= f.text_field :phone, :placeholder =>"*Phone number", :class=>"bot"%>
+        </div>
+        <div class="field-block">
+
+          <span id="website" class="error"></span>
+          <label>Website</label>
+          <div class="clear"></div>
+<%= f.text_field :website, :placeholder =>"Your Website", :class=>"bot lft"%>
+        </div>
+
+          <div class="clear"></div>
+          <label>Point of Contact 1</label>
+        <div class="field-block">
+
+         <span id="name1" class="error"></span>
+         <label>Name</label>
+         <div class="clear"></div>
+<%= f.text_field :point1_name, :placeholder =>"*name", :class=>""%>
+        </div>
+        <div class="field-block">
+
+          <span id="email" class="error" ></span>
+          <div id=”emailInfo” align=”left”></div>
+             <label>Email</label>
+          <div class="clear"></div>
+     <%= f.text_field :point1_email, :placeholder =>"*Email", :class=>"lft" ,:onblur=>"checkEmail();"%>
+        </div>
+                  <div class="field-block">
+
+          <span id="mobile" class="error"></span>
+          <label>Mobile</label>
+          <div class="clear"></div>
+  <%= f.text_field :point1_mobile, :placeholder =>"*Mobile", :class=>"lft"%>
+        </div>
+
+        <div class="clear"></div>
+
+
+
+
+
+
+
+
+
+        <label>Point of Contact 2</label>
+        <div class="field-block">
+
+         <label>Name</label>
+         <div class="clear"></div>
+<%= f.text_field :point2_name, :placeholder =>"name", :class=>""%>
+        </div>
+        <div class="field-block">
+
+          <div id=”emailInfo” align=”left”></div>
+             <label>Email</label>
+          <div class="clear"></div>
+     <%= f.text_field :point2_email, :placeholder =>"Email", :class=>"lft"%>
+        </div>
+                  <div class="field-block">
+
+          <label>Mobile</label>
+          <div class="clear"></div>
+  <%= f.text_field :point2_mobile, :placeholder =>"Mobile", :class=>"lft"%>
+        </div>
+         <%=  f.hidden_field :sales_owner_id, :value=>current_admin.id %>
+
+
+        <div class="clear"></div>
+
+                <div class="maps b-maps" id="mapCanvas"></div>
+           <%= f.hidden_field :lat, :value=>"" %>
+        <%= f.hidden_field :lng, :value=>"" %>
+
+       <!-- <div class="maps b-maps">
+
+        </div> -->
+
+        <div class="clear"></div>
+
+        <label>About the restaurant</label>
+           <span id="description" style="color:#ee0000;"></span>
+   <div class="clear"></div>
+        <div class="clear"></div>
+        <%= f.text_area :description, :placeholder =>"About the Restaurant", :class=>"rm"%>
+        <div class="clear"></div>
+
+
+        <div class="actions">
+          <%= f.submit :Save %>
+        </div>
+
+
+       <!-- <a href="#" class="submitdeal">Save</a> -->
+
+     <%end%>
+    </div><!--add-deal-location ends-->
+
+
+
+  </div><!--admin ends-->
+
+
+
+   <div class="pusher"></div>
+  </div>
